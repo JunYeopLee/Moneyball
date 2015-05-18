@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.ViewAnimator;
 
 import com.example.junyeop_imaciislab.moneyball.common.activities.SampleActivityBase;
@@ -39,4 +40,5 @@ public class MainActivity extends SampleActivityBase {
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
+
 }

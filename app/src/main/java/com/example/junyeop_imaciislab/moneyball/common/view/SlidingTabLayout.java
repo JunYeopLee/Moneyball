@@ -17,6 +17,7 @@
 package com.example.junyeop_imaciislab.moneyball.common.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.support.v4.view.PagerAdapter;
@@ -34,6 +35,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+
+import org.w3c.dom.Text;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -222,16 +225,16 @@ public class SlidingTabLayout extends HorizontalScrollView {
 
             switch(i) {
                 case 0:
-                    tabImageView.setImageResource(R.drawable.lightball);
+                    tabImageView.setImageResource(R.drawable.lightball_white);
                     break;
                 case 1:
-                    tabImageView.setImageResource(R.drawable.calulator);
+                    tabImageView.setImageResource(R.drawable.calulator_white);
                     break;
                 case 2:
-                    tabImageView.setImageResource(R.drawable.coins);
+                    tabImageView.setImageResource(R.drawable.coins_white);
                     break;
                 default:
-                    tabImageView.setImageResource(R.drawable.setting);
+                    tabImageView.setImageResource(R.drawable.setting_white);
                     break;
             }
 
@@ -246,6 +249,8 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 tabView.setSelected(true);
             }
         }
+        mTabStrip.getChildAt(0).setBackgroundColor(Color.parseColor("#282828"));
+        mTabStrip.getChildAt(0).requestLayout();
     }
 
     public void setContentDescription(int i, String desc) {
@@ -321,12 +326,18 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
             for (int i = 0; i < mTabStrip.getChildCount(); i++) {
                 mTabStrip.getChildAt(i).setSelected(position == i);
+                if (position == i) {
+                    mTabStrip.getChildAt(i).setBackgroundColor(Color.parseColor("#282828"));
+                    mTabStrip.getChildAt(i).requestLayout();
+                } else {
+                    mTabStrip.getChildAt(i).setBackgroundColor(Color.parseColor("#FF696969"));
+                    mTabStrip.getChildAt(i).requestLayout();
+                }
             }
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
             }
         }
-
     }
 
     private class TabClickListener implements View.OnClickListener {

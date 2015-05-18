@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Moneyball</string>
 
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="score_prediction">Score Prediction</string>
+    <string name="betting_calculator">Betting Calculator</string>
+    <string name="betting_moneyball">Betting MoneyBall</string>
+    <string name="settings">Settings</string>
 </resources>
