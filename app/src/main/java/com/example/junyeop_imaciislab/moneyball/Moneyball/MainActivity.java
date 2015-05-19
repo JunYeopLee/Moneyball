@@ -11,7 +11,7 @@ import com.example.junyeop_imaciislab.moneyball.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
+import com.facebook.FacebookSdk;
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
  * {@link android.support.v4.app.Fragment} which can display a view.
@@ -27,16 +27,13 @@ public class MainActivity extends SampleActivityBase {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
+        //FacebookSdk.sdkInitialize(getApplicationContext()); // initialize facebook sdk
         setContentView(R.layout.activity_main);
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
-
-
     }
 
     @Override

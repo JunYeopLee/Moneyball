@@ -10,22 +10,34 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
+import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginResult;
+import com.facebook.FacebookException;
+import com.facebook.FacebookCallback;
+import android.view.ViewGroup;
+import android.view.LayoutInflater;
 
 public class LoginActivity extends ActionBarActivity {
     Button btnSignin;
     Button btnLogin;
-    Button btnFb;
-    Button btnGoo;
-    Button btnTwit;
 
+    LoginButton btnFb;
+    CallbackManager callbackManager; // Facebook Login Control
+
+    Button btnGoo;
+
+    Button btnTwit;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext()); // initialize facebook sdk
+        callbackManager = CallbackManager.Factory.create();
         setContentView(R.layout.activity_login);
-
         btnSignin   = (Button) findViewById(R.id.btn_signin);
         btnLogin    = (Button) findViewById(R.id.btn_login);
-        btnFb       = (Button) findViewById(R.id.btn_fb);
+        btnFb       = (LoginButton) findViewById(R.id.btn_fb);
         btnGoo      = (Button) findViewById(R.id.btn_goo);
         btnTwit     = (Button) findViewById(R.id.btn_twit);
 
@@ -42,12 +54,27 @@ public class LoginActivity extends ActionBarActivity {
                                             //id , password check후 true시, main으로 이동
                                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                             startActivity(intent);
+                                            finish();
                                         }
                                     }
         );
 
+        // Callback registration Facebook Login
+        btnFb.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                // App code
+            }
+            @Override
+            public void onCancel() {
+                // App code
+            }
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+            }
+        });
 
     }
-
 
 }
