@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
@@ -64,6 +65,12 @@ public class LoginActivity extends ActionBarActivity {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 // App code
+                /*
+                AccessToken accessToken = loginResult.getAccessToken();
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+                */
             }
             @Override
             public void onCancel() {
