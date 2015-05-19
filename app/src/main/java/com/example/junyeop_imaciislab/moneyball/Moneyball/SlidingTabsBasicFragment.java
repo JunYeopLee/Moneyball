@@ -32,6 +32,9 @@ import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * A basic sample which shows how to use {@link com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout}
  * to display a custom {@link ViewPager} title strip which gives continuous feedback to the user

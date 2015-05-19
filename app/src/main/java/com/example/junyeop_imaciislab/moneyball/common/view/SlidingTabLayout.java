@@ -34,6 +34,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.junyeop_imaciislab.moneyball.Moneyball.MainActivity;
+import com.example.junyeop_imaciislab.moneyball.Moneyball.SlidingTabsBasicFragment;
 import com.example.junyeop_imaciislab.moneyball.R;
 
 import org.w3c.dom.Text;
@@ -78,7 +80,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
     private int mTabViewTextViewId;
     private int mTabViewImageViewId;
     private boolean mDistributeEvenly;
-
+    private Context mContext;  // custom
     private ViewPager mViewPager;
     private SparseArray<String> mContentDescriptions = new SparseArray<String>();
     private ViewPager.OnPageChangeListener mViewPagerPageChangeListener;
@@ -102,7 +104,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
         setFillViewport(true);
 
         mTitleOffset = (int) (TITLE_OFFSET_DIPS * getResources().getDisplayMetrics().density);
-
+        mContext = context;
         mTabStrip = new SlidingTabStrip(context);
         addView(mTabStrip, LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
     }
@@ -336,6 +338,15 @@ public class SlidingTabLayout extends HorizontalScrollView {
             }
             if (mViewPagerPageChangeListener != null) {
                 mViewPagerPageChangeListener.onPageSelected(position);
+            }
+
+            TextView textView = (TextView)(((MainActivity)mContext).findViewById(R.id.status_bar));
+            if(textView==null) return;
+            switch (position) {
+                case 0: textView.setText(R.string.score_prediction); break;
+                case 1: textView.setText(R.string.betting_calculator); break;
+                case 2: textView.setText(R.string.betting_moneyball); break;
+                case 3: textView.setText(R.string.settings); break;
             }
         }
     }

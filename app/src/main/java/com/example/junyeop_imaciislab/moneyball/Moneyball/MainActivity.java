@@ -1,5 +1,4 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
-
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
@@ -9,6 +8,10 @@ import android.widget.ViewAnimator;
 
 import com.example.junyeop_imaciislab.moneyball.common.activities.SampleActivityBase;
 import com.example.junyeop_imaciislab.moneyball.R;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
  * {@link android.support.v4.app.Fragment} which can display a view.
@@ -26,7 +29,6 @@ public class MainActivity extends SampleActivityBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         if (savedInstanceState == null) {
             FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
             SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
