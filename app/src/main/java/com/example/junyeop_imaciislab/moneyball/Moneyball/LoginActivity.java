@@ -41,7 +41,7 @@ public class LoginActivity extends ActionBarActivity {
         btnFb       = (LoginButton) findViewById(R.id.btn_fb);
         btnGoo      = (Button) findViewById(R.id.btn_goo);
         btnTwit     = (Button) findViewById(R.id.btn_twit);
-
+        android.util.Log.d("Facebook connection","Button Set");
         btnSignin.setOnClickListener(new OnClickListener() {
                                          public void onClick(View v) {
                                              Intent intent = new Intent(LoginActivity.this, SigninActivity.class);
@@ -71,14 +71,17 @@ public class LoginActivity extends ActionBarActivity {
                 startActivity(intent);
                 finish();
                 */
+                android.util.Log.d("Facebook connnection", "[+]Success!!");
             }
             @Override
             public void onCancel() {
                 // App code
+                android.util.Log.d("Facebook connnection", "[-]Cancel!!");
             }
             @Override
             public void onError(FacebookException exception) {
                 // App code
+                android.util.Log.d("Facebook connnection", "[-]Error!!");
             }
         });
 
