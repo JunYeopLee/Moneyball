@@ -73,6 +73,7 @@ public class LoginActivity extends ActionBarActivity {
                 */
                 android.util.Log.d("Facebook connnection", "[+]Success!!");
             }
+            
             @Override
             public void onCancel() {
                 // App code

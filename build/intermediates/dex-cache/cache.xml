@@ -2,20 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-f02912045041aa249eba05bfca4fda36743cae8b.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-7495f5ce3313dfb7feae49abfe694dd817b5f038.jar" />
-    </item>
-    <item
         jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.facebook.android/facebook-android-sdk/4.1.2/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -23,11 +9,11 @@
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-12bd0f44fbb2bb152496daf352105d0186a713b4.jar" />
     </item>
     <item
-        jar="/Users/junyeop_imaciislab/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-f28a4dfaee6c481bdc983692d2acf59dc69a1e66.jar" />
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-7495f5ce3313dfb7feae49abfe694dd817b5f038.jar" />
     </item>
     <item
         jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
@@ -42,6 +28,20 @@
         revision="22.0.1"
         sha1="01d051a6bfb1218b1db2d3a5af0480ac2c25c42a">
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-bddbacdc474bdea15fde3fed1aaad525ab6b4786.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-f28a4dfaee6c481bdc983692d2acf59dc69a1e66.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-f02912045041aa249eba05bfca4fda36743cae8b.jar" />
     </item>
 
 </items>
