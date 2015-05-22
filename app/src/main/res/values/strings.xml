@@ -12,4 +12,8 @@
     <string name="title_activity_signin">SigninActivity</string>
     <string name="title_activity_forget_pwd">ForgetPwdActivity</string>
     <string name="facebook_app_id">773916466039274</string>
+    <string name="title_activity_score_prediction">ScorePredictionActivity</string>
+    <string name="title_activity_betting_calculator">BettingCalculatorActivity</string>
+    <string name="title_activity_betting_moneyball">BettingMoneyballActivity</string>
+    <string name="title_activity_settings">SettingsActivity</string>
 </resources>

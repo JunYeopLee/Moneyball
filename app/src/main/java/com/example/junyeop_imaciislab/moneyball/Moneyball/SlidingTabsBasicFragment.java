@@ -154,19 +154,64 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
-            // Inflate a new layout from our resources
-            View view = getActivity().getLayoutInflater().inflate(R.layout.pager_item,
-                    container, false);
-            // Add the newly created View to the ViewPager
-            container.addView(view);
+            View view;
+            switch(position) {
+                case 0:
+                    // Inflate a new layout from our resources
+                    view = getActivity().getLayoutInflater().inflate(R.layout.activity_score_prediction, container, false);
+                    // Add the newly created View to the ViewPager
+                    container.addView(view);
 
-            // Retrieve a TextView from the inflated View, and update it's text
-            TextView title = (TextView) view.findViewById(R.id.item_title);
-            title.setText(String.valueOf(position + 1));
+                    // Retrieve a TextView from the inflated View, and update it's text
+                    //TextView title = (TextView) view.findViewById(R.id.item_title);
+                    //title.setText(String.valueOf(position + 1));
 
-            //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
-            // Return the View
-            return view;
+                    //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
+                    // Return the View
+                    return view;
+
+                case 1:
+                    // Inflate a new layout from our resources
+                    view = getActivity().getLayoutInflater().inflate(R.layout.activity_betting_calculator, container, false);
+                    // Add the newly created View to the ViewPager
+                    container.addView(view);
+
+                    // Retrieve a TextView from the inflated View, and update it's text
+                    //TextView title = (TextView) view.findViewById(R.id.item_title);
+                    //title.setText(String.valueOf(position + 1));
+
+                    //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
+                    // Return the View
+                    return view;
+                case 2:
+                    // Inflate a new layout from our resources
+                    view = getActivity().getLayoutInflater().inflate(R.layout.activity_betting_moneyball, container, false);
+                    // Add the newly created View to the ViewPager
+                    container.addView(view);
+
+                    // Retrieve a TextView from the inflated View, and update it's text
+                    //TextView title = (TextView) view.findViewById(R.id.item_title);
+                    //title.setText(String.valueOf(position + 1));
+
+                    //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
+                    // Return the View
+                    return view;
+
+                default:
+                    // Inflate a new layout from our resources
+                    view = getActivity().getLayoutInflater().inflate(R.layout.activity_settings, container, false);
+                    // Add the newly created View to the ViewPager
+                    container.addView(view);
+
+                    // Retrieve a TextView from the inflated View, and update it's text
+                    //TextView title = (TextView) view.findViewById(R.id.item_title);
+                    //title.setText(String.valueOf(position + 1));
+
+                    //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
+                    // Return the View
+                    return view;
+            }
+
         }
 
         /**

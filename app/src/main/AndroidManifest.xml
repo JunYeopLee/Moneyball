@@ -4,12 +4,17 @@
     android:versionCode="1"
     android:versionName="1.0" >
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- For Facebook SDK -->
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
-        <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/> <!--For Facebook SDK-->
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" /> <!-- For Facebook SDK -->
 
         <activity
             android:name=".Moneyball.MainActivity"
@@ -29,13 +34,28 @@
             android:label="@string/title_activity_forget_pwd" >
         </activity>
 
-        <!--For Facebook SDK-->
-        <activity android:name="com.facebook.FacebookActivity"
+        <!-- For Facebook SDK -->
+        <activity
+            android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+        <activity
+            android:name=".Moneyball.ScorePredictionActivity"
+            android:label="@string/title_activity_score_prediction" >
+        </activity>
+        <activity
+            android:name=".Moneyball.BettingCalculatorActivity"
+            android:label="@string/title_activity_betting_calculator" >
+        </activity>
+        <activity
+            android:name=".Moneyball.BettingMoneyballActivity"
+            android:label="@string/title_activity_betting_moneyball" >
+        </activity>
+        <activity
+            android:name=".Moneyball.SettingsActivity"
+            android:label="@string/title_activity_settings" >
+        </activity>
     </application>
-    <uses-permission android:name="android.permission.INTERNET"/> <!--For Facebook SDK-->
-
 
 </manifest>
