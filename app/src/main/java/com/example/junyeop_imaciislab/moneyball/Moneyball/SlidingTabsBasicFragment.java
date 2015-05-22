@@ -16,24 +16,23 @@
 
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
-import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.ListView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.common.adapter.PredictionAdapter;
+import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
+import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 /**
  * A basic sample which shows how to use {@link com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout}
@@ -162,12 +161,28 @@ public class SlidingTabsBasicFragment extends Fragment {
                     // Add the newly created View to the ViewPager
                     container.addView(view);
 
-                    // Retrieve a TextView from the inflated View, and update it's text
-                    //TextView title = (TextView) view.findViewById(R.id.item_title);
-                    //title.setText(String.valueOf(position + 1));
 
-                    //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
-                    // Return the View
+                    ListView listPrediction;
+                    ArrayList<MatchupPrediction> matchupPrediction = new ArrayList<MatchupPrediction>();
+                    MatchupPrediction tmpPrediction = new MatchupPrediction();
+                    tmpPrediction.setStadium("Dodger Stadium");
+                    tmpPrediction.setTime("19:05");
+                    tmpPrediction.setTeam1("Samsung");
+                    tmpPrediction.setTeam2("Lotte");
+                    String [] tmpResults = {"10 : 3", "7 : 2", "1 : 3" ,"5 : 7" , "10 : 11"};
+                    tmpPrediction.setResults(tmpResults);
+                    String [] tmpProbs = {"10%", "15%", "20%" ,"25%" ,"30%"};
+                    tmpPrediction.setProb(tmpProbs);
+                    matchupPrediction.add(0, tmpPrediction);
+                    matchupPrediction.add(1, tmpPrediction);
+                    matchupPrediction.add(2, tmpPrediction);
+                    matchupPrediction.add(3, tmpPrediction);
+                    matchupPrediction.add(4, tmpPrediction);
+                    listPrediction = (ListView)view.findViewById(R.id.prediction_list);
+                    PredictionAdapter predictionAdapter = new PredictionAdapter(getActivity(),matchupPrediction);
+                    listPrediction.setAdapter(predictionAdapter);
+
+                    Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
 
                 case 1:
@@ -182,6 +197,8 @@ public class SlidingTabsBasicFragment extends Fragment {
 
                     //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
                     // Return the View
+
+                    Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
                 case 2:
                     // Inflate a new layout from our resources
@@ -194,6 +211,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                     //title.setText(String.valueOf(position + 1));
 
                     //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
+
+                    Log.i("init", "instantiateItem() [position: " + position + "]");
                     // Return the View
                     return view;
 
@@ -209,6 +228,8 @@ public class SlidingTabsBasicFragment extends Fragment {
 
                     //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
                     // Return the View
+
+                    Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
             }
 
