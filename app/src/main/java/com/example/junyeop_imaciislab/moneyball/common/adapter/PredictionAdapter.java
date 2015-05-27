@@ -52,6 +52,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         MatchupPrediction tempObj = matchupPredictionsLists.get(position);
         tvStadium.setText(tempObj.getStadium());
         tvTime.setText(tempObj.getTime());
+        
         switch (tempObj.getTeam1()) {
             case "Samsung":
                 imgTeam1.setImageResource(R.drawable.samsung_logo);
