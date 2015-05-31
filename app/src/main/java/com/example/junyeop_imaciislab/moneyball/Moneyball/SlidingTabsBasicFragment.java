@@ -26,13 +26,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.PredictionAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * A basic sample which shows how to use {@link com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout}
@@ -92,6 +95,14 @@ public class SlidingTabsBasicFragment extends Fragment {
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
         // END_INCLUDE (setup_slidingtablayout)
+
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+        String strCurDate = "Today " + CurDateFormat.format(date);
+        TextView textView = (TextView)view.findViewById(R.id.today);
+        textView.setText(strCurDate);
     }
     // END_INCLUDE (fragment_onviewcreated)
 
