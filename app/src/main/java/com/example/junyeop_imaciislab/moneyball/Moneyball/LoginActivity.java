@@ -1,11 +1,11 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.widget.Button;
 
 import com.example.junyeop_imaciislab.moneyball.R;
@@ -30,6 +30,10 @@ public class LoginActivity extends ActionBarActivity {
 
     LoginButton btnFb;
     CallbackManager callbackManager; // Facebook Login Control
+    private String mFacebookAccessToken;
+
+    private SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     Button btnGoo;
 
@@ -39,46 +43,58 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this); // initialize facebook sdk
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
 
-        btnSignin = (Button) findViewById(R.id.btn_signin);
-        btnLogin = (Button) findViewById(R.id.btn_login);
-        btnFb = (LoginButton) findViewById(R.id.btn_fb);
-        btnGoo = (Button) findViewById(R.id.btn_goo);
-        btnTwit = (Button) findViewById(R.id.btn_twit);
+        sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
+        final String username = sharedPreferences.getString("username", null);
 
+        if (!"".equalsIgnoreCase(username) && username != null) { // Auto login
+            Log.d("Facebook prefer", username);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        } else {
+            setContentView(R.layout.activity_login);
+            btnSignin = (Button) findViewById(R.id.btn_signin);
+            btnLogin = (Button) findViewById(R.id.btn_login);
+            btnFb = (LoginButton) findViewById(R.id.btn_fb);
+            btnGoo = (Button) findViewById(R.id.btn_goo);
+            btnTwit = (Button) findViewById(R.id.btn_twit);
 
-        android.util.Log.d("Facebook connection", "Button Set");
-
-        btnSignin.setOnClickListener(new OnClickListener() {
-                                         public void onClick(View v) {
-                                             Intent intent = new Intent(LoginActivity.this, SigninActivity.class);
-                                             startActivity(intent);
+            Log.d("Facebook connection", "Button Set");
+            btnSignin.setOnClickListener(new View.OnClickListener() {
+                                             public void onClick(View v) {
+                                                 Intent intent = new Intent(LoginActivity.this, SigninActivity.class);
+                                                 startActivity(intent);
+                                             }
                                          }
-                                     }
-        );
+            );
 
-        btnLogin.setOnClickListener(new OnClickListener() {
-                                        public void onClick(View v) {
-                                            //id , password check후 true시, main으로 이동
-                                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                            startActivity(intent);
-                                            finish();
+            btnLogin.setOnClickListener(new View.OnClickListener() {
+                                            public void onClick(View v) {
+                                                //id , password check후 true시, main으로 이동
+                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                startActivity(intent);
+                                                finish();
+                                            }
                                         }
-                                    }
-        );
-        // Callback registration Facebook Login
-        btnFb.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFblogin();
-            }
-        });
-
+            );
+            // Callback registration Facebook Login
+            btnFb.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onFblogin();
+                    return;
+                }
+            });
+        }
     }
+
+
     private void onFblogin()
     {
         callbackManager = CallbackManager.Factory.create();
+        editor= sharedPreferences.edit();
+
         // Set permissions
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "user_photos", "public_profile"));
         LoginManager.getInstance().registerCallback(callbackManager,
@@ -86,8 +102,8 @@ public class LoginActivity extends ActionBarActivity {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("Facebook connect", "Successssss");
-                        GraphRequest.newMeRequest(
-                                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                        mFacebookAccessToken = loginResult.getAccessToken().toString();
+                        GraphRequest.newMeRequest( loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                                     @Override
                                     public void onCompleted(JSONObject json, GraphResponse response) {
                                         if (response.getError() != null) {
@@ -96,7 +112,6 @@ public class LoginActivity extends ActionBarActivity {
                                         } else {
                                             System.out.println("Success");
                                             try {
-
                                                 String jsonresult = String.valueOf(json);
                                                 System.out.println("JSON Result" + jsonresult);
 
@@ -108,6 +123,10 @@ public class LoginActivity extends ActionBarActivity {
                                                 Log.d("Facebook connect", str_firstname);
                                                 Log.d("Facebook connect", str_lastname);
                                                 Log.d("Facebook connect", str_id);
+                                                Log.d("Facebook connect",mFacebookAccessToken);
+
+                                                editor.putString("username",str_id);
+                                                editor.commit();
 
                                                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                                                 startActivity(intent);

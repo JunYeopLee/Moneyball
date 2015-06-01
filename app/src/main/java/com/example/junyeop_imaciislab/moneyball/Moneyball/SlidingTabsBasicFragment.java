@@ -16,6 +16,8 @@
 
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -30,6 +32,7 @@ import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.PredictionAdapter;
+import com.example.junyeop_imaciislab.moneyball.common.adapter.SettingsListAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
 
@@ -61,6 +64,12 @@ public class SlidingTabsBasicFragment extends Fragment {
      * Inflates the {@link View} which will be displayed by this {@link Fragment}, from the app's
      * resources.
      */
+
+    private SharedPreferences sharedPreferences;
+    /**
+    *  SharedPreferences for auto login
+    *
+    */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -97,10 +106,13 @@ public class SlidingTabsBasicFragment extends Fragment {
         // END_INCLUDE (setup_slidingtablayout)
 
 
+        sharedPreferences = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+        final String username = sharedPreferences.getString("username", null);
+
         long now = System.currentTimeMillis();
         Date date = new Date(now);
         SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
-        String strCurDate = "Today " + CurDateFormat.format(date);
+        String strCurDate = "Today " + CurDateFormat.format(date) + "\tUser : " + username;
         TextView textView = (TextView)view.findViewById(R.id.today);
         textView.setText(strCurDate);
     }
@@ -233,6 +245,18 @@ public class SlidingTabsBasicFragment extends Fragment {
                     // Add the newly created View to the ViewPager
                     container.addView(view);
 
+                    ListView listSettings;
+                    ArrayList<String> settingsList = new ArrayList<String>();
+
+                    settingsList.add("Settings1");
+                    settingsList.add("Settings2");
+                    settingsList.add("Settings3");
+                    settingsList.add("Settings4");
+                    settingsList.add("Logout");
+
+                    listSettings = (ListView)view.findViewById(R.id.settings_list);
+                    SettingsListAdapter settingsListAdapter = new SettingsListAdapter(getActivity(),settingsList);
+                    listSettings.setAdapter(settingsListAdapter);
                     // Retrieve a TextView from the inflated View, and update it's text
                     //TextView title = (TextView) view.findViewById(R.id.item_title);
                     //title.setText(String.valueOf(position + 1));

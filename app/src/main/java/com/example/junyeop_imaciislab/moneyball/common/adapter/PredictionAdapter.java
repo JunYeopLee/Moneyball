@@ -25,7 +25,6 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         super(context, R.layout.score_prediction_item, matchupPredictionsLists);
         this.context = context;
         this.matchupPredictionsLists = matchupPredictionsLists;
-
     }
 
     @Override
