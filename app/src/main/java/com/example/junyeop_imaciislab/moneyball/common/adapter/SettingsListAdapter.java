@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.Moneyball.LoginActivity;
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.facebook.login.LoginManager;
 
 import java.util.ArrayList;
 
@@ -43,6 +44,11 @@ public class SettingsListAdapter extends ArrayAdapter<String> {
                     sharedPreferences = getContext().getSharedPreferences("login_info", Context.MODE_PRIVATE);
                     editor = sharedPreferences.edit();
                     editor.remove("username");
+                    if(sharedPreferences.getBoolean("isfacebook",false)) {
+                        LoginManager.getInstance().logOut();
+                        editor.remove("isfacebook");
+                    } else {
+                    }
                     editor.commit();
                     Intent intent = new Intent(getContext(), LoginActivity.class);
                     getContext().startActivity(intent);

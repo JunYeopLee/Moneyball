@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -43,12 +44,11 @@ public class LoginActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this); // initialize facebook sdk
         super.onCreate(savedInstanceState);
-
+        mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
         final String username = sharedPreferences.getString("username", null);
 
         if (!"".equalsIgnoreCase(username) && username != null) { // Auto login
-            Log.d("Facebook prefer", username);
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
@@ -78,12 +78,14 @@ public class LoginActivity extends ActionBarActivity {
                                             }
                                         }
             );
+
             // Callback registration Facebook Login
             btnFb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    onFblogin();
-                    return;
+                    if(AccessToken.getCurrentAccessToken()==null) {
+                        onFblogin();
+                    }
                 }
             });
         }
@@ -123,15 +125,15 @@ public class LoginActivity extends ActionBarActivity {
                                                 Log.d("Facebook connect", str_firstname);
                                                 Log.d("Facebook connect", str_lastname);
                                                 Log.d("Facebook connect", str_id);
-                                                Log.d("Facebook connect",mFacebookAccessToken);
-
-                                                editor.putString("username",str_id);
-                                                editor.commit();
-
-                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(intent);
-                                                finish();
-
+                                                Log.d("Facebook connect", mFacebookAccessToken);
+                                                if(sharedPreferences.getString("username",null)==null) {
+                                                    editor.putString("username", str_id);
+                                                    editor.putBoolean("isfacebook", true);
+                                                    editor.commit();
+                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                    startActivity(intent);
+                                                    finish();
+                                                }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
