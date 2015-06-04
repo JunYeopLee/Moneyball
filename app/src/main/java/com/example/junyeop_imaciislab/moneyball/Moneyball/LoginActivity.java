@@ -20,6 +20,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -39,6 +40,11 @@ public class LoginActivity extends ActionBarActivity {
     Button btnGoo;
 
     Button btnTwit;
+
+
+    /* Request code used to invoke sign in user interactions. */
+    private static final int RC_SIGN_IN = 0;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,6 @@ public class LoginActivity extends ActionBarActivity {
                                             }
                                         }
             );
-
             // Callback registration Facebook Login
             btnFb.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -139,7 +144,6 @@ public class LoginActivity extends ActionBarActivity {
                                             }
                                         }
                                     }
-
                                 }).executeAsync();
                     }
 
