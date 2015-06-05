@@ -27,6 +27,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         this.matchupPredictionsLists = matchupPredictionsLists;
     }
 
+
     @Override
     public View getView(int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
