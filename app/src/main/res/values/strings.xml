@@ -12,8 +12,16 @@
     <string name="title_activity_signin">SigninActivity</string>
     <string name="title_activity_forget_pwd">ForgetPwdActivity</string>
     <string name="facebook_app_id">773916466039274</string>
+
+    <string name="twitter_consumer_key">Vn8qbEkMw394kdDiETZQ5DRsa</string>
+    <string name="twitter_consumer_secret">7XUnWvb1izZgGWF5EUoTlYIdZ5c8IHZM91XeSDhUaXOmGI82bC</string>
+    <string name="twitter_pref_key_oauth_token">343408025-nUCKLzVg9uuYwY4fBis7x4nOeNwoxv9JXVJR3ehI</string>
+    <string name="twitter_pref_key_oauth_secret">zyrv1OM05K2ruEFMLzxdi8oKqWiq8ltXSxnA1S6qJCpVh</string>
+
+
     <string name="title_activity_score_prediction">ScorePredictionActivity</string>
     <string name="title_activity_betting_calculator">BettingCalculatorActivity</string>
     <string name="title_activity_betting_moneyball">BettingMoneyballActivity</string>
     <string name="title_activity_settings">SettingsActivity</string>
+    <string name="title_activity_twitter__web_view">Twitter_WebViewActivity</string>
 </resources>

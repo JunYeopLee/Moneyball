@@ -73,8 +73,8 @@
 
     <Button
         android:id="@+id/btn_twit"
+        android:background="@drawable/signin_twit"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="twitter"/>
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

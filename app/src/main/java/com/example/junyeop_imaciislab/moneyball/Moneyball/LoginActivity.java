@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.content.IntentSender.SendIntentException;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.common.utill.Constants;
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -25,6 +26,13 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
+import twitter4j.User;
+import twitter4j.auth.RequestToken;
+import twitter4j.conf.Configuration;
+import twitter4j.conf.ConfigurationBuilder;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -39,6 +47,9 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
     CallbackManager callbackManager; // Facebook Login Control
     private String mFacebookAccessToken;
 
+    private static Twitter twitter;
+    private static RequestToken requestToken;
+
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
@@ -50,6 +61,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
 
     private static final int GOOGLE_SIGN_IN = 0;
     private static final int FB_SIGN_IN = 64206;
+    private static final int TWITTER_SIGN_IN = 20;
 
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
@@ -65,6 +77,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
         final String username = sharedPreferences.getString("username", null);
+
 
         if (!"".equalsIgnoreCase(username) && username != null) { // Auto login
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -102,13 +115,34 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnFb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(AccessToken.getCurrentAccessToken()==null) {
+                    if(com.facebook.AccessToken.getCurrentAccessToken()==null) {
                         onFblogin();
+                    }
+                }
+            });
+
+
+            btnTwit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(!isTwitterLoggedInAlready()){
+                        Thread twitterloginThread = new Thread(){
+                            public void run(){
+                                try
+                                {
+                                    loginToTwitter();
+                                } catch(Exception e){
+                                    e.printStackTrace();
+                                }
+                            }
+                        };
+                        twitterloginThread.start();
                     }
                 }
             });
         }
     }
+
 
     /**
      *
@@ -173,7 +207,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
 
                     @Override
                     public void onError(FacebookException error) {
-                        Log.d("Facebook connection",error.toString());
+                        Log.d("Facebook connection", error.toString());
                     }
                 });
     }
@@ -199,7 +233,49 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             Log.d("Facebook connection","Request code " + String.valueOf(requestCode));
             callbackManager.onActivityResult(requestCode, resultCode, data);
         }
+        else if (requestCode == TWITTER_SIGN_IN)
+        {
+            final String oauthVerifier = (String) data.getExtras().get(Constants.URL_TWITTER_OAUTH_VERIFIER);
+            Thread twitterSetReqThread = new Thread(){
+                public void run(){
+                    try
+                    {
+                        twitter4j.auth.AccessToken at = null;
+                        at = twitter.getOAuthAccessToken(oauthVerifier);
+                        sharedPreferences = getSharedPreferences("twitterPref", MODE_PRIVATE);
+                        editor = sharedPreferences.edit();
+                        //editor.putString(Constants.PREF_KEY_OAUTH_TOKEN, at.getToken());
+                        //editor.putString(Constants.PREF_KEY_OAUTH_SECRET, at.getTokenSecret());
+                        final long userID = at.getUserId();
+                        User user = twitter.showUser(userID);
+
+                        Log.i("twitter_userId", String.valueOf(userID));
+
+                        final String username = user.getName();
+
+                        Log.i("twitter_userName", username);
+                        //user_name.setText(username);
+                        //editor.putString(Constants.TWITTER_USER_NAME, user.getName());
+
+                        editor.putString("username", username);
+                        editor.putBoolean("istwitter", true);
+                        editor.commit();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+            twitterSetReqThread.start();
+
+        }
+
+
     }
+
     @Override
     protected void onStart() {
         super.onStart();
@@ -234,7 +310,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         Log.d("Google connection","hhhh");
         editor= sharedPreferences.edit();
         String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
-        if(sharedPreferences.getString("username",null)==null) {
+        if(sharedPreferences.getString("username", null)==null) {
             editor.putString("username", accountName);
             editor.putBoolean("isgoogle", true);
             editor.commit();
@@ -248,4 +324,44 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
     public void onConnectionSuspended(int cause) {
         mGoogleApiClient.connect();
     }
+
+
+    /**
+     *
+     * For Twitter login
+     *
+     * */
+    private boolean isTwitterLoggedInAlready() {
+        sharedPreferences = getSharedPreferences("twitterPref", MODE_PRIVATE);
+        return sharedPreferences.getString(Constants.PREF_KEY_OAUTH_TOKEN, null) != null;
+    }
+
+    private void loginToTwitter() {
+        // Check if already logged in
+        if (!isTwitterLoggedInAlready()) {
+            ConfigurationBuilder builder = new ConfigurationBuilder();
+            builder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY);
+            builder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET);
+            Configuration configuration = builder.build();
+
+            TwitterFactory factory = new TwitterFactory(configuration);
+            twitter = factory.getInstance();
+
+            try {
+                requestToken = twitter.getOAuthRequestToken(Constants.TWITTER_CALLBACK_URL);
+
+                Intent i = new Intent(LoginActivity.this, Twitter_WebViewActivity.class);
+                i.putExtra("URL", requestToken.getAuthenticationURL());
+                startActivityForResult(i, 20);
+
+            } catch (TwitterException e) {
+                e.printStackTrace();
+            }
+        } else {
+            // user already logged into twitter
+            //Toast.makeText(getApplicationContext(),"∑Œ±◊¿Œ ¡ﬂ ¿‘¥œ¥Ÿ.", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
 }
