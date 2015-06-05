@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.content.IntentSender.SendIntentException;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.facebook.AccessToken;
@@ -19,14 +20,18 @@ import com.facebook.GraphResponse;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.plus.Plus;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
 
-public class LoginActivity extends ActionBarActivity {
+public class LoginActivity extends ActionBarActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
     Button btnSignin;
     Button btnLogin;
 
@@ -37,19 +42,26 @@ public class LoginActivity extends ActionBarActivity {
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    Button btnGoo;
+    SignInButton btnGoo;
 
     Button btnTwit;
 
+    boolean mIntentInProgress;
 
-    /* Request code used to invoke sign in user interactions. */
-    private static final int RC_SIGN_IN = 0;
+    private static final int GOOGLE_SIGN_IN = 0;
+    private static final int FB_SIGN_IN = 64206;
 
+    /* Client used to interact with Google APIs. */
+    private GoogleApiClient mGoogleApiClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this); // initialize facebook sdk
+
         super.onCreate(savedInstanceState);
+
+        mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(new Scope("profile")).build(); // Initailize google sdk
+
         mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
         final String username = sharedPreferences.getString("username", null);
@@ -59,12 +71,14 @@ public class LoginActivity extends ActionBarActivity {
             startActivity(intent);
             finish();
         } else {
-            setContentView(R.layout.activity_login);
+            setContentView(com.example.junyeop_imaciislab.moneyball.R.layout.activity_login);
             btnSignin = (Button) findViewById(R.id.btn_signin);
             btnLogin = (Button) findViewById(R.id.btn_login);
             btnFb = (LoginButton) findViewById(R.id.btn_fb);
-            btnGoo = (Button) findViewById(R.id.btn_goo);
+            btnGoo = (SignInButton) findViewById(R.id.btn_goo);
             btnTwit = (Button) findViewById(R.id.btn_twit);
+
+            btnGoo.setOnClickListener(this); mIntentInProgress = false;
 
             Log.d("Facebook connection", "Button Set");
             btnSignin.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +110,12 @@ public class LoginActivity extends ActionBarActivity {
         }
     }
 
-
+    /**
+     *
+     *
+     *  For Facebook Login
+     *
+     * */
     private void onFblogin()
     {
         callbackManager = CallbackManager.Factory.create();
@@ -159,10 +178,74 @@ public class LoginActivity extends ActionBarActivity {
                 });
     }
 
+
+
+    /**
+     *
+     * For Google+ login
+     *
+     * */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        callbackManager.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GOOGLE_SIGN_IN) {
+            Log.d("Google connection","Request code " + String.valueOf(requestCode));
+            mIntentInProgress = false;
+            if (!mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.reconnect();
+            }
+        }
+        else if(requestCode == FB_SIGN_IN){
+            Log.d("Facebook connection","Request code " + String.valueOf(requestCode));
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
     }
-
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //mGoogleApiClient.disconnect();
+    }
+    @Override
+    public void onClick(View v) {
+        mGoogleApiClient.connect();
+    }
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (!mIntentInProgress && result.hasResolution()) {
+            try {
+                mIntentInProgress = true;
+                result.startResolutionForResult(this, GOOGLE_SIGN_IN);
+            } catch (SendIntentException e) {
+                // The intent was canceled before it was sent.  Return to the default
+                // state and attempt to connect to get an updated ConnectionResult.
+                mIntentInProgress = false;
+                mGoogleApiClient.connect();
+            }
+        }
+    }
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        // We've resolved any connection errors.  mGoogleApiClient can be used to
+        // access Google APIs on behalf of the user.
+        Log.d("Google connection","hhhh");
+        editor= sharedPreferences.edit();
+        String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
+        if(sharedPreferences.getString("username",null)==null) {
+            editor.putString("username", accountName);
+            editor.putBoolean("isgoogle", true);
+            editor.commit();
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        Log.d("Google connection",accountName);
+    }
+    @Override
+    public void onConnectionSuspended(int cause) {
+        mGoogleApiClient.connect();
+    }
 }

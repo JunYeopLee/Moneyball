@@ -47,7 +47,8 @@ public class SettingsListAdapter extends ArrayAdapter<String> {
                     if(sharedPreferences.getBoolean("isfacebook",false)) {
                         LoginManager.getInstance().logOut();
                         editor.remove("isfacebook");
-                    } else {
+                    } else if(sharedPreferences.getBoolean("isgoogle",false)){
+
                     }
                     editor.commit();
                     Intent intent = new Intent(getContext(), LoginActivity.class);
