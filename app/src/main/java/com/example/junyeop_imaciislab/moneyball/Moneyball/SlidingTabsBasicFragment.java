@@ -115,6 +115,7 @@ public class SlidingTabsBasicFragment extends Fragment {
         String strCurDate = "Today " + CurDateFormat.format(date) + "\tUser : " + username;
         TextView textView = (TextView)view.findViewById(R.id.today);
         textView.setText(strCurDate);
+
     }
     // END_INCLUDE (fragment_onviewcreated)
 
