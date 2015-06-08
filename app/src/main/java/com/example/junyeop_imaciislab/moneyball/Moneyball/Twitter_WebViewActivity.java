@@ -19,6 +19,8 @@ import twitter4j.auth.RequestToken;
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.utill.Constants;
 
+import android.view.Window;
+
 public class Twitter_WebViewActivity extends ActionBarActivity {
     SharedPreferences mSharedPreferences;
     private Intent mIntent;
@@ -29,6 +31,8 @@ public class Twitter_WebViewActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_twitter__web_view);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+
         mIntent = getIntent();
         String url = (String)mIntent.getExtras().get("URL");
         WebView webView = (WebView) findViewById(R.id.webview);
