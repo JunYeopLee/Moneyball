@@ -35,4 +35,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.1.1'
     compile project(':facebook')
     compile 'com.google.android.gms:play-services:7.3.0'
+    compile project(':twitter4j-core-4.0.3')
 }

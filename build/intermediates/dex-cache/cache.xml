@@ -2,20 +2,6 @@
 <items version="2" >
 
     <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="3b4ff5c39dace8f3b4ab4cab8191785547a0815f">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3a7e9b75f93af52c1c0d410a896a7410861f0166.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="565a01f90f1529f73362707c4c185d0623a68782">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3aa55a4db7cc260d5b7c8c0133daa5dba48627a2.jar" />
-    </item>
-    <item
         jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.facebook.android/facebook/4.1.2/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -23,32 +9,11 @@
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-17c00203aaea1bbd694db199643834ceba1fb97d.jar" />
     </item>
     <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/twitter4j-core-4.0.3/twitter4j-core-4.0.3.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-7495f5ce3313dfb7feae49abfe694dd817b5f038.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="b2c07cdb814fe988ad05f7b4d767a841514a5991">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-c1f5892c0a1df5fcc1769fa8b74d78d1c93ea786.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="3988694bf9d8186ff97ad5cdfa4ed88b5010fe08">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-38db9228a272d823a5199ef3190fda27596867b4.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="7215ac1f2fca947b9415a6ee2a1bf991364aab24">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-4fc4b2cba5143f8982ae7248ded41bbf09c8b5c4.jar" />
+        sha1="cb244e5be126bf0a8114c8a64a5d26c6490b9ef2">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/twitter4j-core-4.0.3-b2585cc0c5b1af9636f9e1e021ae746282f84081.jar" />
     </item>
     <item
         jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-analytics/7.3.0/jars/classes.jar"
@@ -65,48 +30,6 @@
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-833edd3c5cd7e5298659e1c1670fc9bb8abe34c0.jar" />
     </item>
     <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="f2f7ec211ce4d244ee97a57523eeb4526dc3cf8a">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-feae2ef22dd2791a810a974a6247bfcee2e530d1.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-4d36c739c058b64983dd729db1f2a7357bd59bc1.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="0708ef60917bf94913fe9ef972a655b99462dca7">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3fd687077b5a602b3f4240cada3e23f26778e6f2.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="e35fae1b377c23aa5fd2d309a190c2d0f73d54ec">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-255dfb9a8a7e75df7812222860f314fe4d1c6ded.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="fe3e0c6de7cceed888b277487238b6af9a1cc299">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-06299bbd90d2c5df11b1232f8fb5586ae007b411.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-f02912045041aa249eba05bfca4fda36743cae8b.jar" />
-    </item>
-    <item
         jar="/Users/junyeop_imaciislab/.gradle/caches/modules-2/files-2.1/com.parse.bolts/bolts-android/1.2.0/6ee2953ccf51ce72b6d548c30c4633b99eb4f9dd/bolts-android-1.2.0.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -114,46 +37,11 @@
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/bolts-android-1.2.0-f28a4dfaee6c481bdc983692d2acf59dc69a1e66.jar" />
     </item>
     <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.3.0/jars/classes.jar"
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.3.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="b48d5c51a9a9e329005106b4667f54948de4d4d8">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3d21148ec94fe36d4a2cf82dedfbf47396b98035.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4f4fe3c23776540625f3c2844152a7510fddf9f1">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-ed5edb77d427162bcaa66b9a1492681ee639dfe0.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="a0ce76dfaccbfbd6c551ed2174280aaabe60fe47">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-fc6ec89e4751b768642d067f6704946e0d54451a.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appstate/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="0180d031a7b54dabb93b4af3869468b55dc938bd">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-611274c9e069337c2b5d5ee2b2db474ee51e72d3.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5ea948d825957be6c4358c48422bee60eef2d487">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-b23fcfca7e4b1a285136d97232884ebb81605efd.jar" />
-    </item>
-    <item
-        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.3.0/jars/classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6046e5cdaf799120b7c56a5a061d80e8854c4d34">
-        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-9166594fb63683641c4fd6fde3e019c57cb3f34e.jar" />
+        sha1="f2f7ec211ce4d244ee97a57523eeb4526dc3cf8a">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-feae2ef22dd2791a810a974a6247bfcee2e530d1.jar" />
     </item>
     <item
         jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-cast/7.3.0/jars/classes.jar"
@@ -163,6 +51,48 @@
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-c884c3cbf95c9c70bcc799a803c4ed1a299fc1bc.jar" />
     </item>
     <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/libs/internal_impl-22.1.1.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="9e070ad32b2700b0343e8e0cccc437733d91ba3a">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/internal_impl-22.1.1-4d36c739c058b64983dd729db1f2a7357bd59bc1.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-nearby/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="5ea948d825957be6c4358c48422bee60eef2d487">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-b23fcfca7e4b1a285136d97232884ebb81605efd.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a3ff3c506644c820eb2bdf06e8339f72be578551">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-f02912045041aa249eba05bfca4fda36743cae8b.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-ads/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3988694bf9d8186ff97ad5cdfa4ed88b5010fe08">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-38db9228a272d823a5199ef3190fda27596867b4.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-gcm/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="7215ac1f2fca947b9415a6ee2a1bf991364aab24">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-4fc4b2cba5143f8982ae7248ded41bbf09c8b5c4.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b48d5c51a9a9e329005106b4667f54948de4d4d8">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3d21148ec94fe36d4a2cf82dedfbf47396b98035.jar" />
+    </item>
+    <item
         jar="/Users/junyeop_imaciislab/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/22.1.1/support-annotations-22.1.1.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -170,11 +100,88 @@
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/support-annotations-22.1.1-bddbacdc474bdea15fde3fed1aaad525ab6b4786.jar" />
     </item>
     <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-safetynet/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0708ef60917bf94913fe9ef972a655b99462dca7">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3fd687077b5a602b3f4240cada3e23f26778e6f2.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-drive/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="a0ce76dfaccbfbd6c551ed2174280aaabe60fe47">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-fc6ec89e4751b768642d067f6704946e0d54451a.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-location/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="b2c07cdb814fe988ad05f7b4d767a841514a5991">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-c1f5892c0a1df5fcc1769fa8b74d78d1c93ea786.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-panorama/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="565a01f90f1529f73362707c4c185d0623a68782">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3aa55a4db7cc260d5b7c8c0133daa5dba48627a2.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.android.support/support-v4/22.1.1/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="c95ba8152923e4872e86a82cfcba9a51c0214328">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-7495f5ce3313dfb7feae49abfe694dd817b5f038.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-maps/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="fe3e0c6de7cceed888b277487238b6af9a1cc299">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-06299bbd90d2c5df11b1232f8fb5586ae007b411.jar" />
+    </item>
+    <item
         jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wearable/7.3.0/jars/classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="e5bf453b070c1e39297986144960e45afa0fdfad">
         <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-9772f24ee009ac5895ee829b58785c743c37344c.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appstate/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="0180d031a7b54dabb93b4af3869468b55dc938bd">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-611274c9e069337c2b5d5ee2b2db474ee51e72d3.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-wallet/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6046e5cdaf799120b7c56a5a061d80e8854c4d34">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-9166594fb63683641c4fd6fde3e019c57cb3f34e.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-fitness/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4f4fe3c23776540625f3c2844152a7510fddf9f1">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-ed5edb77d427162bcaa66b9a1492681ee639dfe0.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-games/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3b4ff5c39dace8f3b4ab4cab8191785547a0815f">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-3a7e9b75f93af52c1c0d410a896a7410861f0166.jar" />
+    </item>
+    <item
+        jar="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-appindexing/7.3.0/jars/classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e35fae1b377c23aa5fd2d309a190c2d0f73d54ec">
+        <dex dex="/Users/junyeop_imaciislab/AndroidStudioProjects/Moneyball/app/build/intermediates/pre-dexed/debug/classes-255dfb9a8a7e75df7812222860f314fe4d1c6ded.jar" />
     </item>
 
 </items>

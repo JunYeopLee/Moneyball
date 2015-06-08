@@ -1,17 +1,16 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.content.Intent;
+import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.content.IntentSender.SendIntentException;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.utill.Constants;
-import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -26,6 +25,12 @@ import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.Arrays;
+
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
@@ -33,11 +38,6 @@ import twitter4j.User;
 import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Arrays;
 
 public class LoginActivity extends ActionBarActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
     Button btnSignin;
@@ -242,7 +242,6 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                     {
                         twitter4j.auth.AccessToken at = null;
                         at = twitter.getOAuthAccessToken(oauthVerifier);
-                        sharedPreferences = getSharedPreferences("twitterPref", MODE_PRIVATE);
                         editor = sharedPreferences.edit();
                         //editor.putString(Constants.PREF_KEY_OAUTH_TOKEN, at.getToken());
                         //editor.putString(Constants.PREF_KEY_OAUTH_SECRET, at.getTokenSecret());
@@ -257,7 +256,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                         //user_name.setText(username);
                         //editor.putString(Constants.TWITTER_USER_NAME, user.getName());
 
-                        editor.putString("username", username);
+                        editor.putString("username", String.valueOf(userID));
                         editor.putBoolean("istwitter", true);
                         editor.commit();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -332,8 +331,8 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
      *
      * */
     private boolean isTwitterLoggedInAlready() {
-        sharedPreferences = getSharedPreferences("twitterPref", MODE_PRIVATE);
-        return sharedPreferences.getString(Constants.PREF_KEY_OAUTH_TOKEN, null) != null;
+        sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
+        return sharedPreferences.getString("username", null) != null;
     }
 
     private void loginToTwitter() {
