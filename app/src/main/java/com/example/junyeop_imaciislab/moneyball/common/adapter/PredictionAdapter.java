@@ -1,6 +1,9 @@
 package com.example.junyeop_imaciislab.moneyball.common.adapter;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
@@ -128,9 +132,45 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         btnProb4.setText(tempObj.getProb()[3]);
         btnProb5.setText(tempObj.getProb()[4]);
 
+
+        final AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+        ab.setMessage(Html.fromHtml("<strong><font color=\"#ff0000\"> " + "Html 표현여부 "
+                + "</font></strong><br>HTML 이 제대로 표현되는지 본다."));
+
+        ab.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(),"Unlock Canceled", Toast.LENGTH_SHORT).show();
+            }
+        });
+        ab.setPositiveButton("ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getContext(),"Unlock Completed", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        btnResult3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ab.show();
+            }
+        });
+
+        btnResult4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ab.show();
+            }
+        });
+
+        btnResult5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ab.show();
+            }
+        });
+
         return rowView;
-
     }
-
-
 }

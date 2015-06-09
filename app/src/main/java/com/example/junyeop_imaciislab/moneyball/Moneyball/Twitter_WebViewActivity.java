@@ -9,7 +9,6 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.example.junyeop_imaciislab.moneyball.R;
-import com.example.junyeop_imaciislab.moneyball.common.utill.Constants;
 
 import twitter4j.Twitter;
 import twitter4j.auth.RequestToken;
@@ -30,10 +29,10 @@ public class Twitter_WebViewActivity extends Activity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, final String url) {
-                if (url.contains(Constants.TWITTER_CALLBACK_URL)) {
+                if (url.contains(getString(R.string.twitter_callback_url))) {
                     Uri uri = Uri.parse(url);
-                    String oauthVerifier = uri.getQueryParameter(Constants.URL_TWITTER_OAUTH_VERIFIER);
-                    mIntent.putExtra(Constants.URL_TWITTER_OAUTH_VERIFIER, oauthVerifier);
+                    String oauthVerifier = uri.getQueryParameter(getString(R.string.twitter_oauth_verifier));
+                    mIntent.putExtra(getString(R.string.twitter_oauth_verifier), oauthVerifier);
                     setResult(RESULT_OK, mIntent);
                     finish();
                     return true;

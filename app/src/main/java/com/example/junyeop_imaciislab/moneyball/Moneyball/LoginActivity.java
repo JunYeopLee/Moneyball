@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.junyeop_imaciislab.moneyball.R;
-import com.example.junyeop_imaciislab.moneyball.common.utill.Constants;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -235,7 +234,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         }
         else if (requestCode == TWITTER_SIGN_IN)
         {
-            final String oauthVerifier = (String) data.getExtras().get(Constants.URL_TWITTER_OAUTH_VERIFIER);
+            final String oauthVerifier = (String) data.getExtras().get(getString(R.string.twitter_oauth_verifier));
             Thread twitterSetReqThread = new Thread(){
                 public void run(){
                     try
@@ -243,8 +242,8 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                         twitter4j.auth.AccessToken at = null;
                         at = twitter.getOAuthAccessToken(oauthVerifier);
                         editor = sharedPreferences.edit();
-                        //editor.putString(Constants.PREF_KEY_OAUTH_TOKEN, at.getToken());
-                        //editor.putString(Constants.PREF_KEY_OAUTH_SECRET, at.getTokenSecret());
+                        //editor.putString(getString(R.string.twitter_pref_key_oauth_token), at.getToken());
+                        //editor.putString(getString(R.string.twitter_pref_key_oauth_secret), at.getTokenSecret());
                         final long userID = at.getUserId();
                         User user = twitter.showUser(userID);
 
@@ -254,7 +253,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
 
                         Log.i("twitter_userName", username);
                         //user_name.setText(username);
-                        //editor.putString(Constants.TWITTER_USER_NAME, user.getName());
+                        //editor.putString(getString(R.string.twitter_username), user.getName());
 
                         editor.putString("username", String.valueOf(userID));
                         editor.putBoolean("istwitter", true);
@@ -339,15 +338,16 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         // Check if already logged in
         if (!isTwitterLoggedInAlready()) {
             ConfigurationBuilder builder = new ConfigurationBuilder();
-            builder.setOAuthConsumerKey(Constants.TWITTER_CONSUMER_KEY);
-            builder.setOAuthConsumerSecret(Constants.TWITTER_CONSUMER_SECRET);
+
+            builder.setOAuthConsumerKey(getString(R.string.twitter_consumer_key));
+            builder.setOAuthConsumerSecret(getString(R.string.twitter_consumer_secret));
             Configuration configuration = builder.build();
 
             TwitterFactory factory = new TwitterFactory(configuration);
             twitter = factory.getInstance();
 
             try {
-                requestToken = twitter.getOAuthRequestToken(Constants.TWITTER_CALLBACK_URL);
+                requestToken = twitter.getOAuthRequestToken(getString(R.string.twitter_callback_url));
 
                 Intent i = new Intent(LoginActivity.this, Twitter_WebViewActivity.class);
                 i.putExtra("URL", requestToken.getAuthenticationURL());

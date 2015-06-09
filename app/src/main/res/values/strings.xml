@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Moneyball</string>
 
-    <string name="score_prediction">Score Prediction</string>
+    <string name="score_prediction">Sco.re Prediction</string>
     <string name="betting_calculator">Betting Calculator</string>
     <string name="betting_moneyball">Betting MoneyBall</string>
     <string name="settings">Settings</string>
@@ -17,7 +17,9 @@
     <string name="twitter_consumer_secret">7XUnWvb1izZgGWF5EUoTlYIdZ5c8IHZM91XeSDhUaXOmGI82bC</string>
     <string name="twitter_pref_key_oauth_token">343408025-nUCKLzVg9uuYwY4fBis7x4nOeNwoxv9JXVJR3ehI</string>
     <string name="twitter_pref_key_oauth_secret">zyrv1OM05K2ruEFMLzxdi8oKqWiq8ltXSxnA1S6qJCpVh</string>
-
+    <string name="twitter_callback_url">oauth://</string>
+    <string name="twitter_username"></string>
+    <string name="twitter_oauth_verifier">oauth_verifier</string>
 
     <string name="title_activity_score_prediction">ScorePredictionActivity</string>
     <string name="title_activity_betting_calculator">BettingCalculatorActivity</string>
