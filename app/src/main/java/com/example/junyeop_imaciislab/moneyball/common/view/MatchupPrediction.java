@@ -4,62 +4,60 @@ package com.example.junyeop_imaciislab.moneyball.common.view;
  * Created by junyeop_imaciislab on 2015. 5. 22..
  */
 public class MatchupPrediction {
-    public static String stadium;
-    public static String time;
-    public static String team1;
-    public static String team2;
-    public static String [] results;
-    public static String [] prob;
+    private String stadium;
+    public String time;
+    public String team1;
+    public String team2;
+    public String [] results;
+    public String [] prob;
 
 
-    public static String getStadium() {
+    public String getStadium() {
         return stadium;
     }
 
-    public static void setStadium(String stadium) {
-        MatchupPrediction.stadium = stadium;
+    public void setStadium(String stadium) {
+        this.stadium = stadium;
     }
 
-    public static String getTime() {
+    public String getTime() {
         return time;
     }
 
-    public static void setTime(String time) {
-        MatchupPrediction.time = time;
+    public void setTime(String time) {
+        this.time = time;
     }
 
-    public static String getTeam1() {
+    public String getTeam1() {
         return team1;
     }
 
-    public static void setTeam1(String team1) {
-        MatchupPrediction.team1 = team1;
+    public void setTeam1(String team1) {
+        this.team1 = team1;
     }
 
-    public static String getTeam2() {
+    public String getTeam2() {
         return team2;
     }
 
-    public static void setTeam2(String team2) {
-        MatchupPrediction.team2 = team2;
+    public void setTeam2(String team2) {
+        this.team2 = team2;
     }
 
-    public static String[] getResults() {
+    public String[] getResults() {
         return results;
     }
 
-    public static void setResults(String[] results) {
-        MatchupPrediction.results = results;
+    public void setResults(String[] results) {
+        this.results = results;
     }
 
-    public static String[] getProb() {
+    public String[] getProb() {
         return prob;
     }
 
-    public static void setProb(String[] prob) {
-        MatchupPrediction.prob = prob;
+    public void setProb(String[] prob) {
+        this.prob = prob;
     }
-
-
 
 }

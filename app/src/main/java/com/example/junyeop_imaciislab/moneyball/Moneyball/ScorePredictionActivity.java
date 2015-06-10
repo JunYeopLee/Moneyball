@@ -35,9 +35,21 @@ public class ScorePredictionActivity extends ActionBarActivity {
 
 
         matchupPrediction.add(0, tmpPrediction);
+
+        tmpPrediction.setTeam1("Nexen");
+        tmpPrediction.setTeam2("KIA");
         matchupPrediction.add(1, tmpPrediction);
+
+        tmpPrediction.setTeam1("Hanwha");
+        tmpPrediction.setTeam2("NC");
         matchupPrediction.add(2, tmpPrediction);
+
+        tmpPrediction.setTeam1("LG");
+        tmpPrediction.setTeam2("SK");
         matchupPrediction.add(3, tmpPrediction);
+
+        tmpPrediction.setTeam1("Doosan");
+        tmpPrediction.setTeam2("KT");
         matchupPrediction.add(4, tmpPrediction);
 
         listPrediction = (ListView)findViewById(R.id.prediction_list);

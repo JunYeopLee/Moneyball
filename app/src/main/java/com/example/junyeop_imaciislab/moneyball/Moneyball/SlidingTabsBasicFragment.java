@@ -115,7 +115,6 @@ public class SlidingTabsBasicFragment extends Fragment {
         String strCurDate = "Today " + CurDateFormat.format(date) + "\tUser : " + username;
         TextView textView = (TextView)view.findViewById(R.id.today);
         textView.setText(strCurDate);
-
     }
     // END_INCLUDE (fragment_onviewcreated)
 
@@ -197,11 +196,47 @@ public class SlidingTabsBasicFragment extends Fragment {
                     tmpPrediction.setResults(tmpResults);
                     String [] tmpProbs = {"10%", "15%", "20%" ,"25%" ,"30%"};
                     tmpPrediction.setProb(tmpProbs);
-                    matchupPrediction.add(0, tmpPrediction);
-                    matchupPrediction.add(1, tmpPrediction);
-                    matchupPrediction.add(2, tmpPrediction);
-                    matchupPrediction.add(3, tmpPrediction);
-                    matchupPrediction.add(4, tmpPrediction);
+                    matchupPrediction.add(tmpPrediction);
+
+                    tmpPrediction = new MatchupPrediction();
+                    tmpPrediction.setStadium("Dodger Stadium");
+                    tmpPrediction.setTime("19:05");
+                    tmpPrediction.setTeam1("Nexen");
+                    tmpPrediction.setTeam2("KIA");
+                    tmpPrediction.setResults(tmpResults);
+                    tmpPrediction.setProb(tmpProbs);
+                    matchupPrediction.add(tmpPrediction);
+
+                    tmpPrediction = new MatchupPrediction();
+                    tmpPrediction.setStadium("Dodger Stadium");
+                    tmpPrediction.setTime("19:05");
+                    tmpPrediction.setResults(tmpResults);
+                    tmpPrediction.setProb(tmpProbs);
+                    tmpPrediction.setTeam1("Hanwha");
+                    tmpPrediction.setTeam2("NC");
+                    matchupPrediction.add(tmpPrediction);
+
+                    tmpPrediction = new MatchupPrediction();
+                    tmpPrediction.setStadium("Dodger Stadium");
+                    tmpPrediction.setTime("19:05");
+                    tmpPrediction.setResults(tmpResults);
+                    tmpPrediction.setProb(tmpProbs);
+                    tmpPrediction.setTeam1("LG");
+                    tmpPrediction.setTeam2("SK");
+                    matchupPrediction.add(tmpPrediction);
+
+                    tmpPrediction = new MatchupPrediction();
+                    tmpPrediction.setStadium("Dodger Stadium");
+                    tmpPrediction.setTime("19:05");
+                    tmpPrediction.setResults(tmpResults);
+                    tmpPrediction.setProb(tmpProbs);
+                    tmpPrediction.setTeam1("Doosan");
+                    tmpPrediction.setTeam2("KT");
+                    matchupPrediction.add(tmpPrediction);
+
+                    for( int i = 0 ; i < matchupPrediction.size() ; i++ )
+                        Log.d("matchup lllog",matchupPrediction.get(i).getTeam1());
+
                     listPrediction = (ListView)view.findViewById(R.id.prediction_list);
                     PredictionAdapter predictionAdapter = new PredictionAdapter(getActivity(),matchupPrediction);
                     listPrediction.setAdapter(predictionAdapter);

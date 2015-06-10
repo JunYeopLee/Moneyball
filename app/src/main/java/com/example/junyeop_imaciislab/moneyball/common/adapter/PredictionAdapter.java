@@ -51,7 +51,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         Button btnProb3 = (Button) rowView.findViewById(R.id.btn_3prob);
         Button btnProb4 = (Button) rowView.findViewById(R.id.btn_4prob);
         Button btnProb5 = (Button) rowView.findViewById(R.id.btn_5prob);
-
+        Button PlusBt = (Button) rowView.findViewById(R.id.btn_wish_plus);
 
         MatchupPrediction tempObj = matchupPredictionsLists.get(position);
         tvStadium.setText(tempObj.getStadium());
@@ -65,28 +65,28 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                 imgTeam1.setImageResource(R.drawable.lotte_logo);
                 break;
             case "NC":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.nc_logo);
                 break;
             case "KIA":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.kia_logo);
                 break;
-            case "Hanhwa":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+            case "Hanwha":
+                imgTeam1.setImageResource(R.drawable.hanwha_logo);
                 break;
             case "LG":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.lg_logo);
                 break;
             case "Doosan":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.doosan_logo);
                 break;
             case "Nexen":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.nexen_logo);
                 break;
             case "SK":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.sk_logo);
                 break;
             case "KT":
-                imgTeam1.setImageResource(R.drawable.samsung_logo);
+                imgTeam1.setImageResource(R.drawable.kt_logo);
                 break;
         }
         switch (tempObj.getTeam2()) {
@@ -97,28 +97,28 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                 imgTeam2.setImageResource(R.drawable.lotte_logo);
                 break;
             case "NC":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.nc_logo);
                 break;
             case "KIA":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.kia_logo);
                 break;
-            case "Hanhwa":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+            case "Hanwha":
+                imgTeam2.setImageResource(R.drawable.hanwha_logo);
                 break;
             case "LG":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.lg_logo);
                 break;
             case "Doosan":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.doosan_logo);
                 break;
             case "Nexen":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.nexen_logo);
                 break;
             case "SK":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.sk_logo);
                 break;
             case "KT":
-                imgTeam2.setImageResource(R.drawable.samsung_logo);
+                imgTeam2.setImageResource(R.drawable.kt_logo);
                 break;
         }
 
@@ -140,13 +140,13 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         ab.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(),"Unlock Canceled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Unlock Canceled", Toast.LENGTH_SHORT).show();
             }
         });
         ab.setPositiveButton("ok", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(),"Unlock Completed", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "Unlock Completed", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -171,6 +171,13 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             }
         });
 
+        PlusBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ////
+                Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
+            }
+        });
         return rowView;
     }
 }
