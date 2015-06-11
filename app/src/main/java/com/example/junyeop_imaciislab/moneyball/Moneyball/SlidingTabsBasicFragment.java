@@ -31,6 +31,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.common.adapter.CalculatorAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.PredictionAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.SettingsListAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
@@ -126,6 +127,7 @@ public class SlidingTabsBasicFragment extends Fragment {
      */
     class SamplePagerAdapter extends PagerAdapter {
 
+
         /**
          * @return the number of pages to display
          */
@@ -177,13 +179,16 @@ public class SlidingTabsBasicFragment extends Fragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view;
+            if(container.getChildCount()>position) {
+                view = container.getChildAt(position);
+                if (view != null) return view;
+            }
             switch(position) {
                 case 0:
                     // Inflate a new layout from our resources
                     view = getActivity().getLayoutInflater().inflate(R.layout.activity_score_prediction, container, false);
                     // Add the newly created View to the ViewPager
                     container.addView(view);
-
 
                     ListView listPrediction;
                     ArrayList<MatchupPrediction> matchupPrediction = new ArrayList<MatchupPrediction>();
@@ -250,6 +255,25 @@ public class SlidingTabsBasicFragment extends Fragment {
                     // Add the newly created View to the ViewPager
                     container.addView(view);
 
+                    ArrayList<MatchupPrediction> calculatorItem = new ArrayList<MatchupPrediction>();
+                    MatchupPrediction tmpPrediction2 = new MatchupPrediction();
+                    tmpPrediction2.setStadium("Dodger Stadium");
+                    tmpPrediction2.setTime("19:05");
+                    tmpPrediction2.setTeam1("Samsung");
+                    tmpPrediction2.setTeam2("Lotte");
+                    String [] tmpResults2 = {"10 : 3", "7 : 2", "1 : 3" ,"5 : 7" , "10 : 11"};
+                    tmpPrediction2.setResults(tmpResults2);
+                    String [] tmpProbs2 = {"10%", "15%", "20%" ,"25%" ,"30%"};
+                    tmpPrediction2.setProb(tmpProbs2);
+                    calculatorItem.add(tmpPrediction2);
+                    calculatorItem.add(tmpPrediction2);
+                    calculatorItem.add(tmpPrediction2);
+                    calculatorItem.add(tmpPrediction2);
+
+                    ListView calculatorList;
+                    calculatorList = (ListView)view.findViewById(R.id.calculator_list);
+                    CalculatorAdapter calculatorAdapter = new CalculatorAdapter(getActivity(),calculatorItem);
+                    calculatorList.setAdapter(calculatorAdapter);
                     // Retrieve a TextView from the inflated View, and update it's text
                     //TextView title = (TextView) view.findViewById(R.id.item_title);
                     //title.setText(String.valueOf(position + 1));
@@ -275,7 +299,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                     // Return the View
                     return view;
 
-                default:
+                case 3:
                     // Inflate a new layout from our resources
                     view = getActivity().getLayoutInflater().inflate(R.layout.activity_settings, container, false);
                     // Add the newly created View to the ViewPager
@@ -300,8 +324,10 @@ public class SlidingTabsBasicFragment extends Fragment {
                     //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
                     // Return the View
 
-                    Log.i("init", "instantiateItem() [position: " + position + "]");
+                    Log.i("instantiateItem", "instantiateItem() [position: " + position + "]");
                     return view;
+                default:
+                    return null;
             }
 
         }
@@ -312,8 +338,8 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-            //Log.i(LOG_TAG, "destroyItem() [position: " + position + "]");
+            //container.removeView((View) object);
+            Log.i("instantiateItem", "destroyItem() [position: " + position + "]");
         }
 
     }

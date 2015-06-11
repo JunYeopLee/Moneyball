@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.junyeop_imaciislab.moneyball"
     android:versionCode="1"
-    android:versionName="1.0" >
+    android:versionName="1.0">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -13,7 +13,7 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" /> <!-- For Facebook SDK -->
@@ -30,6 +30,7 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".Moneyball.MainActivity"
             android:label="@string/app_name" >
         </activity>
@@ -39,7 +40,7 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity >
         <activity android:name=".Moneyball.SigninActivity" >
         </activity>
         <activity
@@ -51,8 +52,9 @@
             android:label="@string/title_activity_score_prediction" >
         </activity>
         <activity
+            android:windowSoftInputMode="adjustPan"
             android:name=".Moneyball.BettingCalculatorActivity"
-            android:label="@string/title_activity_betting_calculator" >
+            android:label="@string/title_activity_betting_calculator">
         </activity>
         <activity
             android:name=".Moneyball.BettingMoneyballActivity"
