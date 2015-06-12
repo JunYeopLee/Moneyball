@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrapper;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 
 import java.util.ArrayList;
@@ -33,7 +34,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
 
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.score_prediction_item, null, true);
 
@@ -175,8 +176,12 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             @Override
             public void onClick(View v) {
                 ////
+                CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                ArrayList<MatchupPrediction> calculatorItemArrayList;
+                calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
+                calculatorItemArrayList.add(matchupPredictionsLists.get(position));
+                calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
                 Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
-
             }
         });
         return rowView;

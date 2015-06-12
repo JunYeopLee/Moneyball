@@ -34,6 +34,7 @@ import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.CalculatorAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.PredictionAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.SettingsListAdapter;
+import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrapper;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
 
@@ -179,10 +180,7 @@ public class SlidingTabsBasicFragment extends Fragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             View view;
-            if(container.getChildCount()>position) {
-                view = container.getChildAt(position);
-                if (view != null) return view;
-            }
+            ArrayList<MatchupPrediction> calculatorItem;
             switch(position) {
                 case 0:
                     // Inflate a new layout from our resources
@@ -239,9 +237,6 @@ public class SlidingTabsBasicFragment extends Fragment {
                     tmpPrediction.setTeam2("KT");
                     matchupPrediction.add(tmpPrediction);
 
-                    for( int i = 0 ; i < matchupPrediction.size() ; i++ )
-                        Log.d("matchup lllog",matchupPrediction.get(i).getTeam1());
-
                     listPrediction = (ListView)view.findViewById(R.id.prediction_list);
                     PredictionAdapter predictionAdapter = new PredictionAdapter(getActivity(),matchupPrediction);
                     listPrediction.setAdapter(predictionAdapter);
@@ -254,8 +249,9 @@ public class SlidingTabsBasicFragment extends Fragment {
                     view = getActivity().getLayoutInflater().inflate(R.layout.activity_betting_calculator, container, false);
                     // Add the newly created View to the ViewPager
                     container.addView(view);
-
-                    ArrayList<MatchupPrediction> calculatorItem = new ArrayList<MatchupPrediction>();
+                    CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                    calculatorItem = calculatorItemWrapper.getCalculatorItem();
+                    /*
                     MatchupPrediction tmpPrediction2 = new MatchupPrediction();
                     tmpPrediction2.setStadium("Dodger Stadium");
                     tmpPrediction2.setTime("19:05");
@@ -265,11 +261,14 @@ public class SlidingTabsBasicFragment extends Fragment {
                     tmpPrediction2.setResults(tmpResults2);
                     String [] tmpProbs2 = {"10%", "15%", "20%" ,"25%" ,"30%"};
                     tmpPrediction2.setProb(tmpProbs2);
+
                     calculatorItem.add(tmpPrediction2);
                     calculatorItem.add(tmpPrediction2);
                     calculatorItem.add(tmpPrediction2);
                     calculatorItem.add(tmpPrediction2);
 
+                    calculatorItemWrapper.setCalculatorItem(calculatorItem);
+                    */
                     ListView calculatorList;
                     calculatorList = (ListView)view.findViewById(R.id.calculator_list);
                     CalculatorAdapter calculatorAdapter = new CalculatorAdapter(getActivity(),calculatorItem);
@@ -338,7 +337,7 @@ public class SlidingTabsBasicFragment extends Fragment {
          */
         @Override
         public void destroyItem(ViewGroup container, int position, Object object) {
-            //container.removeView((View) object);
+            container.removeView((View) object);
             Log.i("instantiateItem", "destroyItem() [position: " + position + "]");
         }
 
