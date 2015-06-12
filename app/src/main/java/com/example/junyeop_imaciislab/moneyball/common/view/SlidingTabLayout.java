@@ -19,7 +19,6 @@ package com.example.junyeop_imaciislab.moneyball.common.view;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
@@ -35,10 +34,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.Moneyball.MainActivity;
-import com.example.junyeop_imaciislab.moneyball.Moneyball.SlidingTabsBasicFragment;
 import com.example.junyeop_imaciislab.moneyball.R;
-
-import org.w3c.dom.Text;
 
 /**
  * To be used with ViewPager to provide a tab indicator component which give constant feedback as to
@@ -348,6 +344,7 @@ public class SlidingTabLayout extends HorizontalScrollView {
                 case 2: textView.setText(R.string.betting_moneyball); break;
                 case 3: textView.setText(R.string.settings); break;
             }
+            //mViewPager.getAdapter().instantiateItem(mViewPager,position); // MODIFIED : call instantiateItem every click for page 2(calcuator)
         }
     }
 
