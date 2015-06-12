@@ -273,12 +273,6 @@ public class SlidingTabsBasicFragment extends Fragment {
                     calculatorList = (ListView)view.findViewById(R.id.calculator_list);
                     CalculatorAdapter calculatorAdapter = new CalculatorAdapter(getActivity(),calculatorItem);
                     calculatorList.setAdapter(calculatorAdapter);
-                    // Retrieve a TextView from the inflated View, and update it's text
-                    //TextView title = (TextView) view.findViewById(R.id.item_title);
-                    //title.setText(String.valueOf(position + 1));
-
-                    //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
-                    // Return the View
 
                     Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
