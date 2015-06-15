@@ -8,6 +8,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.facebook.CallbackManager;
@@ -25,9 +26,17 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.plus.Plus;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 
 import twitter4j.Twitter;
@@ -41,20 +50,23 @@ import twitter4j.conf.ConfigurationBuilder;
 public class LoginActivity extends ActionBarActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
     Button btnSignin;
     Button btnLogin;
-
     LoginButton btnFb;
-    CallbackManager callbackManager; // Facebook Login Control
-    private String mFacebookAccessToken;
+    SignInButton btnGoo;
+    Button btnTwit;
+    EditText idEditText;
+    EditText pwEditText;
 
+    CallbackManager callbackManager; // Facebook Login Control
+
+    private String mFacebookAccessToken;
+    private String id;
+    private String pw;
     private static Twitter twitter;
     private static RequestToken requestToken;
 
     private SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
-    SignInButton btnGoo;
-
-    Button btnTwit;
 
     boolean mIntentInProgress;
 
@@ -72,11 +84,9 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         super.onCreate(savedInstanceState);
 
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(new Scope("profile")).build(); // Initailize google sdk
-
         mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
         final String username = sharedPreferences.getString("username", null);
-
 
         if (!"".equalsIgnoreCase(username) && username != null) { // Auto login
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -89,6 +99,9 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnFb = (LoginButton) findViewById(R.id.btn_fb);
             btnGoo = (SignInButton) findViewById(R.id.btn_goo);
             btnTwit = (Button) findViewById(R.id.btn_twit);
+            idEditText = (EditText) findViewById(R.id.id_edit);
+            pwEditText = (EditText) findViewById(R.id.pw_edit);
+
 
             btnGoo.setOnClickListener(this); mIntentInProgress = false;
 
@@ -104,9 +117,30 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnLogin.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
                                                 //id , password check후 true시, main으로 이동
-                                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                startActivity(intent);
-                                                finish();
+                                                try {
+                                                    id = idEditText.getText().toString();
+                                                    pw = pwEditText.getText().toString();
+                                                    String query;
+                                                    query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=1";
+                                                    HttpClient httpclient = new DefaultHttpClient();
+                                                    HttpResponse response = httpclient.execute(new HttpGet(query)); // android.os.NetworkOnMainThreadException 
+                                                    StatusLine statusLine = response.getStatusLine();
+                                                    if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                                                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                                                        response.getEntity().writeTo(out);
+                                                        String responseString = out.toString();
+                                                        out.close();
+                                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    } else{
+                                                        //Closes the connection.
+                                                        response.getEntity().getContent().close();
+                                                        throw new IOException(statusLine.getReasonPhrase());
+                                                    }
+                                                } catch(IOException e) {
+                                                    System.out.println(e.getMessage());
+                                                }
                                             }
                                         }
             );
@@ -114,7 +148,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnFb.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(com.facebook.AccessToken.getCurrentAccessToken()==null) {
+                    if (com.facebook.AccessToken.getCurrentAccessToken() == null) {
                         onFblogin();
                     }
                 }
