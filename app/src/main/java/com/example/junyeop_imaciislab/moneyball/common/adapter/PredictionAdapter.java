@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,11 @@ import java.util.ArrayList;
  */
 public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
     private final Activity context;
+
+    public ArrayList<MatchupPrediction> getMatchupPredictionsLists() {
+        return matchupPredictionsLists;
+    }
+
     private ArrayList<MatchupPrediction> matchupPredictionsLists;
 
     public PredictionAdapter(Activity context, ArrayList<MatchupPrediction> matchupPredictionsLists) {
@@ -34,7 +40,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
 
 
     @Override
-    public View getView(final int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, final ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.score_prediction_item, null, true);
 
@@ -52,8 +58,8 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         Button btnProb3 = (Button) rowView.findViewById(R.id.btn_3prob);
         Button btnProb4 = (Button) rowView.findViewById(R.id.btn_4prob);
         Button btnProb5 = (Button) rowView.findViewById(R.id.btn_5prob);
-        Button PlusBt = (Button) rowView.findViewById(R.id.btn_wish_plus);
-
+        final Button PlusBt = (Button) rowView.findViewById(R.id.btn_wish_plus);
+        ((TextView)rowView.findViewById(R.id.item_index)).setText(String.valueOf(position));
         MatchupPrediction tempObj = matchupPredictionsLists.get(position);
         tvStadium.setText(tempObj.getStadium());
         tvTime.setText(tempObj.getTime());
@@ -172,18 +178,31 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             }
         });
 
-        PlusBt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ////
-                CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
-                ArrayList<MatchupPrediction> calculatorItemArrayList;
-                calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
-                calculatorItemArrayList.add(matchupPredictionsLists.get(position));
-                calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
-                Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
-            }
-        });
+        if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
+            PlusBt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ////
+                    if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
+                        CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                        ArrayList<MatchupPrediction> calculatorItemArrayList;
+                        calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
+                        calculatorItemArrayList.add(matchupPredictionsLists.get(position));
+                        calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
+
+                        ListView calculatorList;
+                        calculatorList = (ListView) ((Activity) getContext()).findViewById(R.id.calculator_list);
+                        CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
+                        calculatorAdapter.notifyDataSetChanged();
+                        calculatorList.setAdapter(calculatorAdapter);
+                        PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
+                        Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+        } else {
+            PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
+        }
         return rowView;
     }
 }
