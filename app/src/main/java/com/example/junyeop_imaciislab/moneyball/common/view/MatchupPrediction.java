@@ -11,7 +11,6 @@ public class MatchupPrediction {
     public String [] results;
     public String [] prob;
 
-
     public String getStadium() {
         return stadium;
     }

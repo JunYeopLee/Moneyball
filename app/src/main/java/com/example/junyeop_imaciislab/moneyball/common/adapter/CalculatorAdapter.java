@@ -8,13 +8,18 @@ import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.os.Handler;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrapper;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 
 import java.util.ArrayList;
@@ -33,9 +38,9 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
     }
 
     @Override
-    public View getView(int position, View view, ViewGroup parent) {
+    public View getView(final int position, View view, ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
-        View rowView = inflater.inflate(R.layout.calculator_item, null, true);
+        final View rowView = inflater.inflate(R.layout.calculator_item, null, true);
 
         TextView tvStadium = (TextView) rowView.findViewById(R.id.cal_tv_stadium);
         TextView tvTime = (TextView) rowView.findViewById(R.id.cal_tv_match_time);
@@ -211,8 +216,42 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
             @Override
             public void onClick(View v) {
                 ////
-                Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
+                final CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                final ArrayList<MatchupPrediction> calculatorItemArrayList;
+                calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
+                //final int index = calculatorItemArrayList.indexOf(matchupPredictionsLists.get(position));
+                final ListView calculatorList;
+                calculatorList = (ListView)((Activity)getContext()).findViewById(R.id.calculator_list);
+                int index = calculatorList.indexOfChild(rowView);
+                Animation anim = AnimationUtils.loadAnimation(getContext(),  android.R.anim.slide_out_right);
+                anim.setDuration(250);
+                calculatorList.getChildAt(index).startAnimation(anim);
+                new Handler().postDelayed(new Runnable() {
+                    public void run() {
+                        calculatorItemArrayList.remove(matchupPredictionsLists.get(position));
+                        calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
+                        CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
+                        calculatorAdapter.notifyDataSetChanged();
+                        calculatorList.setAdapter(calculatorAdapter);
+                    }
 
+                }, anim.getDuration());
+
+                ListView listview = (ListView)((Activity)getContext()).findViewById(R.id.prediction_list);
+                int index2 = ((PredictionAdapter)listview.getAdapter()).getMatchupPredictionsLists().indexOf(matchupPredictionsLists.get(position));
+                for( int i = 0 ; i < listview.getChildCount() ; i++ ) {
+                    if( ((TextView)listview.getChildAt(i).findViewById(R.id.item_index)).getText().toString() == String.valueOf(index2) ) {
+                        listview.getChildAt(i).findViewById(R.id.btn_wish_plus).setBackground(getContext().getResources().getDrawable(R.drawable.wish_plus));
+                        break;
+                    }
+                }
+                /*
+                if(listview.getChildAt(index2)!=null) {
+                    listview.getChildAt(index2).findViewById(R.id.btn_wish_plus).setBackground(getContext().getResources().getDrawable(R.drawable.wish_plus));
+                }
+                */
+                //listview.notifyAll();
+                Toast.makeText(getContext(), "Match is removed from Calculator", Toast.LENGTH_SHORT).show();
             }
         });
         return rowView;

@@ -3,12 +3,14 @@ package com.example.junyeop_imaciislab.moneyball.Moneyball;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.facebook.CallbackManager;
@@ -29,11 +31,15 @@ import com.google.android.gms.plus.Plus;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.json.JSONTokener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -117,30 +123,11 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnLogin.setOnClickListener(new View.OnClickListener() {
                                             public void onClick(View v) {
                                                 //id , password check후 true시, main으로 이동
-                                                try {
-                                                    id = idEditText.getText().toString();
-                                                    pw = pwEditText.getText().toString();
-                                                    String query;
-                                                    query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=1";
-                                                    HttpClient httpclient = new DefaultHttpClient();
-                                                    HttpResponse response = httpclient.execute(new HttpGet(query)); // android.os.NetworkOnMainThreadException 
-                                                    StatusLine statusLine = response.getStatusLine();
-                                                    if(statusLine.getStatusCode() == HttpStatus.SC_OK){
-                                                        ByteArrayOutputStream out = new ByteArrayOutputStream();
-                                                        response.getEntity().writeTo(out);
-                                                        String responseString = out.toString();
-                                                        out.close();
-                                                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    } else{
-                                                        //Closes the connection.
-                                                        response.getEntity().getContent().close();
-                                                        throw new IOException(statusLine.getReasonPhrase());
-                                                    }
-                                                } catch(IOException e) {
-                                                    System.out.println(e.getMessage());
-                                                }
+                                                id = idEditText.getText().toString();
+                                                pw = pwEditText.getText().toString();
+                                                String query;
+                                                query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=0";
+                                                new LoginTask().execute(query);
                                             }
                                         }
             );
@@ -207,7 +194,6 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                                             try {
                                                 String jsonresult = String.valueOf(json);
                                                 System.out.println("JSON Result" + jsonresult);
-
                                                 String str_email = json.getString("email");
                                                 String str_id = json.getString("id");
                                                 String str_firstname = json.getString("first_name");
@@ -397,4 +383,66 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
     }
 
 
+    /**
+     *
+     * For Moneyball login
+     *
+     * */
+    private class LoginTask extends AsyncTask<String, Void, HttpResponse> {
+        @Override
+        protected HttpResponse doInBackground(String... urls) {
+            HttpResponse response = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+            HttpGet httpGet = new HttpGet(urls[0]);
+            try {
+                response = client.execute(httpGet);
+            }
+            catch(ClientProtocolException e){
+                e.printStackTrace();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(HttpResponse response) {
+            //super.onPostExecute(result);
+            try{
+                StatusLine statusLine = response.getStatusLine();
+                if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                    ByteArrayOutputStream out = new ByteArrayOutputStream();
+                    response.getEntity().writeTo(out);
+                    String responseString = out.toString();
+                    out.close();
+                    JSONTokener tokener = new JSONTokener(responseString);
+                    JSONObject finalResult = (JSONObject)tokener.nextValue();
+                    if(finalResult.getBoolean("success")==true) {
+                        editor= sharedPreferences.edit();
+                        JSONObject dataObject = (JSONObject)finalResult.get("data");
+                        JSONArray listObject = (JSONArray)dataObject.get("list");
+                        String userid = ((JSONObject)listObject.get(0)).getString("id");
+                        editor.putString("username", userid);
+                        editor.commit();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    } else {
+                        // LOGIN FAIL
+                        Toast.makeText(LoginActivity.this,"LOGIN FAILED",Toast.LENGTH_SHORT);
+                        Log.d("Moneyball login failed",finalResult.getString("errorMessage"));
+                    }
+
+                } else{
+                    //Closes the connection.
+                    response.getEntity().getContent().close();
+                    throw new IOException(statusLine.getReasonPhrase());
+                }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+    }
 }

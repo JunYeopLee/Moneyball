@@ -29,7 +29,7 @@
         android:background="@android:color/holo_red_dark"
         android:textColor="@android:color/white"
         android:text="@string/score_prediction"
-        android:textSize="9pt"
+        android:textSize="18dp"
         android:textAlignment="center"
         android:gravity="center"
         android:textStyle="bold"

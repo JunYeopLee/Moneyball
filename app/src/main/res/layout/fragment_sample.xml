@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:textColor="@android:color/white"
             android:gravity="center_vertical"
-            android:textSize="6pt"
+            android:textSize="12dp"
             android:textStyle="bold"
             android:text = "Today 10, May, Wed" />
 
@@ -62,7 +62,7 @@
             android:layout_weight="2"
             android:textColor="@android:color/white"
             android:gravity="center_vertical"
-            android:textSize="7pt"
+            android:textSize="12dp"
             android:textStyle="bold"
             android:layout_marginLeft="-7dp"
             android:text = "99,999+" />
