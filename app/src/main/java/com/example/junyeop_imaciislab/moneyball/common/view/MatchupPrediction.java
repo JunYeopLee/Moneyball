@@ -1,5 +1,7 @@
 package com.example.junyeop_imaciislab.moneyball.common.view;
 
+import java.util.ArrayList;
+
 /**
  * Created by junyeop_imaciislab on 2015. 5. 22..
  */
@@ -10,6 +12,22 @@ public class MatchupPrediction {
     public String team2;
     public String [] results;
     public String [] prob;
+    public ArrayList<Boolean> isSelected;
+
+    public MatchupPrediction() {
+        isSelected = new ArrayList<Boolean>();
+        for( int i = 0 ; i <  5 ; i++ ) {
+            isSelected.add(false);
+        }
+    }
+
+    public ArrayList<Boolean> getIsSelected() {
+        return isSelected;
+    }
+
+    public void setIsSelected(ArrayList<Boolean> isSelected) {
+        this.isSelected = isSelected;
+    }
 
     public String getStadium() {
         return stadium;

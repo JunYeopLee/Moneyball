@@ -178,12 +178,18 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             }
         });
 
-        if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
+        if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) != -1) {
+            PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
+        }
+        //if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
             PlusBt.setOnClickListener(new View.OnClickListener() {
+                boolean lock = false;
                 @Override
                 public void onClick(View v) {
                     ////
                     if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
+                        if(lock) return;
+                        lock = true;
                         CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
                         ArrayList<MatchupPrediction> calculatorItemArrayList;
                         calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
@@ -197,12 +203,31 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                         calculatorList.setAdapter(calculatorAdapter);
                         PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
                         Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
+                        lock = false;
+                    } else {
+                        if(lock) return;
+                        lock = true;
+                        CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                        ArrayList<MatchupPrediction> calculatorItemArrayList;
+                        calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
+                        calculatorItemArrayList.remove(matchupPredictionsLists.get(position));
+                        calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
+
+                        ListView calculatorList;
+                        calculatorList = (ListView) ((Activity) getContext()).findViewById(R.id.calculator_list);
+                        CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
+                        calculatorAdapter.notifyDataSetChanged();
+                        calculatorList.setAdapter(calculatorAdapter);
+
+                        PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus));
+                        Toast.makeText(getContext(), "Match is removed from Calculator", Toast.LENGTH_SHORT).show();
+                        lock = false;
                     }
                 }
             });
-        } else {
-            PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
-        }
+        //} else {
+        //    PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
+        //}
         return rowView;
     }
 }

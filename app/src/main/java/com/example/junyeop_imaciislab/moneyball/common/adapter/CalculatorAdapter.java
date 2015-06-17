@@ -57,12 +57,11 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         Button btnProb4 = (Button) rowView.findViewById(R.id.cal_btn_4prob);
         Button btnProb5 = (Button) rowView.findViewById(R.id.cal_btn_5prob);
         Button DelBt = (Button) rowView.findViewById(R.id.cal_btn_wish_delete);
-        final ArrayList<Boolean> isSelected = new ArrayList<Boolean>();
-        for( int i = 0 ; i < 6 ; i++ ) isSelected.add(false);
 
-        MatchupPrediction tempObj = matchupPredictionsLists.get(position);
+        final MatchupPrediction tempObj = matchupPredictionsLists.get(position);
         tvStadium.setText(tempObj.getStadium());
         tvTime.setText(tempObj.getTime());
+        final ArrayList<Boolean> isSelected = tempObj.getIsSelected();
 
         switch (tempObj.getTeam1()) {
             case "Samsung":
@@ -139,7 +138,6 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         btnProb4.setText(tempObj.getProb()[3]);
         btnProb5.setText(tempObj.getProb()[4]);
 
-
         final AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
         ab.setMessage(Html.fromHtml("<strong><font color=\"#ff0000\"> " + "Html 표현여부 "
                 + "</font></strong><br>HTML 이 제대로 표현되는지 본다."));
@@ -157,6 +155,11 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
             }
         });
 
+        if(isSelected.get(1).booleanValue() == true ) {
+            tvResult1.setBackgroundColor(Color.BLUE);
+            tvResult1.setTextColor(Color.WHITE);
+            tvResult1.invalidate();
+        }
         tvResult1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,15 +168,22 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     tvResult1.setTextColor(Color.WHITE);
                     tvResult1.invalidate();
                     isSelected.set(1, true);
+                    tempObj.setIsSelected(isSelected);
                 } else {
                     tvResult1.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     tvResult1.setTextColor(Color.BLACK);
                     tvResult1.invalidate();
                     isSelected.set(1, false);
+                    tempObj.setIsSelected(isSelected);
                 }
             }
         });
 
+        if(isSelected.get(2).booleanValue() == true ) {
+            tvResult2.setBackgroundColor(Color.BLUE);
+            tvResult2.setTextColor(Color.WHITE);
+            tvResult2.invalidate();
+        }
         tvResult2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -182,11 +192,13 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     tvResult2.setTextColor(Color.WHITE);
                     tvResult2.invalidate();
                     isSelected.set(2,true);
+                    tempObj.setIsSelected(isSelected);
                 } else {
                     tvResult2.setBackgroundColor(Color.parseColor("#DCDCDC"));
                     tvResult2.setTextColor(Color.BLACK);
                     tvResult2.invalidate();
                     isSelected.set(2,false);
+                    tempObj.setIsSelected(isSelected);
                 }
             }
         });
@@ -213,9 +225,12 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         });
 
         DelBt.setOnClickListener(new View.OnClickListener() {
+            boolean isclicked = false;
             @Override
             public void onClick(View v) {
                 ////
+                if(isclicked) return;
+                isclicked = true;
                 final CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
                 final ArrayList<MatchupPrediction> calculatorItemArrayList;
                 calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
@@ -224,7 +239,7 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                 calculatorList = (ListView)((Activity)getContext()).findViewById(R.id.calculator_list);
                 int index = calculatorList.indexOfChild(rowView);
                 Animation anim = AnimationUtils.loadAnimation(getContext(),  android.R.anim.slide_out_right);
-                anim.setDuration(250);
+                anim.setDuration(300);
                 calculatorList.getChildAt(index).startAnimation(anim);
                 new Handler().postDelayed(new Runnable() {
                     public void run() {

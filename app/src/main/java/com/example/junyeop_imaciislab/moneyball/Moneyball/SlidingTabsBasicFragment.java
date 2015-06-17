@@ -23,12 +23,16 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.CalculatorAdapter;
@@ -38,6 +42,7 @@ import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrappe
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -252,26 +257,39 @@ public class SlidingTabsBasicFragment extends Fragment {
 
                     CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
                     calculatorItem = calculatorItemWrapper.getCalculatorItem();
-                    /*
-                    MatchupPrediction tmpPrediction2 = new MatchupPrediction();
-                    tmpPrediction2.setStadium("Dodger Stadium");
-                    tmpPrediction2.setTime("19:05");
-                    tmpPrediction2.setTeam1("Samsung");
-                    tmpPrediction2.setTeam2("Lotte");
-                    String [] tmpResults2 = {"10 : 3", "7 : 2", "1 : 3" ,"5 : 7" , "10 : 11"};
-                    tmpPrediction2.setResults(tmpResults2);
-                    String [] tmpProbs2 = {"10%", "15%", "20%" ,"25%" ,"30%"};
-                    tmpPrediction2.setProb(tmpProbs2);
-                    calculatorItem.add(tmpPrediction2);
-                    calculatorItem.add(tmpPrediction2);
-                    calculatorItem.add(tmpPrediction2);
-                    calculatorItem.add(tmpPrediction2);
-                    */
                     calculatorItemWrapper.setCalculatorItem(calculatorItem);
                     ListView calculatorList;
                     calculatorList = (ListView)view.findViewById(R.id.calculator_list);
                     CalculatorAdapter calculatorAdapter = new CalculatorAdapter(getActivity(),calculatorItem);
                     calculatorList.setAdapter(calculatorAdapter);
+
+                    final EditText bettingMoneyEdit = (EditText)view.findViewById(R.id.edit_money);
+                    bettingMoneyEdit.addTextChangedListener(new TextWatcher(){
+                        String strMoney="";
+                        DecimalFormat df = new DecimalFormat("###,###.####");
+                        @Override
+                        public void afterTextChanged(Editable s) {}
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            if(s.toString().length()>10) {
+                                Toast.makeText(getActivity(),"Over Limit",Toast.LENGTH_SHORT);
+                                bettingMoneyEdit.setText(strMoney);    // 결과 텍스트 셋팅.
+                                bettingMoneyEdit.setSelection(strMoney.length());     // 커서를 제일 끝으로 보냄.
+                                return;
+                            }
+                            if(!s.toString().equals(strMoney)){     // StackOverflow를 막기위해,
+                                if(s.toString().length()!=0)
+                                    strMoney = df.format(Long.parseLong(s.toString().replaceAll(",", "")));   // 에딧텍스트의 값을 변환하여, string에 저장.
+                                else
+                                    strMoney = "";
+                                bettingMoneyEdit.setText(strMoney);    // 결과 텍스트 셋팅.
+                                bettingMoneyEdit.setSelection(strMoney.length());     // 커서를 제일 끝으로 보냄.
+                            }
+                        }
+                    });
+
                     Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
                 case 2:
