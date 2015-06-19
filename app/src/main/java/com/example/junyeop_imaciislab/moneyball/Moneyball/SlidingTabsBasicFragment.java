@@ -35,6 +35,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.common.adapter.BettingAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.CalculatorAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.PredictionAdapter;
 import com.example.junyeop_imaciislab.moneyball.common.adapter.SettingsListAdapter;
@@ -193,7 +194,6 @@ public class SlidingTabsBasicFragment extends Fragment {
                     // Add the newly created View to the ViewPager
                     container.addView(view);
                     ListView listPrediction;
-
                     MatchupPrediction tmpPrediction = new MatchupPrediction();
                     if(matchupPrediction.size()<5) {
                         tmpPrediction.setStadium("Dodger Stadium");
@@ -204,6 +204,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                         tmpPrediction.setResults(tmpResults);
                         String[] tmpProbs = {"10%", "15%", "20%", "25%", "30%"};
                         tmpPrediction.setProb(tmpProbs);
+                        tmpPrediction.setRate1("2.4");
+                        tmpPrediction.setRate2("1.7");
                         matchupPrediction.add(tmpPrediction);
 
                         tmpPrediction = new MatchupPrediction();
@@ -213,6 +215,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                         tmpPrediction.setTeam2("KIA");
                         tmpPrediction.setResults(tmpResults);
                         tmpPrediction.setProb(tmpProbs);
+                        tmpPrediction.setRate1("2.4");
+                        tmpPrediction.setRate2("1.7");
                         matchupPrediction.add(tmpPrediction);
 
                         tmpPrediction = new MatchupPrediction();
@@ -222,6 +226,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                         tmpPrediction.setProb(tmpProbs);
                         tmpPrediction.setTeam1("Hanwha");
                         tmpPrediction.setTeam2("NC");
+                        tmpPrediction.setRate1("2.4");
+                        tmpPrediction.setRate2("1.7");
                         matchupPrediction.add(tmpPrediction);
 
                         tmpPrediction = new MatchupPrediction();
@@ -231,6 +237,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                         tmpPrediction.setProb(tmpProbs);
                         tmpPrediction.setTeam1("LG");
                         tmpPrediction.setTeam2("SK");
+                        tmpPrediction.setRate1("2.4");
+                        tmpPrediction.setRate2("1.7");
                         matchupPrediction.add(tmpPrediction);
 
                         tmpPrediction = new MatchupPrediction();
@@ -240,6 +248,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                         tmpPrediction.setProb(tmpProbs);
                         tmpPrediction.setTeam1("Doosan");
                         tmpPrediction.setTeam2("KT");
+                        tmpPrediction.setRate1("2.4");
+                        tmpPrediction.setRate2("1.7");
                         matchupPrediction.add(tmpPrediction);
                     }
                     listPrediction = (ListView)view.findViewById(R.id.prediction_list);
@@ -297,7 +307,69 @@ public class SlidingTabsBasicFragment extends Fragment {
                     view = getActivity().getLayoutInflater().inflate(R.layout.activity_betting_moneyball, container, false);
                     // Add the newly created View to the ViewPager
                     container.addView(view);
+                    ListView bettingList;
+                    MatchupPrediction tmpPrediction2 = new MatchupPrediction();
+                    if(matchupPrediction.size()<5) {
+                        tmpPrediction2.setStadium("Dodger Stadium");
+                        tmpPrediction2.setTime("19:05");
+                        tmpPrediction2.setTeam1("Samsung");
+                        tmpPrediction2.setTeam2("Lotte");
+                        String[] tmpResults = {"10 : 3", "7 : 2", "1 : 3", "5 : 7", "10 : 11"};
+                        tmpPrediction2.setResults(tmpResults);
+                        String[] tmpProbs = {"10%", "15%", "20%", "25%", "30%"};
+                        tmpPrediction2.setProb(tmpProbs);
+                        tmpPrediction2.setRate1("2.4");
+                        tmpPrediction2.setRate2("1.7");
+                        matchupPrediction.add(tmpPrediction2);
 
+                        tmpPrediction2 = new MatchupPrediction();
+                        tmpPrediction2.setStadium("Dodger Stadium");
+                        tmpPrediction2.setTime("19:05");
+                        tmpPrediction2.setTeam1("Nexen");
+                        tmpPrediction2.setTeam2("KIA");
+                        tmpPrediction2.setResults(tmpResults);
+                        tmpPrediction2.setProb(tmpProbs);
+                        tmpPrediction2.setRate1("2.4");
+                        tmpPrediction2.setRate2("1.7");
+                        matchupPrediction.add(tmpPrediction2);
+
+                        tmpPrediction2 = new MatchupPrediction();
+                        tmpPrediction2.setStadium("Dodger Stadium");
+                        tmpPrediction2.setTime("19:05");
+                        tmpPrediction2.setResults(tmpResults);
+                        tmpPrediction2.setProb(tmpProbs);
+                        tmpPrediction2.setTeam1("Hanwha");
+                        tmpPrediction2.setTeam2("NC");
+                        tmpPrediction2.setRate1("2.4");
+                        tmpPrediction2.setRate2("1.7");
+                        matchupPrediction.add(tmpPrediction2);
+
+                        tmpPrediction2 = new MatchupPrediction();
+                        tmpPrediction2.setStadium("Dodger Stadium");
+                        tmpPrediction2.setTime("19:05");
+                        tmpPrediction2.setResults(tmpResults);
+                        tmpPrediction2.setProb(tmpProbs);
+                        tmpPrediction2.setTeam1("LG");
+                        tmpPrediction2.setTeam2("SK");
+                        tmpPrediction2.setRate1("2.4");
+                        tmpPrediction2.setRate2("1.7");
+                        matchupPrediction.add(tmpPrediction2);
+
+                        tmpPrediction2 = new MatchupPrediction();
+                        tmpPrediction2.setStadium("Dodger Stadium");
+                        tmpPrediction2.setTime("19:05");
+                        tmpPrediction2.setResults(tmpResults);
+                        tmpPrediction2.setProb(tmpProbs);
+                        tmpPrediction2.setTeam1("Doosan");
+                        tmpPrediction2.setTeam2("KT");
+                        tmpPrediction2.setRate1("2.4");
+                        tmpPrediction2.setRate2("1.7");
+                        matchupPrediction.add(tmpPrediction2);
+                    }
+
+                    bettingList = (ListView)view.findViewById(R.id.betting_list);
+                    BettingAdapter bettingAdapter = new BettingAdapter(getActivity(),matchupPrediction);
+                    bettingList.setAdapter(bettingAdapter);
                     // Retrieve a TextView from the inflated View, and update it's text
                     //TextView title = (TextView) view.findViewById(R.id.item_title);
                     //title.setText(String.valueOf(position + 1));

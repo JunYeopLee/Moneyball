@@ -167,6 +167,16 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     tvResult1.setBackgroundColor(Color.BLUE);
                     tvResult1.setTextColor(Color.WHITE);
                     tvResult1.invalidate();
+                    if(isSelected.get(2)==true) {
+                        isSelected.set(2, false);
+                        tvResult2.setBackgroundColor(Color.parseColor("#DCDCDC")); tvResult2.setTextColor(Color.BLACK); tvResult2.invalidate();
+                    } else if (isSelected.get(3)==true) {
+                        isSelected.set(2,false);
+                    } else if (isSelected.get(4)==true) {
+                        isSelected.set(2,false);
+                    } else if (isSelected.get(5)==true) {
+                        isSelected.set(2,false);
+                    }
                     isSelected.set(1, true);
                     tempObj.setIsSelected(isSelected);
                 } else {
@@ -191,6 +201,17 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     tvResult2.setBackgroundColor(Color.BLUE);
                     tvResult2.setTextColor(Color.WHITE);
                     tvResult2.invalidate();
+
+                    if(isSelected.get(1)==true) {
+                        isSelected.set(1,false);
+                        tvResult1.setBackgroundColor(Color.parseColor("#DCDCDC")); tvResult1.setTextColor(Color.BLACK); tvResult1.invalidate();
+                    } else if (isSelected.get(3)==true) {
+
+                    } else if (isSelected.get(4)==true) {
+
+                    } else if (isSelected.get(5)==true) {
+
+                    }
                     isSelected.set(2,true);
                     tempObj.setIsSelected(isSelected);
                 } else {

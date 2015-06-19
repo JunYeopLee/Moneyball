@@ -10,15 +10,56 @@ public class MatchupPrediction {
     public String time;
     public String team1;
     public String team2;
+    public String rate1;
+    public String rate2;
+    public Boolean rate1_selected;
+    public Boolean rate2_selected;
+
     public String [] results;
     public String [] prob;
     public ArrayList<Boolean> isSelected;
 
     public MatchupPrediction() {
         isSelected = new ArrayList<Boolean>();
-        for( int i = 0 ; i <  5 ; i++ ) {
+        for( int i = 0 ; i <  6 ; i++ ) {
             isSelected.add(false);
         }
+        rate1_selected = rate2_selected = false;
+    }
+
+
+
+    public Boolean getRate2_selected() {
+        return rate2_selected;
+    }
+
+    public void setRate2_selected(Boolean rate2_selected) {
+        this.rate2_selected = rate2_selected;
+    }
+
+    public Boolean getRate1_selected() {
+
+        return rate1_selected;
+    }
+
+    public void setRate1_selected(Boolean rate1_selected) {
+        this.rate1_selected = rate1_selected;
+    }
+    public String getRate2() {
+        return rate2;
+    }
+
+    public void setRate2(String rate2) {
+        this.rate2 = rate2;
+    }
+
+    public String getRate1() {
+
+        return rate1;
+    }
+
+    public void setRate1(String rate1) {
+        this.rate1 = rate1;
     }
 
     public ArrayList<Boolean> getIsSelected() {
