@@ -105,9 +105,11 @@ public class BettingAdapter extends ArrayAdapter<MatchupPrediction> {
         rateTeam1.setText(tempObj.getRate1());
         rateTeam2.setText(tempObj.getRate2());
         if(tempObj.getRate1_selected().booleanValue()==true) {
-            rateTeam1.setBackgroundColor(R.drawable.com_rounded_corner_bettingmoneyball_leftclicked); rateTeam1.invalidate();
+            rateTeam1.setBackgroundResource(R.drawable.com_rounded_corner_bettingmoneyball_leftclicked);
+            rateTeam1.setTextColor(Color.WHITE); rateTeam1.invalidate();
         } else if(tempObj.getRate2_selected()==true) {
-            rateTeam2.setBackgroundColor(R.drawable.com_rounded_corner_bettingmoneyball_rightclicked); rateTeam2.invalidate();
+            rateTeam2.setBackgroundResource(R.drawable.com_rounded_corner_bettingmoneyball_rightclicked);
+            rateTeam2.setTextColor(Color.WHITE); rateTeam2.invalidate();
         }
         rateTeam1.setOnClickListener(new View.OnClickListener() {
             boolean isclicked = false;

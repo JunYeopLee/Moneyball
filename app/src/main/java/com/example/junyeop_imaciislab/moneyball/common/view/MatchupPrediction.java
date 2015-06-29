@@ -10,8 +10,10 @@ public class MatchupPrediction {
     public String time;
     public String team1;
     public String team2;
+
     public String rate1;
     public String rate2;
+
     public Boolean rate1_selected;
     public Boolean rate2_selected;
 
@@ -26,8 +28,6 @@ public class MatchupPrediction {
         }
         rate1_selected = rate2_selected = false;
     }
-
-
 
     public Boolean getRate2_selected() {
         return rate2_selected;
@@ -45,6 +45,7 @@ public class MatchupPrediction {
     public void setRate1_selected(Boolean rate1_selected) {
         this.rate1_selected = rate1_selected;
     }
+
     public String getRate2() {
         return rate2;
     }

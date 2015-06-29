@@ -38,4 +38,7 @@
     <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_twitter__web_view">Twitter_WebViewActivity</string>
 
+    <!-- Prediction Match Query -->
+    <string name="prediction_match_query">http://166.104.142.94/moneyball-server/scorepredict/matchlist?</string>
+
 </resources>

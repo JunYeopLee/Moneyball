@@ -19,6 +19,7 @@ package com.example.junyeop_imaciislab.moneyball.Moneyball;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -43,10 +44,25 @@ import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrappe
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
+import org.apache.http.StatusLine;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.HttpConnectionParams;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.json.JSONTokener;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.ExecutionException;
 
 /**
  * A basic sample which shows how to use {@link com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout}
@@ -108,7 +124,7 @@ public class SlidingTabsBasicFragment extends Fragment {
         mSlidingTabLayout = (SlidingTabLayout) view.findViewById(R.id.sliding_tabs);
         mSlidingTabLayout.setCustomTabView(R.layout.custom_tab_title, R.id.tabtext, R.id.tabimage);
 
-        mSlidingTabLayout.setSelectedIndicatorColors(Color.BLACK);
+        mSlidingTabLayout.setSelectedIndicatorColors(Color.TRANSPARENT);
         mSlidingTabLayout.setDistributeEvenly(true);
         mSlidingTabLayout.setViewPager(mViewPager);
         // END_INCLUDE (setup_slidingtablayout)
@@ -133,8 +149,8 @@ public class SlidingTabsBasicFragment extends Fragment {
      * {@link SlidingTabLayout}.
      */
     class SamplePagerAdapter extends PagerAdapter {
-
         ArrayList<MatchupPrediction> matchupPrediction = new ArrayList<MatchupPrediction>();
+
         /**
          * @return the number of pages to display
          */
@@ -179,6 +195,11 @@ public class SlidingTabsBasicFragment extends Fragment {
                     return R.drawable.setting;
             }
         }
+
+        public void setMatchupPrediction(ArrayList<MatchupPrediction> matchupPrediction) {
+            this.matchupPrediction = matchupPrediction;
+        }
+
         /**
          * Instantiate the {@link View} which should be displayed at {@code position}. Here we
          * inflate a layout from the apps resources and then change the text view to signify the position.
@@ -196,6 +217,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                     ListView listPrediction;
                     MatchupPrediction tmpPrediction = new MatchupPrediction();
                     if(matchupPrediction.size()<5) {
+                        /*
                         tmpPrediction.setStadium("Dodger Stadium");
                         tmpPrediction.setTime("19:05");
                         tmpPrediction.setTeam1("Samsung");
@@ -251,11 +273,31 @@ public class SlidingTabsBasicFragment extends Fragment {
                         tmpPrediction.setRate1("2.4");
                         tmpPrediction.setRate2("1.7");
                         matchupPrediction.add(tmpPrediction);
-                    }
-                    listPrediction = (ListView)view.findViewById(R.id.prediction_list);
-                    PredictionAdapter predictionAdapter = new PredictionAdapter(getActivity(),matchupPrediction);
-                    listPrediction.setAdapter(predictionAdapter);
+                        */
+                        SharedPreferences sharedPreferences;
+                        sharedPreferences = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+                        int userNum = sharedPreferences.getInt("userNum", -1);
+                        long now = System.currentTimeMillis();
+                        Date date = new Date(now);
+                        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyyMMdd");
 
+                        String Today = CurDateFormat.format(date);
+                        Today = "20150623"; /// FOR TEST CODE
+                        String query;
+                        query = getString(R.string.prediction_match_query) + "userNum=" + String.valueOf(userNum) + "&today=" + Today;
+                        try {
+                            HttpResponse response = new GetPredictionListTask().execute(query).get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    listPrediction = (ListView) view.findViewById(R.id.prediction_list);
+
+                    //while(matchupPrediction.size()<5); // wait for asynctask to finish
+                    PredictionAdapter predictionAdapter = new PredictionAdapter(getActivity(), matchupPrediction);
+                    listPrediction.setAdapter(predictionAdapter);
                     Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
 
@@ -310,63 +352,25 @@ public class SlidingTabsBasicFragment extends Fragment {
                     ListView bettingList;
                     MatchupPrediction tmpPrediction2 = new MatchupPrediction();
                     if(matchupPrediction.size()<5) {
-                        tmpPrediction2.setStadium("Dodger Stadium");
-                        tmpPrediction2.setTime("19:05");
-                        tmpPrediction2.setTeam1("Samsung");
-                        tmpPrediction2.setTeam2("Lotte");
-                        String[] tmpResults = {"10 : 3", "7 : 2", "1 : 3", "5 : 7", "10 : 11"};
-                        tmpPrediction2.setResults(tmpResults);
-                        String[] tmpProbs = {"10%", "15%", "20%", "25%", "30%"};
-                        tmpPrediction2.setProb(tmpProbs);
-                        tmpPrediction2.setRate1("2.4");
-                        tmpPrediction2.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction2);
+                        SharedPreferences sharedPreferences;
+                        sharedPreferences = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+                        int userNum = sharedPreferences.getInt("userNum", -1);
+                        long now = System.currentTimeMillis();
+                        Date date = new Date(now);
+                        SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyyMMdd");
 
-                        tmpPrediction2 = new MatchupPrediction();
-                        tmpPrediction2.setStadium("Dodger Stadium");
-                        tmpPrediction2.setTime("19:05");
-                        tmpPrediction2.setTeam1("Nexen");
-                        tmpPrediction2.setTeam2("KIA");
-                        tmpPrediction2.setResults(tmpResults);
-                        tmpPrediction2.setProb(tmpProbs);
-                        tmpPrediction2.setRate1("2.4");
-                        tmpPrediction2.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction2);
-
-                        tmpPrediction2 = new MatchupPrediction();
-                        tmpPrediction2.setStadium("Dodger Stadium");
-                        tmpPrediction2.setTime("19:05");
-                        tmpPrediction2.setResults(tmpResults);
-                        tmpPrediction2.setProb(tmpProbs);
-                        tmpPrediction2.setTeam1("Hanwha");
-                        tmpPrediction2.setTeam2("NC");
-                        tmpPrediction2.setRate1("2.4");
-                        tmpPrediction2.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction2);
-
-                        tmpPrediction2 = new MatchupPrediction();
-                        tmpPrediction2.setStadium("Dodger Stadium");
-                        tmpPrediction2.setTime("19:05");
-                        tmpPrediction2.setResults(tmpResults);
-                        tmpPrediction2.setProb(tmpProbs);
-                        tmpPrediction2.setTeam1("LG");
-                        tmpPrediction2.setTeam2("SK");
-                        tmpPrediction2.setRate1("2.4");
-                        tmpPrediction2.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction2);
-
-                        tmpPrediction2 = new MatchupPrediction();
-                        tmpPrediction2.setStadium("Dodger Stadium");
-                        tmpPrediction2.setTime("19:05");
-                        tmpPrediction2.setResults(tmpResults);
-                        tmpPrediction2.setProb(tmpProbs);
-                        tmpPrediction2.setTeam1("Doosan");
-                        tmpPrediction2.setTeam2("KT");
-                        tmpPrediction2.setRate1("2.4");
-                        tmpPrediction2.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction2);
+                        String Today = CurDateFormat.format(date);
+                        Today = "20150623"; /// FOR TEST CODE
+                        String query;
+                        query = getString(R.string.prediction_match_query) + "userNum=" + String.valueOf(userNum) + "&today=" + Today;
+                        try {
+                            HttpResponse response = new GetPredictionListTask().execute(query).get();
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
                     }
-
                     bettingList = (ListView)view.findViewById(R.id.betting_list);
                     BettingAdapter bettingAdapter = new BettingAdapter(getActivity(),matchupPrediction);
                     bettingList.setAdapter(bettingAdapter);
@@ -423,5 +427,82 @@ public class SlidingTabsBasicFragment extends Fragment {
             Log.i("instantiateItem", "destroyItem() [position: " + position + "]");
         }
 
+    }
+
+    private class GetPredictionListTask extends AsyncTask<String, Void, HttpResponse> {
+        @Override
+        protected HttpResponse doInBackground(String... urls) {
+            HttpResponse response = null;
+            HttpClient client = new DefaultHttpClient();
+            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+            HttpGet httpGet = new HttpGet(urls[0]);
+            try {
+                response = client.execute(httpGet);
+                try{
+                    StatusLine statusLine = response.getStatusLine();
+                    if(statusLine.getStatusCode() == HttpStatus.SC_OK){
+                        ByteArrayOutputStream out = new ByteArrayOutputStream();
+                        response.getEntity().writeTo(out);
+                        String responseString = out.toString();
+                        out.close();
+                        JSONTokener tokener = new JSONTokener(responseString);
+                        JSONObject finalResult = (JSONObject)tokener.nextValue();
+                        if(finalResult.getBoolean("success")==true) {
+                            ArrayList<MatchupPrediction> tmp = new ArrayList<>();
+                            JSONObject dataObject = (JSONObject)finalResult.get("data");
+                            JSONArray matchVOList = (JSONArray)dataObject.get("matchVOList");
+                            JSONObject matchObject;
+                            MatchupPrediction matchupPrediction;
+                            for( int i = 0 ; i  < matchVOList.length() ; i++ ) {
+                                matchObject = (JSONObject)matchVOList.get(i);
+                                matchupPrediction = new MatchupPrediction();
+                                matchupPrediction.setStadium(matchObject.getString("stadiumName"));
+                                matchupPrediction.setTime(matchObject.getString("stadiumTime"));
+                                matchupPrediction.setTeam1(matchObject.getString("team1Name"));
+                                matchupPrediction.setTeam2(matchObject.getString("team2Name"));
+                                String[] tmpResults = new String[5];
+                                String[] tmpProb = new String[5];
+                                String name;
+                                for( int j = 1 ; j <= 5 ; j++ ) {
+                                    name = "predictScore" + String.valueOf(j);
+                                    tmpResults[j-1] = matchObject.getString(name);
+                                    name = "predictPercent" + String.valueOf(j);
+                                    tmpProb[j-1] = matchObject.getString(name) + "%";
+                                }
+                                matchupPrediction.setResults(tmpResults);
+                                matchupPrediction.setProb(tmpProb);
+                                matchupPrediction.setRate1(matchObject.getString("rateTeam1"));
+                                matchupPrediction.setRate2(matchObject.getString("rateTeam2"));
+                                tmp.add(matchupPrediction);
+                            }
+                            ((SamplePagerAdapter)mViewPager.getAdapter()).setMatchupPrediction(tmp);
+                        } else {
+                            // CONNECTION FAIL
+                            Toast.makeText(getActivity(),"CONNECTION FAILED",Toast.LENGTH_SHORT);
+                            Log.d("pred connect failed",finalResult.getString("errorMessage"));
+                        }
+
+                    } else{
+                        //Closes the connection.
+                        response.getEntity().getContent().close();
+                        throw new IOException(statusLine.getReasonPhrase());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            }
+            catch(ClientProtocolException e){
+                e.printStackTrace();
+            }
+            catch(IOException e) {
+                e.printStackTrace();
+            }
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(HttpResponse response) {
+            // Progreebar hide
+        }
     }
 }

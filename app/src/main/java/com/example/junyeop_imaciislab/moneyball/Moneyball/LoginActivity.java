@@ -424,7 +424,9 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                         JSONObject dataObject = (JSONObject)finalResult.get("data");
                         JSONArray listObject = (JSONArray)dataObject.get("list");
                         String userid = ((JSONObject)listObject.get(0)).getString("id");
+                        int userNum = ((JSONObject)listObject.get(0)).getInt("userNum");
                         editor.putString("username", userid);
+                        editor.putInt("userNum",userNum);
                         editor.commit();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
