@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Handler;
 import android.text.Html;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -18,7 +19,6 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import android.os.Handler;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrapper;
@@ -48,11 +48,7 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         TextView tvTime = (TextView) rowView.findViewById(R.id.cal_tv_match_time);
         ImageView imgTeam1 = (ImageView) rowView.findViewById(R.id.cal_team1_logo);
         ImageView imgTeam2 = (ImageView) rowView.findViewById(R.id.cal_team2_logo);
-        final TextView tvResult1 = (TextView) rowView.findViewById(R.id.cal_tv_1result);
-        final TextView tvResult2 = (TextView) rowView.findViewById(R.id.cal_tv_2result);
-        Button btnResult3 = (Button) rowView.findViewById(R.id.cal_btn_3result);
-        Button btnResult4 = (Button) rowView.findViewById(R.id.cal_btn_4result);
-        Button btnResult5 = (Button) rowView.findViewById(R.id.cal_btn_5result);
+        final ArrayList<View> btnResults = new ArrayList<>();
         Button btnProb1 = (Button) rowView.findViewById(R.id.cal_btn_1prob);
         Button btnProb2 = (Button) rowView.findViewById(R.id.cal_btn_2prob);
         Button btnProb3 = (Button) rowView.findViewById(R.id.cal_btn_3prob);
@@ -64,6 +60,13 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         tvStadium.setText(tempObj.getStadium());
         tvTime.setText(tempObj.getTime());
         final ArrayList<Boolean> isSelected = tempObj.getIsSelected();
+
+        btnResults.add(rowView.findViewById(R.id.cal_tv_1result));
+        btnResults.add(rowView.findViewById(R.id.cal_tv_1result));
+        btnResults.add(rowView.findViewById(R.id.cal_tv_2result));
+        btnResults.add(rowView.findViewById(R.id.cal_btn_3result));
+        btnResults.add(rowView.findViewById(R.id.cal_btn_4result));
+        btnResults.add(rowView.findViewById(R.id.cal_btn_5result));
 
         switch (tempObj.getTeam1()) {
             case "Samsung":
@@ -130,10 +133,6 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                 break;
         }
 
-        tvResult1.setText(tempObj.getResults()[0]);
-        tvResult2.setText(tempObj.getResults()[1]);
-        //// LOCK
-
         btnProb1.setText(tempObj.getProb()[0]);
         btnProb2.setText(tempObj.getProb()[1]);
         btnProb3.setText(tempObj.getProb()[2]);
@@ -156,118 +155,56 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
             }
         });
 
-        if(isSelected.get(1).booleanValue() == true ) {
-            tvResult1.setBackgroundColor(Color.BLUE);
-            tvResult1.setTextColor(Color.WHITE);
-            tvResult1.invalidate();
-        }
-        tvResult1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSelected.get(1).booleanValue() == false) {
-                    tvResult1.setBackgroundColor(Color.BLUE);
-                    tvResult1.setTextColor(Color.WHITE);
-                    tvResult1.invalidate();
-                    if(isSelected.get(2)==true) {
-                        isSelected.set(2, false);
-                        tvResult2.setBackgroundColor(Color.parseColor("#DCDCDC")); tvResult2.setTextColor(Color.BLACK); tvResult2.invalidate();
-                    } else if (isSelected.get(3)==true) {
-                        isSelected.set(3,false);
-                    } else if (isSelected.get(4)==true) {
-                        isSelected.set(4,false);
-                    } else if (isSelected.get(5)==true) {
-                        isSelected.set(5,false);
-                    }
-                    isSelected.set(1, true);
-                    tempObj.setIsSelected(isSelected);
-                } else {
-                    tvResult1.setBackgroundColor(Color.parseColor("#DCDCDC"));
-                    tvResult1.setTextColor(Color.BLACK);
-                    tvResult1.invalidate();
-                    isSelected.set(1, false);
-                    tempObj.setIsSelected(isSelected);
-                }
+
+        for( int i = 1 ; i <= 5 ; i++ ) {
+            final TextView tmpTextView = ((TextView)btnResults.get(i));
+            final int index = i;
+            if(isSelected.get(i).booleanValue() == true ) {
+                tmpTextView.setBackgroundColor(Color.BLUE);
+                tmpTextView.setTextColor(Color.WHITE);
+                tmpTextView.invalidate();
             }
-        });
-
-        if(isSelected.get(2).booleanValue() == true ) {
-            tvResult2.setBackgroundColor(Color.BLUE);
-            tvResult2.setTextColor(Color.WHITE);
-            tvResult2.invalidate();
-        }
-        tvResult2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isSelected.get(2).booleanValue() == false) {
-                    tvResult2.setBackgroundColor(Color.BLUE);
-                    tvResult2.setTextColor(Color.WHITE);
-                    tvResult2.invalidate();
-
-                    if(isSelected.get(1)==true) {
-                        isSelected.set(1,false);
-                        tvResult1.setBackgroundColor(Color.parseColor("#DCDCDC")); tvResult1.setTextColor(Color.BLACK); tvResult1.invalidate();
-                    } else if (isSelected.get(3)==true) {
-                        isSelected.set(3,false);
-                    } else if (isSelected.get(4)==true) {
-                        isSelected.set(4,false);
-                    } else if (isSelected.get(5)==true) {
-                        isSelected.set(5,false);
+            if(tempObj.getResults()[i-1].compareTo("0")==0) { // Button
+                tmpTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ab.show();
                     }
-                    isSelected.set(2,true);
-                    tempObj.setIsSelected(isSelected);
-                } else {
-                    tvResult2.setBackgroundColor(Color.parseColor("#DCDCDC"));
-                    tvResult2.setTextColor(Color.BLACK);
-                    tvResult2.invalidate();
-                    isSelected.set(2,false);
-                    tempObj.setIsSelected(isSelected);
-                }
+                });
+            } else { // TextView
+                tmpTextView.setText(tempObj.getResults()[i-1]);
+                tmpTextView.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                tmpTextView.setTextColor(Color.BLACK);
+                tmpTextView.setTypeface(Typeface.DEFAULT_BOLD);
+                tmpTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                tmpTextView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (isSelected.get(index).booleanValue() == false) {
+                            tmpTextView.setBackgroundColor(Color.BLUE);
+                            tmpTextView.setTextColor(Color.WHITE);
+                            tmpTextView.invalidate();
+                            for (int j = 1; j <= 5; j++) {
+                                if (isSelected.get(j) == true) {
+                                    isSelected.set(j, false);
+                                    ((TextView) btnResults.get(j)).setBackgroundColor(Color.parseColor("#DCDCDC"));
+                                    ((TextView) btnResults.get(j)).setTextColor(Color.BLACK);
+                                    ((TextView) btnResults.get(j)).invalidate();
+                                    break;
+                                }
+                            }
+                            isSelected.set(index, true);
+                            tempObj.setIsSelected(isSelected);
+                        } else {
+                            tmpTextView.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                            tmpTextView.setTextColor(Color.BLACK);
+                            tmpTextView.invalidate();
+                            isSelected.set(index, false);
+                            tempObj.setIsSelected(isSelected);
+                        }
+                    }
+                });
             }
-        });
-
-        if(tempObj.getResults()[2].compareTo("0")==0) {
-            btnResult3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ab.show();
-                }
-            });
-        } else {
-            btnResult3.setText(tempObj.getResults()[2]);
-            btnResult3.setBackgroundColor(Color.parseColor("#DCDCDC"));
-            btnResult3.setTextColor(Color.BLACK);
-            btnResult3.setTypeface(Typeface.DEFAULT_BOLD);
-            btnResult3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        }
-
-        if(tempObj.getResults()[3].compareTo("0")==0) {
-            btnResult4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ab.show();
-                }
-            });
-        } else {
-            btnResult4.setText(tempObj.getResults()[3]);
-            btnResult4.setBackgroundColor(Color.parseColor("#DCDCDC"));
-            btnResult4.setTextColor(Color.BLACK);
-            btnResult4.setTypeface(Typeface.DEFAULT_BOLD);
-            btnResult4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        }
-
-        if(tempObj.getResults()[4].compareTo("0")==0) {
-            btnResult5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ab.show();
-                }
-            });
-        } else {
-            btnResult5.setText(tempObj.getResults()[4]);
-            btnResult5.setBackgroundColor(Color.parseColor("#DCDCDC"));
-            btnResult5.setTextColor(Color.BLACK);
-            btnResult5.setTypeface(Typeface.DEFAULT_BOLD);
-            btnResult5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         }
 
         DelBt.setOnClickListener(new View.OnClickListener() {
@@ -306,12 +243,6 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                         break;
                     }
                 }
-                /*
-                if(listview.getChildAt(index2)!=null) {
-                    listview.getChildAt(index2).findViewById(R.id.btn_wish_plus).setBackground(getContext().getResources().getDrawable(R.drawable.wish_plus));
-                }
-                */
-                //listview.notifyAll();
                 Toast.makeText(getContext(), "Match is removed from Calculator", Toast.LENGTH_SHORT).show();
             }
         });
