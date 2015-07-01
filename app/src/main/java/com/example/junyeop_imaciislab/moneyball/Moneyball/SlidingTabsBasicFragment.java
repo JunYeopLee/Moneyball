@@ -17,6 +17,7 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -139,6 +141,16 @@ public class SlidingTabsBasicFragment extends Fragment {
         String strCurDate = "Today " + CurDateFormat.format(date) + "\tUser : " + username;
         TextView textView = (TextView)view.findViewById(R.id.today);
         textView.setText(strCurDate);
+
+        Button BuyMoneyball = (Button)view.findViewById(R.id.buy_moneyball_btn);
+        BuyMoneyball.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), BuyingMoneyballActivity.class);
+                startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+            }
+        });
     }
     // END_INCLUDE (fragment_onviewcreated)
 
@@ -294,8 +306,6 @@ public class SlidingTabsBasicFragment extends Fragment {
                         }
                     }
                     listPrediction = (ListView) view.findViewById(R.id.prediction_list);
-
-                    //while(matchupPrediction.size()<5); // wait for asynctask to finish
                     PredictionAdapter predictionAdapter = new PredictionAdapter(getActivity(), matchupPrediction);
                     listPrediction.setAdapter(predictionAdapter);
                     Log.i("init", "instantiateItem() [position: " + position + "]");
@@ -430,6 +440,9 @@ public class SlidingTabsBasicFragment extends Fragment {
     }
 
     private class GetPredictionListTask extends AsyncTask<String, Void, HttpResponse> {
+        @Override
+        protected void onPreExecute() {
+        }
         @Override
         protected HttpResponse doInBackground(String... urls) {
             HttpResponse response = null;

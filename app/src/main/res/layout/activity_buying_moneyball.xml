@@ -1,0 +1,155 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:paddingTop="60dp"
+    android:paddingBottom="60dp"
+    android:background="#99000000"
+    android:gravity="center"
+    tools:context="com.example.junyeop_imaciislab.moneyball.Moneyball.BuyingMoneyballActivity">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:keepScreenOn="true" >
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_below="@+id/buy_moneyball_title"
+            android:layout_marginTop="-30dp"
+            android:layout_width="match_parent"
+            android:layout_height="360dp"
+            android:paddingTop="35dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingBottom="15dp"
+            android:background="@drawable/com_rounded_corner_buymoneyball"
+            android:gravity="center"
+            android:orientation="vertical">
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/com_rounded_corner_buymoneyballitem"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:background="@drawable/balll"
+                    android:scaleType="centerInside"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text = "1,000"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="3"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/com_rounded_corner_buymoneyballitem"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text = "1,000"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="3"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/com_rounded_corner_buymoneyballitem"
+                android:layout_marginBottom="5dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text = "1,000"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="3"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:background="@drawable/com_rounded_corner_buymoneyballitem"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="2"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:text = "1,000"
+                    android:textStyle="bold"
+                    android:textSize="20dp"
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="3"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"/>
+            </LinearLayout>
+
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/buy_moneyball_title"
+            android:layout_centerHorizontal="true"
+            android:text="Buy Moneyball"
+            android:textColor="@android:color/white"
+            android:textSize="23dp"
+            android:textStyle="bold"
+            android:padding="18dp"
+            android:background="@drawable/com_rounded_corner_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+     </RelativeLayout>
+</LinearLayout>

@@ -2,16 +2,9 @@ package com.example.junyeop_imaciislab.moneyball.Moneyball;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.TextView;
-import android.widget.ViewAnimator;
 
-import com.example.junyeop_imaciislab.moneyball.common.activities.SampleActivityBase;
 import com.example.junyeop_imaciislab.moneyball.R;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import com.facebook.FacebookSdk;
+import com.example.junyeop_imaciislab.moneyball.common.activities.SampleActivityBase;
 /**
  * A simple launcher activity containing a summary sample description, sample log and a custom
  * {@link android.support.v4.app.Fragment} which can display a view.
@@ -22,8 +15,7 @@ import com.facebook.FacebookSdk;
 public class MainActivity extends SampleActivityBase {
 
     public static final String TAG = "MainActivity";
-
-    // Whether the Log Fragment is currently shown
+    private BackPressCloseHandler backPressCloseHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +26,7 @@ public class MainActivity extends SampleActivityBase {
             SlidingTabsBasicFragment fragment = new SlidingTabsBasicFragment();
             transaction.replace(R.id.sample_content_fragment, fragment);
             transaction.commit();
+        backPressCloseHandler = new BackPressCloseHandler(this);
     }
 
     @Override
@@ -42,4 +35,9 @@ public class MainActivity extends SampleActivityBase {
         return true;
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        backPressCloseHandler.onBackPressed();
+    }
 }

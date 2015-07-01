@@ -3,7 +3,10 @@ package com.example.junyeop_imaciislab.moneyball.common.adapter;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.text.Html;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -141,8 +144,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
 
 
         final AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
-        ab.setMessage(Html.fromHtml("<strong><font color=\"#ff0000\"> " + "Html 표현여부 "
-                + "</font></strong><br>HTML 이 제대로 표현되는지 본다."));
+        ab.setMessage(Html.fromHtml("Moneyball 500원이 차감됩니다.<br/> 구매하시겠습니까?"));
 
         ab.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
             @Override
@@ -157,26 +159,50 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             }
         });
 
-        btnResult3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ab.show();
-            }
-        });
+        if(tempObj.getResults()[2].compareTo("0")==0) {
+            btnResult3.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ab.show();
+                }
+            });
+        } else {
+            btnResult3.setText(tempObj.getResults()[2]);
+            btnResult3.setBackgroundColor(Color.parseColor("#DCDCDC"));
+            btnResult3.setTextColor(Color.BLACK);
+            btnResult3.setTypeface(Typeface.DEFAULT_BOLD);
+            btnResult3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+        }
 
-        btnResult4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ab.show();
-            }
-        });
+        if(tempObj.getResults()[3].compareTo("0")==0) {
+            btnResult4.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ab.show();
+                }
+            });
+        } else {
+            btnResult4.setText(tempObj.getResults()[3]);
+            btnResult4.setBackgroundColor(Color.parseColor("#DCDCDC"));
+            btnResult4.setTextColor(Color.BLACK);
+            btnResult4.setTypeface(Typeface.DEFAULT_BOLD);
+            btnResult4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+        }
 
-        btnResult5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ab.show();
-            }
-        });
+        if(tempObj.getResults()[4].compareTo("0")==0) {
+            btnResult5.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ab.show();
+                }
+            });
+        } else {
+            btnResult5.setText(tempObj.getResults()[4]);
+            btnResult5.setBackgroundColor(Color.parseColor("#DCDCDC"));
+            btnResult5.setTextColor(Color.BLACK);
+            btnResult5.setTypeface(Typeface.DEFAULT_BOLD);
+            btnResult5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+        }
 
         if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) != -1) {
             PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
