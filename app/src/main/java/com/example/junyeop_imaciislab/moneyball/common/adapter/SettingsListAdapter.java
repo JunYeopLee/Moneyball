@@ -44,6 +44,7 @@ public class SettingsListAdapter extends ArrayAdapter<String> {
                     sharedPreferences = getContext().getSharedPreferences("login_info", Context.MODE_PRIVATE);
                     editor = sharedPreferences.edit();
                     editor.remove("username");
+                    editor.remove("userNum");
                     if(sharedPreferences.getBoolean("isfacebook",false)) {
                         LoginManager.getInstance().logOut();
                         editor.remove("isfacebook");

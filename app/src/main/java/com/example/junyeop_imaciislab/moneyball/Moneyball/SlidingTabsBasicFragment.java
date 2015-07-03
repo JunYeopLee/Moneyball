@@ -152,6 +152,12 @@ public class SlidingTabsBasicFragment extends Fragment {
             }
         });
     }
+
+    @Override
+    public void onDestroy() {
+        ((SamplePagerAdapter)mViewPager.getAdapter()).getMatchupPrediction().clear();
+        super.onDestroy();
+    }
     // END_INCLUDE (fragment_onviewcreated)
 
     /**
@@ -212,6 +218,10 @@ public class SlidingTabsBasicFragment extends Fragment {
             this.matchupPrediction = matchupPrediction;
         }
 
+        public ArrayList<MatchupPrediction> getMatchupPrediction() {
+            return matchupPrediction;
+        }
+
         /**
          * Instantiate the {@link View} which should be displayed at {@code position}. Here we
          * inflate a layout from the apps resources and then change the text view to signify the position.
@@ -229,63 +239,6 @@ public class SlidingTabsBasicFragment extends Fragment {
                     ListView listPrediction;
                     MatchupPrediction tmpPrediction = new MatchupPrediction();
                     if(matchupPrediction.size()<5) {
-                        /*
-                        tmpPrediction.setStadium("Dodger Stadium");
-                        tmpPrediction.setTime("19:05");
-                        tmpPrediction.setTeam1("Samsung");
-                        tmpPrediction.setTeam2("Lotte");
-                        String[] tmpResults = {"10 : 3", "7 : 2", "1 : 3", "5 : 7", "10 : 11"};
-                        tmpPrediction.setResults(tmpResults);
-                        String[] tmpProbs = {"10%", "15%", "20%", "25%", "30%"};
-                        tmpPrediction.setProb(tmpProbs);
-                        tmpPrediction.setRate1("2.4");
-                        tmpPrediction.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction);
-
-                        tmpPrediction = new MatchupPrediction();
-                        tmpPrediction.setStadium("Dodger Stadium");
-                        tmpPrediction.setTime("19:05");
-                        tmpPrediction.setTeam1("Nexen");
-                        tmpPrediction.setTeam2("KIA");
-                        tmpPrediction.setResults(tmpResults);
-                        tmpPrediction.setProb(tmpProbs);
-                        tmpPrediction.setRate1("2.4");
-                        tmpPrediction.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction);
-
-                        tmpPrediction = new MatchupPrediction();
-                        tmpPrediction.setStadium("Dodger Stadium");
-                        tmpPrediction.setTime("19:05");
-                        tmpPrediction.setResults(tmpResults);
-                        tmpPrediction.setProb(tmpProbs);
-                        tmpPrediction.setTeam1("Hanwha");
-                        tmpPrediction.setTeam2("NC");
-                        tmpPrediction.setRate1("2.4");
-                        tmpPrediction.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction);
-
-                        tmpPrediction = new MatchupPrediction();
-                        tmpPrediction.setStadium("Dodger Stadium");
-                        tmpPrediction.setTime("19:05");
-                        tmpPrediction.setResults(tmpResults);
-                        tmpPrediction.setProb(tmpProbs);
-                        tmpPrediction.setTeam1("LG");
-                        tmpPrediction.setTeam2("SK");
-                        tmpPrediction.setRate1("2.4");
-                        tmpPrediction.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction);
-
-                        tmpPrediction = new MatchupPrediction();
-                        tmpPrediction.setStadium("Dodger Stadium");
-                        tmpPrediction.setTime("19:05");
-                        tmpPrediction.setResults(tmpResults);
-                        tmpPrediction.setProb(tmpProbs);
-                        tmpPrediction.setTeam1("Doosan");
-                        tmpPrediction.setTeam2("KT");
-                        tmpPrediction.setRate1("2.4");
-                        tmpPrediction.setRate2("1.7");
-                        matchupPrediction.add(tmpPrediction);
-                        */
                         SharedPreferences sharedPreferences;
                         sharedPreferences = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
                         int userNum = sharedPreferences.getInt("userNum", -1);

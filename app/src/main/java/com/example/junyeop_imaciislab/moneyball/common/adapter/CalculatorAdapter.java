@@ -159,11 +159,6 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         for( int i = 1 ; i <= 5 ; i++ ) {
             final TextView tmpTextView = ((TextView)btnResults.get(i));
             final int index = i;
-            if(isSelected.get(i).booleanValue() == true ) {
-                tmpTextView.setBackgroundColor(Color.BLUE);
-                tmpTextView.setTextColor(Color.WHITE);
-                tmpTextView.invalidate();
-            }
             if(tempObj.getResults()[i-1].compareTo("0")==0) { // Button
                 tmpTextView.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -172,9 +167,16 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     }
                 });
             } else { // TextView
-                tmpTextView.setText(tempObj.getResults()[i-1]);
-                tmpTextView.setBackgroundColor(Color.parseColor("#DCDCDC"));
-                tmpTextView.setTextColor(Color.BLACK);
+                if(isSelected.get(i).booleanValue() == true ) {
+                    tmpTextView.setBackgroundColor(Color.BLUE);
+                    tmpTextView.setTextColor(Color.WHITE);
+                    tmpTextView.invalidate();
+                } else {
+                    tmpTextView.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                    tmpTextView.setTextColor(Color.BLACK);
+                    tmpTextView.invalidate();
+                }
+                tmpTextView.setText(tempObj.getResults()[i - 1]);
                 tmpTextView.setTypeface(Typeface.DEFAULT_BOLD);
                 tmpTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
                 tmpTextView.setOnClickListener(new View.OnClickListener() {
@@ -243,7 +245,10 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                         break;
                     }
                 }
+                for( int i = 0 ; i < isSelected.size() ; i++ ) isSelected.set(i,false);
+                tempObj.setIsSelected(isSelected);
                 Toast.makeText(getContext(), "Match is removed from Calculator", Toast.LENGTH_SHORT).show();
+                isclicked = false;
             }
         });
         return rowView;

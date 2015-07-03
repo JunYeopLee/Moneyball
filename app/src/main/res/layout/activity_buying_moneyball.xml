@@ -36,12 +36,16 @@
                 android:background="@drawable/com_rounded_corner_buymoneyballitem"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:background="@drawable/balll"
-                    android:scaleType="centerInside"
-                    android:layout_weight="2"/>
+                    android:padding = "5dp"
+                    android:layout_weight="2">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/buymoneyballimg"/>
+                </LinearLayout>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -54,7 +58,10 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="4"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/buybutton"/>
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -65,10 +72,16 @@
                 android:background="@drawable/com_rounded_corner_buymoneyballitem"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"/>
+                    android:padding = "5dp"
+                    android:layout_weight="2">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/buymoneyballimg"/>
+                </LinearLayout>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -81,7 +94,10 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="4"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/buybutton"/>
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -92,10 +108,16 @@
                 android:background="@drawable/com_rounded_corner_buymoneyballitem"
                 android:layout_marginBottom="5dp"
                 android:orientation="horizontal">
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"/>
+                    android:padding = "5dp"
+                    android:layout_weight="2">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/buymoneyballimg"/>
+                </LinearLayout>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -108,7 +130,10 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="4"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/buybutton"/>
             </LinearLayout>
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 xmlns:tools="http://schemas.android.com/tools"
@@ -118,10 +143,16 @@
                 android:padding="10dp"
                 android:background="@drawable/com_rounded_corner_buymoneyballitem"
                 android:orientation="horizontal">
-                <ImageView
+                <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="2"/>
+                    android:padding = "5dp"
+                    android:layout_weight="2">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/buymoneyballimg"/>
+                </LinearLayout>
                 <TextView
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
@@ -134,10 +165,11 @@
                 <Button
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"/>
+                    android:layout_weight="4"
+                    android:layout_marginTop="6dp"
+                    android:layout_marginBottom="6dp"
+                    android:background="@drawable/buybutton"/>
             </LinearLayout>
-
-
         </LinearLayout>
 
         <TextView

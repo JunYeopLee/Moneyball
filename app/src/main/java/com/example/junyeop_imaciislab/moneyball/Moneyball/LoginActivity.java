@@ -80,6 +80,17 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
     private static final int FB_SIGN_IN = 64206;
     private static final int TWITTER_SIGN_IN = 20;
 
+
+    /**
+     *
+     * KIND OF LOGIN METHOD
+     *
+     * */
+    private static final int KINDOFSNS_MONEYBALL = 0;
+    private static final int KINDOFSNS_FACEBOOK = 1;
+    private static final int KINDOFSNS_GOOGLE = 2;
+    private static final int KINDOFSNS_TWITTER = 3;
+
     /* Client used to interact with Google APIs. */
     private GoogleApiClient mGoogleApiClient;
 
@@ -112,6 +123,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnGoo.setOnClickListener(this); mIntentInProgress = false;
 
             Log.d("Facebook connection", "Button Set");
+
             btnSignin.setOnClickListener(new View.OnClickListener() {
                                              public void onClick(View v) {
                                                  Intent intent = new Intent(LoginActivity.this, SigninActivity.class);
@@ -126,11 +138,12 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                                                 id = idEditText.getText().toString();
                                                 pw = pwEditText.getText().toString();
                                                 String query;
-                                                query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=0";
+                                                query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_MONEYBALL);
                                                 new LoginTask().execute(query);
                                             }
                                         }
             );
+
             // Callback registration Facebook Login
             btnFb.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -194,22 +207,15 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                                             try {
                                                 String jsonresult = String.valueOf(json);
                                                 System.out.println("JSON Result" + jsonresult);
-                                                String str_email = json.getString("email");
                                                 String str_id = json.getString("id");
-                                                String str_firstname = json.getString("first_name");
-                                                String str_lastname = json.getString("last_name");
-                                                Log.d("Facebook connect", str_email);
-                                                Log.d("Facebook connect", str_firstname);
-                                                Log.d("Facebook connect", str_lastname);
-                                                Log.d("Facebook connect", str_id);
-                                                Log.d("Facebook connect", mFacebookAccessToken);
+
                                                 if(sharedPreferences.getString("username",null)==null) {
-                                                    editor.putString("username", str_id);
-                                                    editor.putBoolean("isfacebook", true);
-                                                    editor.commit();
-                                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                                                    startActivity(intent);
-                                                    finish();
+                                                    id = str_id;
+                                                    pw = "facebook";
+                                                    String query;
+                                                    query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_FACEBOOK);
+                                                    new LoginTask().execute(query);
+                                                    editor.putBoolean("isfacebook", true); editor.commit();
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -232,68 +238,11 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
     }
 
 
-
     /**
      *
      * For Google+ login
      *
      * */
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == GOOGLE_SIGN_IN) {
-            Log.d("Google connection","Request code " + String.valueOf(requestCode));
-            mIntentInProgress = false;
-            if (!mGoogleApiClient.isConnected()) {
-                mGoogleApiClient.reconnect();
-            }
-        }
-        else if(requestCode == FB_SIGN_IN){
-            Log.d("Facebook connection","Request code " + String.valueOf(requestCode));
-            callbackManager.onActivityResult(requestCode, resultCode, data);
-        }
-        else if (requestCode == TWITTER_SIGN_IN)
-        {
-            final String oauthVerifier = (String) data.getExtras().get(getString(R.string.twitter_oauth_verifier));
-            Thread twitterSetReqThread = new Thread(){
-                public void run(){
-                    try
-                    {
-                        twitter4j.auth.AccessToken at = null;
-                        at = twitter.getOAuthAccessToken(oauthVerifier);
-                        editor = sharedPreferences.edit();
-                        //editor.putString(getString(R.string.twitter_pref_key_oauth_token), at.getToken());
-                        //editor.putString(getString(R.string.twitter_pref_key_oauth_secret), at.getTokenSecret());
-                        final long userID = at.getUserId();
-                        User user = twitter.showUser(userID);
-
-                        Log.i("twitter_userId", String.valueOf(userID));
-
-                        final String username = user.getName();
-
-                        Log.i("twitter_userName", username);
-                        //user_name.setText(username);
-                        //editor.putString(getString(R.string.twitter_username), user.getName());
-
-                        editor.putString("username", String.valueOf(userID));
-                        editor.putBoolean("istwitter", true);
-                        editor.commit();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-
-                    } catch(Exception e){
-                        e.printStackTrace();
-                    }
-                }
-            };
-            twitterSetReqThread.start();
-
-        }
-
-
-    }
-
     @Override
     protected void onStart() {
         super.onStart();
@@ -328,13 +277,14 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         Log.d("Google connection","hhhh");
         editor= sharedPreferences.edit();
         String accountName = Plus.AccountApi.getAccountName(mGoogleApiClient);
+
         if(sharedPreferences.getString("username", null)==null) {
-            editor.putString("username", accountName);
-            editor.putBoolean("isgoogle", true);
-            editor.commit();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+            id = accountName;
+            pw = "google";
+            String query;
+            query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_GOOGLE);
+            new LoginTask().execute(query);
+            editor.putBoolean("isgoogle", true); editor.commit();
         }
         Log.d("Google connection",accountName);
     }
@@ -382,6 +332,60 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         }
     }
 
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == GOOGLE_SIGN_IN) {
+            Log.d("Google connection","Request code " + String.valueOf(requestCode));
+            mIntentInProgress = false;
+            if (!mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.reconnect();
+            }
+        }
+        else if(requestCode == FB_SIGN_IN){
+            Log.d("Facebook connection","Request code " + String.valueOf(requestCode));
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+        else if (requestCode == TWITTER_SIGN_IN)
+        {
+            final String oauthVerifier = (String) data.getExtras().get(getString(R.string.twitter_oauth_verifier));
+            Thread twitterSetReqThread = new Thread(){
+                public void run(){
+                    try
+                    {
+                        twitter4j.auth.AccessToken at = null;
+                        at = twitter.getOAuthAccessToken(oauthVerifier);
+                        editor = sharedPreferences.edit();
+                        //editor.putString(getString(R.string.twitter_pref_key_oauth_token), at.getToken());
+                        //editor.putString(getString(R.string.twitter_pref_key_oauth_secret), at.getTokenSecret());
+                        final long userID = at.getUserId();
+                        User user = twitter.showUser(userID);
+
+                        Log.i("twitter_userId", String.valueOf(userID));
+
+                        final String username = user.getName();
+
+                        Log.i("twitter_userName", username);
+                        //user_name.setText(username);
+                        //editor.putString(getString(R.string.twitter_username), user.getName());
+
+                        id = String.valueOf(userID);
+                        pw = "twitter";
+                        String query;
+                        query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_TWITTER);
+                        new LoginTask().execute(query);
+                        editor.putBoolean("istwitter", true);
+                        editor.commit();
+                    } catch(Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            };
+            twitterSetReqThread.start();
+
+        }
+    }
 
     /**
      *
