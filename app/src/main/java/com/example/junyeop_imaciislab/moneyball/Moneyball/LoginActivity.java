@@ -104,11 +104,14 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
         mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
         final String username = sharedPreferences.getString("username", null);
-
-        if (!"".equalsIgnoreCase(username) && username != null) { // Auto login
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-            finish();
+        final String password = sharedPreferences.getString("password", null);
+        if (!"".equalsIgnoreCase(username) && username != null && password != null ) { // Auto login
+            id = username;
+            pw = password;
+            int kindofSNS = sharedPreferences.getBoolean("isfacebook", false) ? KINDOFSNS_FACEBOOK : sharedPreferences.getBoolean("isgoogle",false) ? KINDOFSNS_GOOGLE : sharedPreferences.getBoolean("istwitter",false) ? KINDOFSNS_TWITTER : KINDOFSNS_MONEYBALL;
+            String query;
+            query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(kindofSNS);
+            new LoginTask().execute(query);
         } else {
             setContentView(com.example.junyeop_imaciislab.moneyball.R.layout.activity_login);
             btnSignin = (Button) findViewById(R.id.btn_signin);
@@ -140,6 +143,8 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                                                 String query;
                                                 query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_MONEYBALL);
                                                 new LoginTask().execute(query);
+                                                editor = sharedPreferences.edit();
+                                                editor.putString("password",pw); editor.commit();
                                             }
                                         }
             );
@@ -208,14 +213,15 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                                                 String jsonresult = String.valueOf(json);
                                                 System.out.println("JSON Result" + jsonresult);
                                                 String str_id = json.getString("id");
-
-                                                if(sharedPreferences.getString("username",null)==null) {
+                                                if(sharedPreferences.getString("username",null)==null && sharedPreferences.getString("password",null)==null) {
                                                     id = str_id;
                                                     pw = "facebook";
                                                     String query;
                                                     query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_FACEBOOK);
                                                     new LoginTask().execute(query);
-                                                    editor.putBoolean("isfacebook", true); editor.commit();
+                                                    editor.putBoolean("isfacebook", true);
+                                                    editor.putString("password", pw);
+                                                    editor.commit();
                                                 }
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
@@ -284,7 +290,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             String query;
             query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_GOOGLE);
             new LoginTask().execute(query);
-            editor.putBoolean("isgoogle", true); editor.commit();
+            editor.putBoolean("isgoogle", true); editor.putString("password",pw); editor.commit();
         }
         Log.d("Google connection",accountName);
     }
@@ -375,7 +381,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                         String query;
                         query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_TWITTER);
                         new LoginTask().execute(query);
-                        editor.putBoolean("istwitter", true);
+                        editor.putBoolean("istwitter", true); editor.putString("password",pw);
                         editor.commit();
                     } catch(Exception e){
                         e.printStackTrace();

@@ -44,12 +44,15 @@ public class SettingsListAdapter extends ArrayAdapter<String> {
                     sharedPreferences = getContext().getSharedPreferences("login_info", Context.MODE_PRIVATE);
                     editor = sharedPreferences.edit();
                     editor.remove("username");
+                    editor.remove("password");
                     editor.remove("userNum");
                     if(sharedPreferences.getBoolean("isfacebook",false)) {
                         LoginManager.getInstance().logOut();
                         editor.remove("isfacebook");
                     } else if(sharedPreferences.getBoolean("isgoogle",false)){
-
+                        editor.remove("isgoogle");
+                    } else if(sharedPreferences.getBoolean("istwitter",false)){
+                        editor.remove("istwitter");
                     }
                     editor.commit();
                     Intent intent = new Intent(getContext(), LoginActivity.class);
