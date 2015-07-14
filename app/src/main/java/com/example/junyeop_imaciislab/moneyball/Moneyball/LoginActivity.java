@@ -1,15 +1,17 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
@@ -53,8 +55,8 @@ import twitter4j.auth.RequestToken;
 import twitter4j.conf.Configuration;
 import twitter4j.conf.ConfigurationBuilder;
 
-public class LoginActivity extends ActionBarActivity  implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
-    Button btnSignin;
+public class LoginActivity extends Activity implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, View.OnClickListener{
+    Button btnSignup;
     Button btnLogin;
     LoginButton btnFb;
     SignInButton btnGoo;
@@ -114,7 +116,7 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             new LoginTask().execute(query);
         } else {
             setContentView(com.example.junyeop_imaciislab.moneyball.R.layout.activity_login);
-            btnSignin = (Button) findViewById(R.id.btn_signin);
+            btnSignup = (Button) findViewById(R.id.btn_signup);
             btnLogin = (Button) findViewById(R.id.btn_login);
             btnFb = (LoginButton) findViewById(R.id.btn_fb);
             btnGoo = (SignInButton) findViewById(R.id.btn_goo);
@@ -123,13 +125,27 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             pwEditText = (EditText) findViewById(R.id.pw_edit);
 
 
-            btnGoo.setOnClickListener(this); mIntentInProgress = false;
+            DisplayMetrics dm = getResources().getDisplayMetrics();
+            int size = Math.round(22 * dm.density);
+            btnFb.setBackgroundResource(R.drawable.facebook_login);
+            btnFb.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+            btnFb.setCompoundDrawablePadding(0);
+            btnFb.setPadding(0, size, 0, size);
+            btnFb.setText("");
+            btnFb.setTextSize(0);
+            btnFb.invalidate();
+
+            ((TextView)btnGoo.getChildAt(0)).setText("");
+            ((TextView)btnGoo.getChildAt(0)).setBackgroundResource(R.drawable.google_login);
+            btnGoo.setOnClickListener(this);
+
+            mIntentInProgress = false;
 
             Log.d("Facebook connection", "Button Set");
 
-            btnSignin.setOnClickListener(new View.OnClickListener() {
+            btnSignup.setOnClickListener(new View.OnClickListener() {
                                              public void onClick(View v) {
-                                                 Intent intent = new Intent(LoginActivity.this, SigninActivity.class);
+                                                 Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                                                  startActivity(intent);
                                              }
                                          }
@@ -144,7 +160,8 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
                                                 query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_MONEYBALL);
                                                 new LoginTask().execute(query);
                                                 editor = sharedPreferences.edit();
-                                                editor.putString("password",pw); editor.commit();
+                                                editor.putString("password", pw);
+                                                editor.commit();
                                             }
                                         }
             );
@@ -163,13 +180,12 @@ public class LoginActivity extends ActionBarActivity  implements GoogleApiClient
             btnTwit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(!isTwitterLoggedInAlready()){
-                        Thread twitterloginThread = new Thread(){
-                            public void run(){
-                                try
-                                {
+                    if (!isTwitterLoggedInAlready()) {
+                        Thread twitterloginThread = new Thread() {
+                            public void run() {
+                                try {
                                     loginToTwitter();
-                                } catch(Exception e){
+                                } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                             }

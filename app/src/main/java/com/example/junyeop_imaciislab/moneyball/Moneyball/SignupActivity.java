@@ -1,24 +1,24 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 
-public class SigninActivity extends ActionBarActivity {
+public class SignupActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signin);
+        setContentView(R.layout.activity_signup);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_signin, menu);
+        getMenuInflater().inflate(R.menu.menu_signup, menu);
         return true;
     }
 
