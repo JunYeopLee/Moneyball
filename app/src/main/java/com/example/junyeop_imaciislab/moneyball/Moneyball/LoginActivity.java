@@ -147,6 +147,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                                              public void onClick(View v) {
                                                  Intent intent = new Intent(LoginActivity.this, SignupActivity.class);
                                                  startActivity(intent);
+                                                 overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
                                              }
                                          }
             );
