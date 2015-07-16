@@ -28,7 +28,7 @@
     <string name="twitter_oauth_verifier">oauth_verifier</string>
 
     <!-- Moneyball Login -->
-    <string name="moneyball_server_url">http://166.104.142.94/moneyball-server</string>
+    <string name="moneyball_server_url">https://166.104.142.94:8443/moneyball-server</string>
 
 
     <!-- Activity title -->

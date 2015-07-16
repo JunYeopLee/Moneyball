@@ -12,7 +12,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.facebook.CallbackManager;
@@ -32,12 +31,23 @@ import com.google.android.gms.plus.Plus;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
+import org.apache.http.HttpVersion;
 import org.apache.http.StatusLine;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ClientConnectionManager;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.impl.conn.tsccm.ThreadSafeClientConnManager;
+import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
+import org.apache.http.params.HttpParams;
+import org.apache.http.params.HttpProtocolParams;
+import org.apache.http.protocol.HTTP;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -45,6 +55,7 @@ import org.json.JSONTokener;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.security.KeyStore;
 import java.util.Arrays;
 
 import twitter4j.Twitter;
@@ -419,7 +430,8 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
         @Override
         protected HttpResponse doInBackground(String... urls) {
             HttpResponse response = null;
-            HttpClient client = new DefaultHttpClient();
+            HttpClient client = getHttpClient();
+            //HttpClient client = new DefaultHttpClient();
             HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
             HttpGet httpGet = new HttpGet(urls[0]);
             try {
@@ -431,12 +443,8 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             catch(IOException e) {
                 e.printStackTrace();
             }
-            return response;
-        }
 
-        @Override
-        protected void onPostExecute(HttpResponse response) {
-            //super.onPostExecute(result);
+            //////
             try{
                 StatusLine statusLine = response.getStatusLine();
                 if(statusLine.getStatusCode() == HttpStatus.SC_OK){
@@ -460,8 +468,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                         finish();
                     } else {
                         // LOGIN FAIL
-                        Toast.makeText(LoginActivity.this,"LOGIN FAILED",Toast.LENGTH_SHORT);
-                        Log.d("Moneyball login failed",finalResult.getString("errorMessage"));
+                        Log.d("Moneyballlogin",finalResult.getString("errorMessage"));
                     }
 
                 } else{
@@ -471,6 +478,42 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                 }
             } catch (Exception e) {
                 System.out.println(e.getMessage());
+            }
+
+            return response;
+        }
+
+        @Override
+        protected void onPostExecute(HttpResponse response) {
+            //super.onPostExecute(result);
+        }
+
+        /**
+         *
+         * For HTTPS protocol
+         *
+         * */
+        private HttpClient getHttpClient() {
+            try {
+                KeyStore trustStore = KeyStore.getInstance(KeyStore.getDefaultType());
+                trustStore.load(null, null);
+
+                SSLSocketFactory sf = new SFSSLSocketFactory(trustStore);
+                sf.setHostnameVerifier(SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER);
+
+                HttpParams params = new BasicHttpParams();
+                HttpProtocolParams.setVersion(params, HttpVersion.HTTP_1_1);
+                HttpProtocolParams.setContentCharset(params, HTTP.UTF_8);
+
+                SchemeRegistry registry = new SchemeRegistry();
+                registry.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+                registry.register(new Scheme("https", sf, 443));
+
+                ClientConnectionManager ccm = new ThreadSafeClientConnManager(params, registry);
+
+                return new DefaultHttpClient(ccm, params);
+            } catch (Exception e) {
+                return new DefaultHttpClient();
             }
         }
     }
