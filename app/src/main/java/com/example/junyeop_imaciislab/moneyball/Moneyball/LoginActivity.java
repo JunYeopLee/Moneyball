@@ -48,7 +48,6 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -457,9 +456,8 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                     if(finalResult.getBoolean("success")==true) {
                         editor= sharedPreferences.edit();
                         JSONObject dataObject = (JSONObject)finalResult.get("data");
-                        JSONArray listObject = (JSONArray)dataObject.get("list");
-                        String userid = ((JSONObject)listObject.get(0)).getString("id");
-                        int userNum = ((JSONObject)listObject.get(0)).getInt("userNum");
+                        String userid = dataObject.getString("id");
+                        int userNum = dataObject.getInt("userNum");
                         editor.putString("username", userid);
                         editor.putInt("userNum",userNum);
                         editor.commit();
