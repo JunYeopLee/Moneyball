@@ -38,42 +38,50 @@
             android:gravity="center"
             android:padding="5dp"
             android:background="@drawable/com_rounded_corner">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Email ID"/>
             <EditText
                 android:id="@+id/id_edit"
                 android:hint="Email ID"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="bottom"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
                 android:textSize="15dp"/>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Password"/>
             <EditText
                 android:id="@+id/pw_edit"
                 android:hint="Password"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:password="true"
-                android:gravity="bottom"
+                android:gravity="center_vertical"
                 android:textSize="15dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Password Check"/>
             <EditText
                 android:id="@+id/pwcheck_edit"
                 android:hint="Password check"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:password="true"
-                android:gravity="bottom"
+                android:gravity="center_vertical"
                 android:textSize="15dp"/>
 
-            <EditText
-                android:id="@+id/nick_edit"
-                android:hint="Nickname"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="bottom"
-                android:textSize="15dp"/>
         </LinearLayout>
 
     </LinearLayout>
