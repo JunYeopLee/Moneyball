@@ -109,9 +109,9 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this); // initialize facebook sdk
-
         super.onCreate(savedInstanceState);
 
+        overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(new Scope("profile")).build(); // Initailize google sdk
         mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
@@ -137,7 +137,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
 
             DisplayMetrics dm = getResources().getDisplayMetrics();
             int size = Math.round(22 * dm.density);
-            btnFb.setBackgroundResource(R.drawable.facebook_login);
+            btnFb.setBackgroundResource(R.drawable.fb_login_click);
             btnFb.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             btnFb.setCompoundDrawablePadding(0);
             btnFb.setPadding(0, size, 0, size);
@@ -146,7 +146,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             btnFb.invalidate();
 
             ((TextView)btnGoo.getChildAt(0)).setText("");
-            ((TextView)btnGoo.getChildAt(0)).setBackgroundResource(R.drawable.google_login);
+            ((TextView)btnGoo.getChildAt(0)).setBackgroundResource(R.drawable.go_login_click);
             btnGoo.setOnClickListener(this);
 
             mIntentInProgress = false;
@@ -463,6 +463,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                         editor.commit();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
+                        overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
                         finish();
                     } else {
                         // LOGIN FAIL

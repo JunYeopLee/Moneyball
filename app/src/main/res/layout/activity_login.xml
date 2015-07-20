@@ -62,7 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:background="@drawable/signup_login"/>
+            android:background="@drawable/signup_click"/>
 
         <Button
             android:id="@+id/btn_login"
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_margin="5dp"
-            android:background="@drawable/login_login"/>
+            android:background="@drawable/login_button_click"/>
 
     </LinearLayout>
 
@@ -85,7 +85,7 @@
 
         <com.facebook.login.widget.LoginButton
             xmlns:fb="http://schemas.android.com/apk/res-auto"
-            android:background="@drawable/facebook_login"
+            android:background="@drawable/fb_login_click"
             android:id="@+id/btn_fb"
             android:layout_width="fill_parent"
             android:layout_height="44dp"
@@ -93,7 +93,7 @@
             android:layout_marginBottom="5dp" />
 
         <com.google.android.gms.common.SignInButton
-            android:background="@drawable/google_login"
+            android:background="@drawable/go_login_click"
             android:id="@+id/btn_goo"
             android:layout_width="fill_parent"
             android:layout_height="44dp"
@@ -103,7 +103,7 @@
 
         <Button
             android:id="@+id/btn_twit"
-            android:background="@drawable/twitter_login"
+            android:background="@drawable/twitter_login_click"
             android:layout_width="fill_parent"
             android:layout_gravity="center_horizontal"
             android:layout_height="44dp" />

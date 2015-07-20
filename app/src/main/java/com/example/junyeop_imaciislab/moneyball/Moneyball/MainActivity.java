@@ -20,6 +20,7 @@ public class MainActivity extends SampleActivityBase {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
         //FacebookSdk.sdkInitialize(getApplicationContext()); // initialize facebook sdk
         setContentView(R.layout.activity_main);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
