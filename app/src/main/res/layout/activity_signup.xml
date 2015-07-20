@@ -98,7 +98,7 @@
         android:paddingRight="70dp"
         android:orientation="horizontal">
         <Button
-            android:id="@+id/btn_signup"
+            android:id="@+id/btn_signup_insignup"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
