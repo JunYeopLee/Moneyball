@@ -57,6 +57,6 @@ public class SplashActivity extends Activity {
             }
         };
 
-        handler.sendEmptyMessageDelayed(0, 2000);    // ms, 3초후 종료시킴
+        handler.sendEmptyMessageDelayed(0, 1000);
     }
 }

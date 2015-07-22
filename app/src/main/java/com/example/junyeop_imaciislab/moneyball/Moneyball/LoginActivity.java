@@ -1,6 +1,7 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
@@ -9,8 +10,10 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.junyeop_imaciislab.moneyball.R;
@@ -110,8 +113,8 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
     protected void onCreate(Bundle savedInstanceState) {
         FacebookSdk.sdkInitialize(this); // initialize facebook sdk
         super.onCreate(savedInstanceState);
-
         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
+
         mGoogleApiClient = new GoogleApiClient.Builder(this).addConnectionCallbacks(this).addOnConnectionFailedListener(this).addApi(Plus.API).addScope(new Scope("profile")).build(); // Initailize google sdk
         mFacebookAccessToken="";
         sharedPreferences = getSharedPreferences("login_info", MODE_PRIVATE);
@@ -126,6 +129,19 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             new LoginTask().execute(query);
         } else {
             setContentView(com.example.junyeop_imaciislab.moneyball.R.layout.activity_login);
+
+
+            LinearLayout mainLayout = (LinearLayout) findViewById(R.id.login_activity);
+            mainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
+                }
+            });
+
+
+
             btnSignup = (Button) findViewById(R.id.btn_signup);
             btnLogin = (Button) findViewById(R.id.btn_login);
             btnFb = (LoginButton) findViewById(R.id.btn_fb);
