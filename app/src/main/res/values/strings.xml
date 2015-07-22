@@ -40,6 +40,7 @@
 
     <!-- Prediction Match Query -->
     <string name="prediction_match_query">http://166.104.142.94/moneyball-server/scorepredict/matchlist?</string>
+
     <string name="title_activity_buying_moneyball">BuyingMoneyballActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
