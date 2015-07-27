@@ -1,7 +1,9 @@
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
@@ -449,6 +451,14 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             //HttpClient client = new DefaultHttpClient();
             HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
             HttpGet httpGet = new HttpGet(urls[0]);
+            final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
+            alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+
             try {
                 response = client.execute(httpGet);
             }
@@ -457,6 +467,13 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             }
             catch(IOException e) {
                 e.printStackTrace();
+                alert.setMessage("[로그인 실패]네트워크 연결이 불안정 합니다");
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        alert.show();
+                    }
+                });
             }
 
             //////
@@ -476,7 +493,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                         int moneyballNow = dataObject.getInt("money");
                         int userNum = dataObject.getInt("userNum");
                         editor.putString("username", userid);
-                        editor.putInt("userNum",userNum);
+                        editor.putInt("userNum", userNum);
                         editor.putInt("money",moneyballNow);
                         editor.commit();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
@@ -484,12 +501,26 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                         overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
                         finish();
                     } else {
-                        // LOGIN FAIL
+                        alert.setMessage("아이디 혹은 비밀번호가 틀렸습니다");
+                       LoginActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                alert.show();
+                            }
+                        });
                         Log.d("Moneyballlogin",finalResult.getString("errorMessage"));
                     }
 
                 } else{
                     //Closes the connection.
+                    alert.setMessage("[로그인 실패]네트워크 연결이 불안정 합니다");
+                    LoginActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            alert.show();
+                        }
+                    });
+
                     response.getEntity().getContent().close();
                     throw new IOException(statusLine.getReasonPhrase());
                 }
