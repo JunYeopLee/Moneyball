@@ -473,9 +473,11 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                         editor= sharedPreferences.edit();
                         JSONObject dataObject = (JSONObject)finalResult.get("data");
                         String userid = dataObject.getString("id");
+                        int moneyballNow = dataObject.getInt("money");
                         int userNum = dataObject.getInt("userNum");
                         editor.putString("username", userid);
                         editor.putInt("userNum",userNum);
+                        editor.putInt("money",moneyballNow);
                         editor.commit();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
@@ -500,7 +502,6 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
 
         @Override
         protected void onPostExecute(HttpResponse response) {
-            //super.onPostExecute(result);
         }
 
         /**

@@ -163,6 +163,8 @@ public class SlidingTabsBasicFragment extends Fragment {
                 getActivity().overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_out);
             }
         });
+        TextView moneyballNow = (TextView)view.findViewById(R.id.moneyball_now);
+        moneyballNow.setText(moneyToString(sharedPreferences.getInt("money", 0)));
     }
 
     @Override
@@ -170,6 +172,22 @@ public class SlidingTabsBasicFragment extends Fragment {
         ((SamplePagerAdapter)mViewPager.getAdapter()).getMatchupPrediction().clear();
         super.onDestroy();
     }
+
+
+    private String moneyToString(int money) {
+        StringBuilder sb = new StringBuilder(String.valueOf(money));
+        final int limit = 99999;
+        if(money>limit) {
+            sb = new StringBuilder("99,999+");
+        } else {
+            for( int index = sb.length()-3 ; index > 0 ; index-=3 ) {
+                sb.insert(index,",");
+            }
+        }
+        return sb.toString();
+    }
+
+
     // END_INCLUDE (fragment_onviewcreated)
 
     /**
