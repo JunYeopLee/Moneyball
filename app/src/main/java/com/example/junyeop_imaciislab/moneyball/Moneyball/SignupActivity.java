@@ -2,11 +2,14 @@ package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -74,8 +77,16 @@ public class SignupActivity extends Activity {
                     alert.setMessage("비밀번호를 잘못 입력하셨습니다");
                     alert.show();
                 } else if (checkID(ids) == false) {
-
-                } else {
+                    AlertDialog.Builder alert = new AlertDialog.Builder(SignupActivity.this);
+                    alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    alert.setMessage("아이디를 잘못 입력하셨습니다");
+                    alert.show();
+               } else {
                     String query;
                     query = getString(R.string.moneyball_server_url) + "/user/signUp?id=" + ids + "&pw=" + pws + "&kindOfSNS=" + String.valueOf(0);
                     new SignupTask().execute(query);
@@ -91,6 +102,29 @@ public class SignupActivity extends Activity {
                 imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
             }
         });
+
+        idEdit.setOnKeyListener(new SignupEditTextOnkeyListener());
+        pwEdit.setOnKeyListener(new SignupEditTextOnkeyListener());
+        pwcEdit.setOnKeyListener(new SignupEditTextOnkeyListener());
+    }
+
+    class SignupEditTextOnkeyListener implements View.OnKeyListener {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent keyEvent) {
+            if(keyCode==keyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if(v==findViewById(R.id.id_edit)) {
+                    ((EditText)findViewById(R.id.pw_edit)).requestFocus();
+                } else if(v==findViewById(R.id.pw_edit)) {
+                    ((EditText)findViewById(R.id.pwcheck_edit)).requestFocus();
+                } else if(v==findViewById(R.id.pwcheck_edit)) {
+                    signUpbtn.performClick();
+                }
+                return false;
+            } else if(keyCode==keyEvent.KEYCODE_ENTER) {
+                return true;
+            }
+            return false;
+        }
     }
 
     @Override
@@ -122,19 +156,57 @@ public class SignupActivity extends Activity {
     }
 
     private boolean checkPassword(String pw,String pwc) {
-        return pw.compareTo(pwc)==0;
-    }
-
-    private boolean checkID(String id) {
+        if(pw.compareTo(pwc)!=0||pw.length()<5) {
+            return false;
+        }
+        for( int i = 0 ; i < pw.length() ; i++ ) {
+            char c = pw.charAt(i);
+            if( !(c>='0'&&c<='9' || c>='a'&&c<='z' || c>='A'&&c<='Z') ) {
+                return false;
+            }
+        }
         return true;
     }
 
+    private boolean checkID(String id) {
+        if(id.length()<5) return false;
+        for( int i = 0 ; i < id.length() ; i++ ) {
+            char c = id.charAt(i);
+            if( !(c>='0'&&c<='9' || c>='a'&&c<='z' || c>='A'&&c<='Z') ) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+
     /**
      *
-     * For Moneyball login
+     * For Moneyball signup
      *
      * */
     private class SignupTask extends AsyncTask<String, Void, HttpResponse> {
+        private Handler mHandler;
+        private ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mHandler = new Handler();
+            dialog = new ProgressDialog(SignupActivity.this);
+            dialog.setMessage("잠시만 기다려 주세요.");
+            dialog.setCancelable(false);
+            dialog.show();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(dialog != null && dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                }
+            },5000);
+        }
+
         @Override
         protected HttpResponse doInBackground(String... urls) {
             HttpResponse response = null;
@@ -212,6 +284,9 @@ public class SignupActivity extends Activity {
         @Override
         protected void onPostExecute(HttpResponse response) {
             //super.onPostExecute(result);
+            if(dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
         }
 
         /**

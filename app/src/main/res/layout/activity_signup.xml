@@ -37,36 +37,71 @@
             android:layout_weight="5"
             android:orientation="vertical"
             android:gravity="center"
-            android:padding="5dp"
+            android:padding="7dp"
             android:background="@drawable/com_rounded_corner">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="ID"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="bottom"/>
             <EditText
                 android:id="@+id/id_edit"
-                android:hint="Email ID"
+                android:hint="영문 숫자 조합 5자리 이상"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
-                android:gravity="center_vertical"
-                android:textSize="15dp"/>
+                android:layout_weight="1"
+                android:gravity="bottom"
+                android:textSize="12dp"
+                android:singleLine = "true"
+                android:lines = "1"
+                android:layout_marginBottom="10dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Password"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="bottom"/>
             <EditText
                 android:id="@+id/pw_edit"
-                android:hint="Password"
+                android:hint="영문 숫자 조합 5자리 이상"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:password="true"
-                android:gravity="center_vertical"
-                android:textSize="15dp"/>
+                android:gravity="bottom"
+                android:textSize="12dp"
+                android:singleLine = "true"
+                android:lines = "1"
+                android:layout_marginBottom="10dp"/>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Password Check"
+                android:textStyle="bold"
+                android:textSize="18dp"
+                android:layout_marginLeft="5dp"
+                android:gravity="bottom"/>
             <EditText
                 android:id="@+id/pwcheck_edit"
-                android:hint="Password check"
+                android:hint="영문 숫자 조합 5자리 이상"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_weight="2"
+                android:layout_weight="1"
                 android:password="true"
-                android:gravity="center_vertical"
-                android:textSize="15dp"/>
+                android:gravity="bottom"
+                android:singleLine = "true"
+                android:lines = "1"
+                android:textSize="12dp"/>
 
         </LinearLayout>
 

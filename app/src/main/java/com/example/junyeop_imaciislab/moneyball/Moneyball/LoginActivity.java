@@ -2,6 +2,7 @@ package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,8 +10,10 @@ import android.content.IntentSender.SendIntentException;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -152,7 +155,11 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             idEditText = (EditText) findViewById(R.id.id_edit);
             pwEditText = (EditText) findViewById(R.id.pw_edit);
 
+            /* For enter Event */
+            idEditText.setOnKeyListener(new LoginEditTextOnkeyListener());
+            pwEditText.setOnKeyListener(new LoginEditTextOnkeyListener());
 
+            /* For Facebook btn UI */
             DisplayMetrics dm = getResources().getDisplayMetrics();
             int size = Math.round(22 * dm.density);
             btnFb.setBackgroundResource(R.drawable.fb_login_click);
@@ -163,6 +170,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             btnFb.setTextSize(0);
             btnFb.invalidate();
 
+            /* For Google btn UI */
             ((TextView)btnGoo.getChildAt(0)).setText("");
             ((TextView)btnGoo.getChildAt(0)).setBackgroundResource(R.drawable.go_login_click);
             btnGoo.setOnClickListener(this);
@@ -246,34 +254,34 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                     public void onSuccess(LoginResult loginResult) {
                         Log.d("Facebook connect", "Successssss");
                         mFacebookAccessToken = loginResult.getAccessToken().toString();
-                        GraphRequest.newMeRequest( loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                                    @Override
-                                    public void onCompleted(JSONObject json, GraphResponse response) {
-                                        if (response.getError() != null) {
-                                            // handle error
-                                            System.out.println("ERROR");
-                                        } else {
-                                            System.out.println("Success");
-                                            try {
-                                                String jsonresult = String.valueOf(json);
-                                                System.out.println("JSON Result" + jsonresult);
-                                                String str_id = json.getString("id");
-                                                if(sharedPreferences.getString("username",null)==null && sharedPreferences.getString("password",null)==null) {
-                                                    id = str_id;
-                                                    pw = "facebook";
-                                                    String query;
-                                                    query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_FACEBOOK);
-                                                    new LoginTask().execute(query);
-                                                    editor.putBoolean("isfacebook", true);
-                                                    editor.putString("password", pw);
-                                                    editor.commit();
-                                                }
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
+                        GraphRequest.newMeRequest(loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject json, GraphResponse response) {
+                                if (response.getError() != null) {
+                                    // handle error
+                                    System.out.println("ERROR");
+                                } else {
+                                    System.out.println("Success");
+                                    try {
+                                        String jsonresult = String.valueOf(json);
+                                        System.out.println("JSON Result" + jsonresult);
+                                        String str_id = json.getString("id");
+                                        if (sharedPreferences.getString("username", null) == null && sharedPreferences.getString("password", null) == null) {
+                                            id = str_id;
+                                            pw = "facebook";
+                                            String query;
+                                            query = getString(R.string.moneyball_server_url) + "/user/login?id=" + id + "&pw=" + pw + "&kindOfSNS=" + String.valueOf(KINDOFSNS_FACEBOOK);
+                                            new LoginTask().execute(query);
+                                            editor.putBoolean("isfacebook", true);
+                                            editor.putString("password", pw);
+                                            editor.commit();
                                         }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
                                     }
-                                }).executeAsync();
+                                }
+                            }
+                        }).executeAsync();
                     }
 
                     @Override
@@ -444,13 +452,34 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
      *
      * */
     private class LoginTask extends AsyncTask<String, Void, HttpResponse> {
+        private Handler mHandler;
+        private ProgressDialog dialog;
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            mHandler = new Handler();
+            dialog = new ProgressDialog(LoginActivity.this);
+            dialog.setMessage("잠시만 기다려 주세요.");
+            dialog.setCancelable(false);
+            dialog.show();
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    if(dialog != null && dialog.isShowing()){
+                        dialog.dismiss();
+                    }
+                }
+            },5000);
+        }
+
         @Override
         protected HttpResponse doInBackground(String... urls) {
             HttpResponse response = null;
             HttpClient client = getHttpClient();
             //HttpClient client = new DefaultHttpClient();
-            HttpConnectionParams.setConnectionTimeout(client.getParams(), 10000);
+            HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
             HttpGet httpGet = new HttpGet(urls[0]);
+
             final AlertDialog.Builder alert = new AlertDialog.Builder(LoginActivity.this);
             alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
@@ -502,7 +531,7 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
                         finish();
                     } else {
                         alert.setMessage("아이디 혹은 비밀번호가 틀렸습니다");
-                       LoginActivity.this.runOnUiThread(new Runnable() {
+                        LoginActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 alert.show();
@@ -527,13 +556,17 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-
             return response;
         }
 
         @Override
         protected void onPostExecute(HttpResponse response) {
+            if(dialog != null && dialog.isShowing()){
+                dialog.dismiss();
+            }
         }
+
+
 
         /**
          *
@@ -562,6 +595,29 @@ public class LoginActivity extends Activity implements GoogleApiClient.Connectio
             } catch (Exception e) {
                 return new DefaultHttpClient();
             }
+        }
+    }
+
+    /**
+     *
+     *
+     * For Enter key Event
+     *
+     * **/
+    class LoginEditTextOnkeyListener implements View.OnKeyListener {
+        @Override
+        public boolean onKey(View v, int keyCode, KeyEvent keyEvent) {
+            if(keyCode==keyEvent.KEYCODE_ENTER && keyEvent.getAction() == KeyEvent.ACTION_DOWN) {
+                if(v==findViewById(R.id.id_edit)) {
+                    ((EditText)findViewById(R.id.pw_edit)).requestFocus();
+                } else if(v==findViewById(R.id.pw_edit)) {
+                    btnLogin.performClick();
+                }
+                return false;
+            } else if(keyCode==keyEvent.KEYCODE_ENTER) {
+                return true;
+            }
+            return false;
         }
     }
 }
