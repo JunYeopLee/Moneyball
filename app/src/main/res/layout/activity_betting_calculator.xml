@@ -38,7 +38,11 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:layout_margin="9dp"
-            android:background="@drawable/ok"/>
+            android:background="@drawable/orange_btn_click"
+            android:text="OK"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:gravity="center"/>
     </LinearLayout>
 
     <ListView
@@ -58,18 +62,29 @@
         android:layout_weight="2"
         android:background="#292929"
         android:orientation="vertical">
-        <Spinner
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_margin="10dp"
-            android:background="@android:color/holo_red_dark">
-        </Spinner>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:paddingTop="10dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp">
+            <Spinner
+                android:id="@+id/betting_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="@android:color/holo_red_dark">
+            </Spinner>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:paddingBottom="8dp">
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -78,10 +93,11 @@
                 android:textStyle="bold"
                 android:textSize="15dp"
                 android:gravity="center"
-                android:text="Likely retrun : "/>
+                android:text="Likely retrun "/>
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
+                android:gravity="center"
                 android:layout_weight="1"/>
         </LinearLayout>
     </LinearLayout>

@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by junyeop_imaciislab on 2015. 5. 22..
  */
 public class MatchupPrediction {
+    public int matchNum;
     private String stadium;
     public String time;
     public String team1;
@@ -27,6 +28,15 @@ public class MatchupPrediction {
             isSelected.add(false);
         }
         rate1_selected = rate2_selected = false;
+    }
+
+
+    public int getMatchNum() {
+        return matchNum;
+    }
+
+    public void setMatchNum(int matchNum) {
+        this.matchNum = matchNum;
     }
 
     public Boolean getRate2_selected() {

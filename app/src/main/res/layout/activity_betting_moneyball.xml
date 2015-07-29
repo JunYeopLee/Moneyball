@@ -49,7 +49,11 @@
             android:layout_height="match_parent"
             android:scaleType="centerInside"
             android:layout_marginRight="100dp"
-            android:background="@drawable/ok"/>
+            android:background="@drawable/orange_btn_click"
+            android:text="OK"
+            android:textColor="@android:color/white"
+            android:textStyle="bold"
+            android:gravity="center"/>
         <ImageView
             android:layout_weight="1"
             android:layout_width="0dp"

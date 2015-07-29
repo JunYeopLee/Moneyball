@@ -16,6 +16,7 @@
 
 package com.example.junyeop_imaciislab.moneyball.Moneyball;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,9 +32,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +48,7 @@ import com.example.junyeop_imaciislab.moneyball.common.adapter.SettingsListAdapt
 import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrapper;
 import com.example.junyeop_imaciislab.moneyball.common.view.MatchupPrediction;
 import com.example.junyeop_imaciislab.moneyball.common.view.SlidingTabLayout;
+import com.facebook.login.LoginManager;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
@@ -309,23 +313,28 @@ public class SlidingTabsBasicFragment extends Fragment {
                     calculatorList.setAdapter(calculatorAdapter);
 
                     final EditText bettingMoneyEdit = (EditText)view.findViewById(R.id.edit_money);
-                    bettingMoneyEdit.addTextChangedListener(new TextWatcher(){
-                        String strMoney="";
+                    bettingMoneyEdit.addTextChangedListener(new TextWatcher() {
+                        String strMoney = "";
                         DecimalFormat df = new DecimalFormat("###,###.####");
+
                         @Override
-                        public void afterTextChanged(Editable s) {}
+                        public void afterTextChanged(Editable s) {
+                        }
+
                         @Override
-                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            if(s.toString().length()>10) {
-                                Toast.makeText(getActivity(),"Over Limit",Toast.LENGTH_SHORT);
+                            if (s.toString().length() > 10) {
+                                Toast.makeText(getActivity(), "Over Limit", Toast.LENGTH_SHORT);
                                 bettingMoneyEdit.setText(strMoney);    // 결과 텍스트 셋팅.
                                 bettingMoneyEdit.setSelection(strMoney.length());     // 커서를 제일 끝으로 보냄.
                                 return;
                             }
-                            if(!s.toString().equals(strMoney)){     // StackOverflow를 막기위해,
-                                if(s.toString().length()!=0)
+                            if (!s.toString().equals(strMoney)) {     // StackOverflow를 막기위해,
+                                if (s.toString().length() != 0)
                                     strMoney = df.format(Long.parseLong(s.toString().replaceAll(",", "")));   // 에딧텍스트의 값을 변환하여, string에 저장.
                                 else
                                     strMoney = "";
@@ -334,6 +343,13 @@ public class SlidingTabsBasicFragment extends Fragment {
                             }
                         }
                     });
+
+                    String[] spinnerOption = new String[2];
+                    spinnerOption[0] = "최대 확률";
+                    spinnerOption[1] = "최대 수익";
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,spinnerOption);
+                    Spinner spinner = (Spinner)view.findViewById(R.id.betting_spinner);
+                    spinner.setAdapter(spinnerAdapter);
 
                     Log.i("init", "instantiateItem() [position: " + position + "]");
                     return view;
@@ -402,6 +418,29 @@ public class SlidingTabsBasicFragment extends Fragment {
                     //Log.i(LOG_TAG, "instantiateItem() [position: " + position + "]");
                     // Return the View
 
+                    Button button = (Button)view.findViewById(R.id.logout_btn);
+                    button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            sharedPreferences = getActivity().getSharedPreferences("login_info", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.remove("username");
+                            editor.remove("password");
+                            editor.remove("userNum");
+                            if(sharedPreferences.getBoolean("isfacebook",false)) {
+                                LoginManager.getInstance().logOut();
+                                editor.remove("isfacebook");
+                            } else if(sharedPreferences.getBoolean("isgoogle",false)){
+                                editor.remove("isgoogle");
+                            } else if(sharedPreferences.getBoolean("istwitter",false)){
+                                editor.remove("istwitter");
+                            }
+                            editor.commit();
+                            Intent intent = new Intent(getActivity(), LoginActivity.class);
+                            getActivity().startActivity(intent);
+                            ((Activity)getActivity()).finish();
+                        }
+                    });
                     Log.i("instantiateItem", "instantiateItem() [position: " + position + "]");
                     return view;
                 default:
@@ -452,6 +491,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                             for( int i = 0 ; i  < matchVOList.length() ; i++ ) {
                                 matchObject = (JSONObject)matchVOList.get(i);
                                 matchupPrediction = new MatchupPrediction();
+                                matchupPrediction.setMatchNum(matchObject.getInt("matchId"));
                                 matchupPrediction.setStadium(matchObject.getString("stadiumName"));
                                 matchupPrediction.setTime(matchObject.getString("stadiumTime"));
                                 matchupPrediction.setTeam1(matchObject.getString("team1Name"));
