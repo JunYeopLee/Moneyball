@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
@@ -75,24 +76,30 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
     public View getView(final int position, View view, final ViewGroup parent) {
         LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(R.layout.score_prediction_item, null, true);
-
         TextView tvStadium = (TextView) rowView.findViewById(R.id.tv_stadium);
         TextView tvTime = (TextView) rowView.findViewById(R.id.tv_match_time);
         ImageView imgTeam1 = (ImageView) rowView.findViewById(R.id.team1_logo);
         ImageView imgTeam2 = (ImageView) rowView.findViewById(R.id.team2_logo);
-        TextView tvResult1 = (TextView) rowView.findViewById(R.id.tv_1result);
-        TextView tvResult2 = (TextView) rowView.findViewById(R.id.tv_2result);
-        Button btnResult3 = (Button) rowView.findViewById(R.id.btn_3result);
-        Button btnResult4 = (Button) rowView.findViewById(R.id.btn_4result);
-        Button btnResult5 = (Button) rowView.findViewById(R.id.btn_5result);
-        Button btnProb1 = (Button) rowView.findViewById(R.id.btn_1prob);
-        Button btnProb2 = (Button) rowView.findViewById(R.id.btn_2prob);
-        Button btnProb3 = (Button) rowView.findViewById(R.id.btn_3prob);
-        Button btnProb4 = (Button) rowView.findViewById(R.id.btn_4prob);
-        Button btnProb5 = (Button) rowView.findViewById(R.id.btn_5prob);
+
+        final ArrayList<View> btnResults = new ArrayList<>();
+        btnResults.add(rowView.findViewById(R.id.tv_1result));
+        btnResults.add(rowView.findViewById(R.id.tv_1result));
+        btnResults.add(rowView.findViewById(R.id.tv_2result));
+        btnResults.add(rowView.findViewById(R.id.btn_3result));
+        btnResults.add(rowView.findViewById(R.id.btn_4result));
+        btnResults.add(rowView.findViewById(R.id.btn_5result));
+
+        final ArrayList<View> btnProbs = new ArrayList<>();
+        btnProbs.add(rowView.findViewById(R.id.btn_1prob));
+        btnProbs.add(rowView.findViewById(R.id.btn_1prob));
+        btnProbs.add(rowView.findViewById(R.id.btn_2prob));
+        btnProbs.add(rowView.findViewById(R.id.btn_3prob));
+        btnProbs.add(rowView.findViewById(R.id.btn_4prob));
+        btnProbs.add(rowView.findViewById(R.id.btn_5prob));
+
         final Button PlusBt = (Button) rowView.findViewById(R.id.btn_wish_plus);
         ((TextView)rowView.findViewById(R.id.item_index)).setText(String.valueOf(position));
-        MatchupPrediction tempObj = matchupPredictionsLists.get(position);
+        final MatchupPrediction tempObj = matchupPredictionsLists.get(position);
         tvStadium.setText(tempObj.getStadium());
         tvTime.setText(tempObj.getTime());
         
@@ -161,132 +168,81 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                 break;
         }
 
-        tvResult1.setText(tempObj.getResults()[0]);
-        tvResult2.setText(tempObj.getResults()[1]);
-        //// LOCK
-
-        btnProb1.setText(tempObj.getProb()[0]);
-        btnProb2.setText(tempObj.getProb()[1]);
-        btnProb3.setText(tempObj.getProb()[2]);
-        btnProb4.setText(tempObj.getProb()[3]);
-        btnProb5.setText(tempObj.getProb()[4]);
-
-
-        final AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
-        ab.setMessage(Html.fromHtml("Moneyball 500원이 차감됩니다.<br/> 구매하시겠습니까?"));
-
-        ab.setNegativeButton("cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Unlock Canceled", Toast.LENGTH_SHORT).show();
+        for( int i = 1 ; i <= 5 ; i++ ) {
+            final TextView tmpResult = ((TextView)btnResults.get(i));
+            final TextView tmpProb = ((TextView)btnProbs.get(i));
+            final int index = i;
+            tmpProb.setText(tempObj.getProb()[i-1]);
+            if(tempObj.getResults()[i-1].compareTo("0")==0) {
+                tmpResult.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
+                        ab.setMessage(Html.fromHtml("Moneyball 500원이 차감됩니다.<br/> 구매하시겠습니까?"));
+                        ab.setNegativeButton("cancel", new buyingOnClickListener(tempObj.getMatchNum(), index));
+                        ab.setPositiveButton("ok", new buyingOnClickListener(tempObj.getMatchNum(), index));
+                        ab.show();
+                    }
+                });
+            } else {
+                tmpResult.setText(tempObj.getResults()[i-1]);
+                tmpResult.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                tmpResult.setTextColor(Color.BLACK);
+                tmpResult.setTypeface(Typeface.DEFAULT_BOLD);
+                tmpResult.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             }
-        });
-        ab.setPositiveButton("ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getContext(), "Unlock Completed", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        if(tempObj.getResults()[2].compareTo("0")==0) {
-            btnResult3.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ab.show();
-                }
-            });
-        } else {
-            btnResult3.setText(tempObj.getResults()[2]);
-            btnResult3.setBackgroundColor(Color.parseColor("#DCDCDC"));
-            btnResult3.setTextColor(Color.BLACK);
-            btnResult3.setTypeface(Typeface.DEFAULT_BOLD);
-            btnResult3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        }
-
-        if(tempObj.getResults()[3].compareTo("0")==0) {
-            btnResult4.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ab.show();
-                }
-            });
-        } else {
-            btnResult4.setText(tempObj.getResults()[3]);
-            btnResult4.setBackgroundColor(Color.parseColor("#DCDCDC"));
-            btnResult4.setTextColor(Color.BLACK);
-            btnResult4.setTypeface(Typeface.DEFAULT_BOLD);
-            btnResult4.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        }
-
-        if(tempObj.getResults()[4].compareTo("0")==0) {
-            btnResult5.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ab.show();
-                }
-            });
-        } else {
-            btnResult5.setText(tempObj.getResults()[4]);
-            btnResult5.setBackgroundColor(Color.parseColor("#DCDCDC"));
-            btnResult5.setTextColor(Color.BLACK);
-            btnResult5.setTypeface(Typeface.DEFAULT_BOLD);
-            btnResult5.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         }
 
         if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) != -1) {
             PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
         }
-        //if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
-            PlusBt.setOnClickListener(new View.OnClickListener() {
-                boolean lock = false;
-                @Override
-                public void onClick(View v) {
-                    ////
-                    if(new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
-                        if(lock) return;
-                        lock = true;
-                        CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
-                        ArrayList<MatchupPrediction> calculatorItemArrayList;
-                        calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
-                        calculatorItemArrayList.add(matchupPredictionsLists.get(position));
-                        calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
+        PlusBt.setOnClickListener(new View.OnClickListener() {
+            boolean lock = false;
+            @Override
+            public void onClick(View v) {
+                ////
+                if (new CalculatorItemWrapper().getCalculatorItem().indexOf(matchupPredictionsLists.get(position)) == -1) {
+                    if (lock) return;
+                    lock = true;
+                    CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                    ArrayList<MatchupPrediction> calculatorItemArrayList;
+                    calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
+                    calculatorItemArrayList.add(matchupPredictionsLists.get(position));
+                    calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
 
-                        ListView calculatorList;
-                        calculatorList = (ListView) ((Activity) getContext()).findViewById(R.id.calculator_list);
-                        CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
-                        calculatorAdapter.notifyDataSetChanged();
-                        calculatorList.setAdapter(calculatorAdapter);
-                        PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
-                        Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
-                        lock = false;
-                    } else {
-                        if(lock) return;
-                        lock = true;
-                        CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
-                        ArrayList<MatchupPrediction> calculatorItemArrayList;
-                        calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
-                        calculatorItemArrayList.remove(matchupPredictionsLists.get(position));
-                        calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
+                    ListView calculatorList;
+                    calculatorList = (ListView) ((Activity) getContext()).findViewById(R.id.calculator_list);
+                    CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
+                    calculatorAdapter.notifyDataSetChanged();
+                    calculatorList.setAdapter(calculatorAdapter);
+                    PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
+                    Toast.makeText(getContext(), "Match is added to Calculator", Toast.LENGTH_SHORT).show();
+                    lock = false;
+                } else {
+                    if (lock) return;
+                    lock = true;
+                    CalculatorItemWrapper calculatorItemWrapper = new CalculatorItemWrapper();
+                    ArrayList<MatchupPrediction> calculatorItemArrayList;
+                    calculatorItemArrayList = calculatorItemWrapper.getCalculatorItem();
+                    calculatorItemArrayList.remove(matchupPredictionsLists.get(position));
+                    calculatorItemWrapper.setCalculatorItem(calculatorItemArrayList);
 
-                        ListView calculatorList;
-                        calculatorList = (ListView) ((Activity) getContext()).findViewById(R.id.calculator_list);
-                        CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
-                        calculatorAdapter.notifyDataSetChanged();
-                        calculatorList.setAdapter(calculatorAdapter);
+                    ListView calculatorList;
+                    calculatorList = (ListView) ((Activity) getContext()).findViewById(R.id.calculator_list);
+                    CalculatorAdapter calculatorAdapter = new CalculatorAdapter((Activity) getContext(), calculatorItemArrayList);
+                    calculatorAdapter.notifyDataSetChanged();
+                    calculatorList.setAdapter(calculatorAdapter);
 
-                        PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus));
-                        Toast.makeText(getContext(), "Match is removed from Calculator", Toast.LENGTH_SHORT).show();
-                        lock = false;
-                    }
+                    PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus));
+                    Toast.makeText(getContext(), "Match is removed from Calculator", Toast.LENGTH_SHORT).show();
+                    lock = false;
                 }
-            });
-        //} else {
-        //    PlusBt.setBackground(((Activity) getContext()).getResources().getDrawable(R.drawable.wish_plus_checked));
-        //}
+            }
+        });
         return rowView;
     }
 
-    private class UnLock extends AsyncTask<String, Void, HttpResponse> {
+    private class UnLockTask extends AsyncTask<String, Void, HttpResponse> {
         private Handler mHandler;
         private ProgressDialog dialog;
         @Override
@@ -331,7 +287,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             }
             catch(IOException e) {
                 e.printStackTrace();
-                alert.setMessage("[로그인 실패]네트워크 연결이 불안정 합니다");
+                alert.setMessage("[구매 실패]네트워크 연결이 불안정 합니다");
                 ((Activity)getContext()).runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -340,7 +296,6 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                 });
             }
 
-            //////
             try{
                 StatusLine statusLine = response.getStatusLine();
                 if(statusLine.getStatusCode() == HttpStatus.SC_OK){
@@ -351,13 +306,11 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                     JSONTokener tokener = new JSONTokener(responseString);
                     JSONObject finalResult = (JSONObject)tokener.nextValue();
                     if(finalResult.getBoolean("success")==true) {
-
                         JSONObject dataObject = (JSONObject)finalResult.get("data");
-                        String userid = dataObject.getString("id");
-                        int moneyballNow = dataObject.getInt("money");
-                        int userNum = dataObject.getInt("userNum");
+                        // UNLOCK
+                        String result = dataObject.getString("result");
                     } else {
-                        alert.setMessage("아이디 혹은 비밀번호가 틀렸습니다");
+                        alert.setMessage("Moneyball이 부족합니다");
                         ((Activity)getContext()).runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
@@ -365,10 +318,9 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                             }
                         });
                     }
-
                 } else{
                     //Closes the connection.
-                    alert.setMessage("[로그인 실패]네트워크 연결이 불안정 합니다");
+                    alert.setMessage("[구매 실패]네트워크 연결이 불안정 합니다");
                     ((Activity)getContext()).runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
@@ -390,8 +342,6 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                 dialog.dismiss();
             }
         }
-
-
 
         /**
          *
@@ -419,6 +369,34 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                 return new DefaultHttpClient(ccm, params);
             } catch (Exception e) {
                 return new DefaultHttpClient();
+            }
+        }
+    }
+
+    private class buyingOnClickListener implements DialogInterface.OnClickListener {
+        private int userNum;
+        private int matchNum;
+        private int unlockNum;
+
+        public buyingOnClickListener(int matchId, int unlockId) {
+            SharedPreferences sharedPreferences = getContext().getSharedPreferences("login_info", getContext().MODE_PRIVATE);
+            this.userNum = sharedPreferences.getInt("userNum",-1);
+            this.matchNum = matchId;
+            this.unlockNum = unlockId;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            if(which==-1) { // POSITIVE
+                if(userNum!=-1) {
+                    Toast.makeText(getContext(), "Unlock Completed " + String.valueOf(which) + " " + userNum + " " + matchNum + " " + unlockNum + " ", Toast.LENGTH_SHORT).show();
+                    //String query = getContext().getString(R.string.unlock_result_query) + "userNum=" + userNum + "&matchNum=" + matchNum + "&unlockNum=" + unlockNum;
+                    //new UnLockTask().execute(query);
+                } else {
+                 // Trouble Shooting
+                }
+            } else { // NEGATIVE
+                Toast.makeText(getContext(), "Unlock Canceled" + String.valueOf(which) + " " + userNum + " " + matchNum + " " + unlockNum + " ", Toast.LENGTH_SHORT).show();
             }
         }
     }

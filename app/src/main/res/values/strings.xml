@@ -39,7 +39,11 @@
     <string name="title_activity_twitter__web_view">Twitter_WebViewActivity</string>
 
     <!-- Prediction Match Query -->
-    <string name="prediction_match_query">http://166.104.142.94/moneyball-server/scorepredict/matchlist?</string>
+    <string name="prediction_match_query">https://166.104.142.94:8443/moneyball-server/scorepredict/matchlist?</string>
+
+
+    <!-- UnLock Result Query -->
+    <string name="unlock_result_query">https://166.104.142.94:8443/moneyball-server/unlock?</string>
 
     <string name="title_activity_buying_moneyball">BuyingMoneyballActivity</string>
     <string name="title_activity_signup">SignupActivity</string>
