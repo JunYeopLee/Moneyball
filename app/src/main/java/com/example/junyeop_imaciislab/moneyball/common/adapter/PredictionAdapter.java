@@ -52,6 +52,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by junyeop_imaciislab on 2015. 5. 22..
@@ -179,8 +180,8 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                     public void onClick(View v) {
                         AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
                         ab.setMessage(Html.fromHtml("Moneyball 500원이 차감됩니다.<br/> 구매하시겠습니까?"));
-                        ab.setNegativeButton("cancel", new buyingOnClickListener(tempObj.getMatchNum(), index));
-                        ab.setPositiveButton("ok", new buyingOnClickListener(tempObj.getMatchNum(), index));
+                        ab.setNegativeButton("cancel", new buyingOnClickListener(tempObj,tempObj.getMatchNum(), index, tmpResult));
+                        ab.setPositiveButton("ok", new buyingOnClickListener(tempObj,tempObj.getMatchNum(), index, tmpResult));
                         ab.show();
                     }
                 });
@@ -242,7 +243,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         return rowView;
     }
 
-    private class UnLockTask extends AsyncTask<String, Void, HttpResponse> {
+    private class UnLockTask extends AsyncTask<String, Void, String> {
         private Handler mHandler;
         private ProgressDialog dialog;
         @Override
@@ -264,13 +265,13 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
         }
 
         @Override
-        protected HttpResponse doInBackground(String... urls) {
+        protected String doInBackground(String... urls) {
             HttpResponse response = null;
             HttpClient client = getHttpClient();
             //HttpClient client = new DefaultHttpClient();
             HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
             HttpGet httpGet = new HttpGet(urls[0]);
-
+            String unLockResult = "8 : 8";
             final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
             alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
@@ -294,6 +295,7 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                         alert.show();
                 }
                 });
+                return unLockResult;
             }
 
             try{
@@ -307,8 +309,9 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
                     JSONObject finalResult = (JSONObject)tokener.nextValue();
                     if(finalResult.getBoolean("success")==true) {
                         JSONObject dataObject = (JSONObject)finalResult.get("data");
+                        unLockResult = "7 : 7";
                         // UNLOCK
-                        String result = dataObject.getString("result");
+
                     } else {
                         alert.setMessage("Moneyball이 부족합니다");
                         ((Activity)getContext()).runOnUiThread(new Runnable() {
@@ -333,11 +336,11 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return response;
+            return unLockResult;
         }
 
         @Override
-        protected void onPostExecute(HttpResponse response) {
+        protected void onPostExecute(String result) {
             if(dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
@@ -374,15 +377,18 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
     }
 
     private class buyingOnClickListener implements DialogInterface.OnClickListener {
+        private MatchupPrediction matchObj;
         private int userNum;
         private int matchNum;
         private int unlockNum;
-
-        public buyingOnClickListener(int matchId, int unlockId) {
+        private TextView view;
+        public buyingOnClickListener(MatchupPrediction matchObj,int matchId, int unlockId, TextView view) {
+            this.matchObj = matchObj;
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("login_info", getContext().MODE_PRIVATE);
             this.userNum = sharedPreferences.getInt("userNum",-1);
             this.matchNum = matchId;
             this.unlockNum = unlockId;
+            this.view = view;
         }
 
         @Override
@@ -390,8 +396,25 @@ public class PredictionAdapter extends ArrayAdapter<MatchupPrediction> {
             if(which==-1) { // POSITIVE
                 if(userNum!=-1) {
                     Toast.makeText(getContext(), "Unlock Completed " + String.valueOf(which) + " " + userNum + " " + matchNum + " " + unlockNum + " ", Toast.LENGTH_SHORT).show();
-                    //String query = getContext().getString(R.string.unlock_result_query) + "userNum=" + userNum + "&matchNum=" + matchNum + "&unlockNum=" + unlockNum;
-                    //new UnLockTask().execute(query);
+                    String query = getContext().getString(R.string.unlock_result_query) + "userNum=" + userNum + "&matchNum=" + matchNum + "&unlockNum=" + unlockNum;
+                    try {
+                        String result = new UnLockTask().execute(query).get();
+                        //String result = "7 : 7";
+                        if(result.compareTo("0")!=0) {
+                            view.setText(result);
+                            view.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                            view.setTextColor(Color.BLACK);
+                            view.setTypeface(Typeface.DEFAULT_BOLD);
+                            view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                            String[] temp = matchObj.getResults();
+                            temp[unlockNum-1] = result;
+                            matchObj.setResults(temp);
+                        }
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                  // Trouble Shooting
                 }

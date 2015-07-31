@@ -234,20 +234,6 @@ public class SlidingTabsBasicFragment extends Fragment {
         }
         // END_INCLUDE (pageradapter_getpagetitle)
 
-
-        public int getImageId(int position) {
-            switch(position) {
-                case 0:
-                    return R.drawable.lightball;
-                case 1:
-                    return R.drawable.calulator;
-                case 2:
-                    return R.drawable.coins;
-                default:
-                    return R.drawable.setting;
-            }
-        }
-
         public void setMatchupPrediction(ArrayList<MatchupPrediction> matchupPrediction) {
             this.matchupPrediction = matchupPrediction;
         }
@@ -344,10 +330,11 @@ public class SlidingTabsBasicFragment extends Fragment {
                         }
                     });
 
-                    String[] spinnerOption = new String[2];
+                    String[] spinnerOption = new String[3];
                     spinnerOption[0] = "최대 확률";
                     spinnerOption[1] = "최대 수익";
-                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(getActivity(),R.layout.spinner_item,spinnerOption);
+                    spinnerOption[2] = "사용자 지정";
+                    ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(),R.layout.spinner_item,spinnerOption);
                     Spinner spinner = (Spinner)view.findViewById(R.id.betting_spinner);
                     spinner.setAdapter(spinnerAdapter);
 
