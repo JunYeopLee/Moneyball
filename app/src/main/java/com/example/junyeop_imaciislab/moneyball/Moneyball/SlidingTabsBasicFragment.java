@@ -267,7 +267,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                         SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyyMMdd");
 
                         String Today = CurDateFormat.format(date);
-                        Today = "20150623"; /// FOR TEST CODE
+                        Today = "20150731"; /// FOR TEST CODE
                         String query;
                         query = getString(R.string.prediction_match_query) + "userNum=" + String.valueOf(userNum) + "&today=" + Today;
                         try {
@@ -356,7 +356,7 @@ public class SlidingTabsBasicFragment extends Fragment {
                         SimpleDateFormat CurDateFormat = new SimpleDateFormat("yyyyMMdd");
 
                         String Today = CurDateFormat.format(date);
-                        Today = "20150623"; /// FOR TEST CODE
+                        Today = "20150731"; /// FOR TEST CODE
                         String query;
                         query = getString(R.string.prediction_match_query) + "userNum=" + String.valueOf(userNum) + "&today=" + Today;
                         try {
