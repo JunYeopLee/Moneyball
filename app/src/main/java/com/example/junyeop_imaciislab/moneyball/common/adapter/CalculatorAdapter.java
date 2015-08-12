@@ -23,6 +23,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.junyeop_imaciislab.moneyball.Moneyball.MainActivity;
 import com.example.junyeop_imaciislab.moneyball.Moneyball.SFSSLSocketFactory;
 import com.example.junyeop_imaciislab.moneyball.R;
 import com.example.junyeop_imaciislab.moneyball.common.view.CalculatorItemWrapper;
@@ -47,6 +48,7 @@ import org.apache.http.params.HttpConnectionParams;
 import org.apache.http.params.HttpParams;
 import org.apache.http.params.HttpProtocolParams;
 import org.apache.http.protocol.HTTP;
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
@@ -54,6 +56,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.security.KeyStore;
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by junyeop_imaciislab on 2015. 6. 11..
@@ -178,8 +181,8 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     public void onClick(View v) {
                         AlertDialog.Builder ab = new AlertDialog.Builder(getContext());
                         ab.setMessage(Html.fromHtml("Moneyball 500원이 차감됩니다.<br/> 구매하시겠습니까?"));
-                        ab.setNegativeButton("cancel", new buyingOnClickListener(tempObj.getMatchNum(), index));
-                        ab.setPositiveButton("ok", new buyingOnClickListener(tempObj.getMatchNum(), index));
+                        ab.setNegativeButton("cancel", new buyingOnClickListener(tempObj,tempObj.getMatchNum(), index, tmpResult));
+                        ab.setPositiveButton("ok", new buyingOnClickListener(tempObj,tempObj.getMatchNum(), index, tmpResult));
                         ab.show();
                     }
                 });
@@ -272,7 +275,7 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
     }
 
 
-    private class UnLockTask extends AsyncTask<String, Void, HttpResponse> {
+    private class UnLockTask extends AsyncTask<String, Void, String> {
         private Handler mHandler;
         private ProgressDialog dialog;
         @Override
@@ -294,13 +297,12 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
         }
 
         @Override
-        protected HttpResponse doInBackground(String... urls) {
+        protected String doInBackground(String... urls) {
             HttpResponse response = null;
             HttpClient client = getHttpClient();
-            //HttpClient client = new DefaultHttpClient();
             HttpConnectionParams.setConnectionTimeout(client.getParams(), 5000);
             HttpGet httpGet = new HttpGet(urls[0]);
-
+            String unLockResult = "0";
             final AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
             alert.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                 @Override
@@ -324,6 +326,7 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                         alert.show();
                     }
                 });
+                return unLockResult;
             }
 
             try{
@@ -336,9 +339,14 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
                     JSONTokener tokener = new JSONTokener(responseString);
                     JSONObject finalResult = (JSONObject)tokener.nextValue();
                     if(finalResult.getBoolean("success")==true) {
-                        JSONObject dataObject = (JSONObject)finalResult.get("data");
-                        // UNLOCK
-                        String result = dataObject.getString("result");
+                        JSONArray dataArray = (JSONArray)finalResult.getJSONArray("data");
+                        int resultMoney = Integer.valueOf(dataArray.getString(0));
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("login_info", getContext().MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("money", moneyToString(resultMoney));
+                        editor.commit();
+
+                        unLockResult = dataArray.getString(1);
                     } else {
                         alert.setMessage("Moneyball이 부족합니다");
                         ((Activity)getContext()).runOnUiThread(new Runnable() {
@@ -363,14 +371,27 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
             } catch (Exception e) {
                 System.out.println(e.getMessage());
             }
-            return response;
+            return unLockResult;
         }
 
         @Override
-        protected void onPostExecute(HttpResponse response) {
+        protected void onPostExecute(String response) {
             if(dialog != null && dialog.isShowing()){
                 dialog.dismiss();
             }
+        }
+
+        private String moneyToString(int money) {
+            StringBuilder sb = new StringBuilder(String.valueOf(money));
+            final int limit = 99999;
+            if(money>limit) {
+                sb = new StringBuilder("99,999+");
+            } else {
+                for( int index = sb.length()-3 ; index > 0 ; index-=3 ) {
+                    sb.insert(index,",");
+                }
+            }
+            return sb.toString();
         }
 
         /**
@@ -404,15 +425,18 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
     }
 
     private class buyingOnClickListener implements DialogInterface.OnClickListener {
+        private MatchupPrediction matchObj;
         private int userNum;
         private int matchNum;
         private int unlockNum;
-
-        public buyingOnClickListener(int matchId, int unlockId) {
+        private TextView view;
+        public buyingOnClickListener(MatchupPrediction matchObj,int matchId, int unlockId, TextView view) {
+            this.matchObj = matchObj;
             SharedPreferences sharedPreferences = getContext().getSharedPreferences("login_info", getContext().MODE_PRIVATE);
             this.userNum = sharedPreferences.getInt("userNum",-1);
             this.matchNum = matchId;
             this.unlockNum = unlockId;
+            this.view = view;
         }
 
         @Override
@@ -420,8 +444,27 @@ public class CalculatorAdapter extends ArrayAdapter<MatchupPrediction> {
             if(which==-1) { // POSITIVE
                 if(userNum!=-1) {
                     Toast.makeText(getContext(), "Unlock Completed " + String.valueOf(which) + " " + userNum + " " + matchNum + " " + unlockNum + " ", Toast.LENGTH_SHORT).show();
-                    //String query = getContext().getString(R.string.unlock_result_query) + "userNum=" + userNum + "&matchNum=" + matchNum + "&unlockNum=" + unlockNum;
-                    //new UnLockTask().execute(query);
+                    String query = getContext().getString(R.string.unlock_result_query) + "userNum=" + userNum + "&matchNum=" + matchNum + "&unlockNum=" + unlockNum;
+                    try {
+                        String result = new UnLockTask().execute(query).get();
+                        if(result.compareTo("0")!=0) {
+                            view.setText(result);
+                            view.setBackgroundColor(Color.parseColor("#DCDCDC"));
+                            view.setTextColor(Color.BLACK);
+                            view.setTypeface(Typeface.DEFAULT_BOLD);
+                            view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+                            String[] temp = matchObj.getResults();
+                            temp[unlockNum-1] = result;
+                            matchObj.setResults(temp);
+                        }
+                        SharedPreferences sharedPreferences = getContext().getSharedPreferences("login_info", getContext().MODE_PRIVATE);
+                        TextView moneyballText = (TextView)((MainActivity)getContext()).findViewById(R.id.moneyball_now);
+                        moneyballText.setText(sharedPreferences.getString("money","ERROR"));
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
                 } else {
                     // Trouble Shooting
                 }
