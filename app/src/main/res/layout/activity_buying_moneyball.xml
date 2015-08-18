@@ -1,5 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:id="@+id/buying_background"
     android:layout_height="match_parent" android:paddingLeft="30dp"
     android:paddingRight="30dp"
     android:paddingTop="60dp"
@@ -9,6 +10,7 @@
     tools:context="com.example.junyeop_imaciislab.moneyball.Moneyball.BuyingMoneyballActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/buying_background_relative"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -63,6 +65,7 @@
                     android:paddingBottom = "10dp"
                     android:layout_weight="4">
                     <Button
+                        android:id="@+id/buy1"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/buybutton_click"/>
@@ -104,6 +107,7 @@
                     android:paddingBottom = "10dp"
                     android:layout_weight="4">
                     <Button
+                        android:id="@+id/buy2"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/buybutton_click"/>
@@ -144,6 +148,7 @@
                     android:paddingBottom = "10dp"
                     android:layout_weight="4">
                     <Button
+                        android:id="@+id/buy3"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/buybutton_click"/>
@@ -183,6 +188,7 @@
                     android:paddingBottom = "10dp"
                     android:layout_weight="4">
                     <Button
+                        android:id="@+id/buy4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:background="@drawable/buybutton_click"/>
