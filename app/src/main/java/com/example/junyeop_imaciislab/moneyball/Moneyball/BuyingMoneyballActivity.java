@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.RemoteException;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +20,9 @@ import android.widget.Toast;
 
 import com.android.vending.billing.IInAppBillingService;
 import com.example.junyeop_imaciislab.moneyball.R;
+import com.example.junyeop_imaciislab.moneyball.util.Constants;
+import com.example.junyeop_imaciislab.moneyball.util.IabHelper;
+import com.example.junyeop_imaciislab.moneyball.util.IabResult;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -29,6 +33,8 @@ public class BuyingMoneyballActivity extends Activity {
     ArrayList<String> responseList;
     JSONObject[] skuResults = new JSONObject[4];
     Button[] btns = new Button[4];
+    IabHelper mHelper;
+
 
     ServiceConnection mServiceConn = new ServiceConnection() {
         @Override
@@ -59,6 +65,18 @@ public class BuyingMoneyballActivity extends Activity {
             public void onClick(View v) {
             }
         });
+        String base64EncodedPublicKey = Constants.IAB.getKey1()+Constants.IAB.getKey2()+Constants.IAB.getKey3()+Constants.IAB.getKey4()+Constants.IAB.getKey5()+Constants.IAB.getKey6()+Constants.IAB.getKey7()+Constants.IAB.getKey8();
+        mHelper = new IabHelper(this, base64EncodedPublicKey);
+        mHelper.startSetup(new IabHelper.OnIabSetupFinishedListener() {
+            public void onIabSetupFinished(IabResult result) {
+                if (!result.isSuccess()) {
+                    // Oh noes, there was a problem.
+                    Log.d("BUY", "Problem setting up In-app Billing: " + result);
+                }
+                // Hooray, IAB is fully set up!
+            }
+        });
+
 
         bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
         new getSkuList().execute();
@@ -129,6 +147,8 @@ public class BuyingMoneyballActivity extends Activity {
         if (mService != null) {
             unbindService(mServiceConn);
         }
+        if (mHelper != null) mHelper.dispose();
+        mHelper = null;
     }
 
     @Override
