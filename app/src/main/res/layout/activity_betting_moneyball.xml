@@ -3,7 +3,7 @@
     android:layout_height="match_parent"
     android:background="#DCDCDC"
     android:orientation="vertical"
-    tools:context="com.example.junyeop_imaciislab.moneyball.Moneyball.ScorePredictionActivity">
+    tools:context="com.iislab.junyeop_imaciislab.moneyball.Moneyball.ScorePredictionActivity">
 
     <ListView
         android:id="@+id/betting_list"

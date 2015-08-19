@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     android:background="#DCDCDC"
-    tools:context="com.example.junyeop_imaciislab.moneyball.Moneyball.SettingsActivity">
+    tools:context="com.iislab.junyeop_imaciislab.moneyball.Moneyball.SettingsActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

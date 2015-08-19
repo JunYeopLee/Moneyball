@@ -4,7 +4,7 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="#DCDCDC"
     android:orientation="vertical"
-    tools:context="com.example.junyeop_imaciislab.moneyball.Moneyball.ScorePredictionActivity">
+    tools:context="com.iislab.junyeop_imaciislab.moneyball.Moneyball.ScorePredictionActivity">
 
     <LinearLayout
         android:layout_width="match_parent"

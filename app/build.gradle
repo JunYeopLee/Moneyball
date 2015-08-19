@@ -6,7 +6,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.example.junyeop_imaciislab.moneyball"
+        applicationId "com.iislab.junyeop_imaciislab.moneyball"
         minSdkVersion 19
         targetSdkVersion 22
         versionCode 1
@@ -17,7 +17,7 @@ android {
         release {
             storeFile file('Moneyball.keystore')
             storePassword 'iislabkey'
-            keyAlias 'iislabmoneyball'
+            keyAlias 'moneyballreleasekey'
             keyPassword 'iislabkey'
         }
     }

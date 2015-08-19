@@ -7,7 +7,7 @@
     android:paddingBottom="60dp"
     android:background="#99000000"
     android:gravity="center"
-    tools:context="com.example.junyeop_imaciislab.moneyball.Moneyball.BuyingMoneyballActivity">
+    tools:context="com.iislab.junyeop_imaciislab.moneyball.Moneyball.BuyingMoneyballActivity">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/buying_background_relative"

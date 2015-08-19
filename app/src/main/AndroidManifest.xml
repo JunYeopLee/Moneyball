@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.junyeop_imaciislab.moneyball"
+    package="com.iislab.junyeop_imaciislab.moneyball"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -30,52 +30,52 @@
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
-            android:name=".Moneyball.MainActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".Moneyball.LoginActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.LoginActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".Moneyball.ForgetPwdActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.ForgetPwdActivity"
             android:label="@string/title_activity_forget_pwd" >
         </activity>
         <activity
-            android:name=".Moneyball.ScorePredictionActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.ScorePredictionActivity"
             android:label="@string/title_activity_score_prediction" >
         </activity>
         <activity
-            android:name=".Moneyball.BettingCalculatorActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.BettingCalculatorActivity"
             android:label="@string/title_activity_betting_calculator"
             android:windowSoftInputMode="adjustPan" >
         </activity>
         <activity
-            android:name=".Moneyball.BettingMoneyballActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.BettingMoneyballActivity"
             android:label="@string/title_activity_betting_moneyball" >
         </activity>
         <activity
-            android:name=".Moneyball.SettingsActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.SettingsActivity"
             android:label="@string/title_activity_settings" >
         </activity>
         <activity
-            android:name=".Moneyball.Twitter_WebViewActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.Twitter_WebViewActivity"
             android:label="@string/title_activity_twitter__web_view"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
-            android:name=".Moneyball.BuyingMoneyballActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.BuyingMoneyballActivity"
             android:label="@string/title_activity_buying_moneyball"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
         <activity
-            android:name=".Moneyball.SignupActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.SignupActivity"
             android:label="@string/title_activity_signup" >
         </activity>
         <activity
-            android:name=".Moneyball.SplashActivity"
+            android:name="com.iislab.junyeop_imaciislab.moneyball.Moneyball.SplashActivity"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
