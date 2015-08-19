@@ -49,4 +49,7 @@
     <string name="title_activity_signup">SignupActivity</string>
     <string name="title_activity_splash">SplashActivity</string>
 
+    <!-- Inventory item -->
+    <string name="item1">moneyball_1000</string>
+    <string name="item2">moneyball_2000</string>
 </resources>

@@ -2,15 +2,11 @@ package com.iislab.junyeop_imaciislab.moneyball.Moneyball;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
-import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
-import android.os.RemoteException;
+import android.os.Looper;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -18,37 +14,20 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.android.vending.billing.IInAppBillingService;
 import com.iislab.junyeop_imaciislab.moneyball.R;
 import com.iislab.junyeop_imaciislab.moneyball.util.Constants;
 import com.iislab.junyeop_imaciislab.moneyball.util.IabHelper;
 import com.iislab.junyeop_imaciislab.moneyball.util.IabResult;
+import com.iislab.junyeop_imaciislab.moneyball.util.Inventory;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 public class BuyingMoneyballActivity extends Activity {
-    IInAppBillingService mService;
     ArrayList<String> responseList;
     JSONObject[] skuResults = new JSONObject[4];
     Button[] btns = new Button[4];
     IabHelper mHelper;
-
-
-    ServiceConnection mServiceConn = new ServiceConnection() {
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-        }
-
-        @Override
-        public void onServiceConnected(ComponentName name,
-                                       IBinder service) {
-            mService = IInAppBillingService.Stub.asInterface(service);
-        }
-    };
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,13 +52,15 @@ public class BuyingMoneyballActivity extends Activity {
                     // Oh noes, there was a problem.
                     Log.d("BUY", "Problem setting up In-app Billing: " + result);
                 }
+                responseList = new ArrayList<>();
+                responseList.add(getString(R.string.item1));
+                responseList.add(getString(R.string.item2));
+                mHelper.queryInventoryAsync(true, responseList, mQueryFinishedListener);
                 // Hooray, IAB is fully set up!
             }
         });
 
-
-        bindService(new Intent("com.android.vending.billing.InAppBillingService.BIND"), mServiceConn, Context.BIND_AUTO_CREATE);
-        new getSkuList().execute();
+        //new getSkuList().execute(getString(R.string.item1),getString(R.string.item2));
         /*
         btns[0] = (Button)findViewById(R.id.buy1);
         btns[1] = (Button)findViewById(R.id.buy2);
@@ -144,15 +125,19 @@ public class BuyingMoneyballActivity extends Activity {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (mService != null) {
-            unbindService(mServiceConn);
-        }
         if (mHelper != null) mHelper.dispose();
         mHelper = null;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("BUY","requestCode : "+requestCode+" resultCode : " +resultCode+" data : "+data);
+        if(!mHelper.handleActivityResult(requestCode,resultCode,data)) {
+            super.onActivityResult(requestCode,resultCode,data);
+        } else {
+
+        }
+        /*
         if (requestCode == 1001) {
             int responseCode = data.getIntExtra("RESPONSE_CODE", 0);
             String purchaseData = data.getStringExtra("INAPP_PURCHASE_DATA");
@@ -170,8 +155,21 @@ public class BuyingMoneyballActivity extends Activity {
                 }
             }
         }
+        */
     }
 
+
+    private IabHelper.QueryInventoryFinishedListener mQueryFinishedListener = new IabHelper.QueryInventoryFinishedListener() {
+        @Override
+        public void onQueryInventoryFinished(IabResult result,Inventory inventory) {
+            if(result.isFailure()) {
+                return;
+            }
+            String item1Price = inventory.getSkuDetails(getResources().getString(R.string.item1)).getPrice();
+            String item2Price = inventory.getSkuDetails(getResources().getString(R.string.item2)).getPrice();
+            Toast.makeText(getApplicationContext(),item1Price+" "+item2Price,Toast.LENGTH_LONG);
+        }
+    };
     /**
      *
      * To get Sku List
@@ -183,56 +181,31 @@ public class BuyingMoneyballActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            mHandler = new Handler();
-            dialog = new ProgressDialog(BuyingMoneyballActivity.this);
-            dialog.setMessage("잠시만 기다려 주세요.");
-            dialog.setCancelable(false);
-            dialog.show();
-            mHandler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    if(dialog != null && dialog.isShowing()){
-                        dialog.dismiss();
-                    }
-                }
-            },5000);
         }
 
         @Override
-        protected Integer doInBackground(String... urls) {
+        protected Integer doInBackground(String... items) {
             Integer response=0;
-            ArrayList<String> skuList = new ArrayList<String> ();
-            skuList.add("moneyball1");
-            skuList.add("moneyball2");
-            skuList.add("moneyball3");
-            skuList.add("moneyball4");
-            Bundle querySkus = new Bundle();
-            querySkus.putStringArrayList("ITEM_ID_LIST", skuList);
-            try {
-                Bundle skuDetails = mService.getSkuDetails(3,getPackageName(), "inapp", querySkus);
-                response = skuDetails.getInt("RESPONSE_CODE");
-                int indx=0;
-                if (response == 0) {
-                    responseList = skuDetails.getStringArrayList("DETAILS_LIST");
-                    for (String thisResponse : responseList) {
-                        skuResults[indx] = new JSONObject(thisResponse);
-                        indx++;
-                    }
+            responseList = new ArrayList<>();
+            responseList.add(items[0]);
+            responseList.add(items[1]);
+
+            Handler mHandler = new Handler(Looper.getMainLooper());
+            mHandler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    mHelper.queryInventoryAsync(true, responseList,mQueryFinishedListener);
+
                 }
-            } catch (RemoteException e) {
-                e.printStackTrace();
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
+            }, 0);
+
             return response;
         }
 
         @Override
         protected void onPostExecute(Integer response) {
             super.onPostExecute(response);
-            if(dialog != null && dialog.isShowing()){
-                dialog.dismiss();
-            }
+
         }
     }
 }
